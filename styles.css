@@ -630,6 +630,11 @@ body {
     margin-bottom: 20px;
     display: block;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: brightness(1);
+}
+
+.dark .tech-icon {
+    filter: brightness(1.2);
 }
 
 .tech-item:hover .tech-icon {
