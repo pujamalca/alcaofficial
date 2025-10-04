@@ -135,6 +135,7 @@ class SmoothScroll {
 class ScrollToTop {
     constructor() {
         this.button = document.getElementById('scrollTop');
+        this.whatsappFloat = document.getElementById('whatsappFloat');
         this.init();
     }
 
@@ -149,9 +150,21 @@ class ScrollToTop {
         if (window.pageYOffset > 500) {
             this.button.classList.remove('opacity-0', 'pointer-events-none');
             this.button.classList.add('opacity-100');
+
+            // Show WhatsApp button too
+            if (this.whatsappFloat) {
+                this.whatsappFloat.classList.remove('opacity-0', 'pointer-events-none');
+                this.whatsappFloat.classList.add('opacity-100');
+            }
         } else {
             this.button.classList.add('opacity-0', 'pointer-events-none');
             this.button.classList.remove('opacity-100');
+
+            // Hide WhatsApp button too
+            if (this.whatsappFloat) {
+                this.whatsappFloat.classList.add('opacity-0', 'pointer-events-none');
+                this.whatsappFloat.classList.remove('opacity-100');
+            }
         }
     }
 

@@ -294,16 +294,16 @@
 <body class="gradient-mesh">
 
     <!-- Navbar -->
-    <nav class="navbar fixed w-full top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
+    <nav class="navbar fixed w-full top-0 left-0 z-50">
+        <div class="container mx-auto">
+            <div class="navbar-inner flex justify-between items-center">
                 <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-3">
-                        <div class="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold text-xl">A</span>
+                <div class="flex items-center flex-shrink-0">
+                    <a href="/" class="flex items-center navbar-logo-link">
+                        <div class="navbar-logo-icon gradient-primary rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold">A</span>
                         </div>
-                        <span class="text-2xl font-black text-gradient">AlcaOfficial</span>
+                        <span class="navbar-logo-text font-black text-gradient">AlcaOfficial</span>
                     </a>
                 </div>
 
@@ -318,18 +318,24 @@
                 </div>
 
                 <!-- CTA & Theme Toggle -->
-                <div class="flex items-center space-x-4">
-                    <button id="themeToggle" class="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                        <i class="fas fa-moon dark:hidden text-xl"></i>
-                        <i class="fas fa-sun hidden dark:inline text-xl"></i>
+                <div class="flex items-center navbar-actions flex-shrink-0">
+                    <button id="themeToggle" class="navbar-theme-btn rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:inline"></i>
                     </button>
 
-                    <a href="#kontak" class="hidden lg:block btn-primary">
+                    <a href="#kontak" class="hidden lg:block btn-primary ml-3">
                         <i class="fas fa-rocket mr-2"></i> Konsultasi Gratis
                     </a>
 
-                    <button id="mobileMenuBtn" class="lg:hidden p-3">
-                        <i class="fas fa-bars text-2xl"></i>
+                    <!-- Mobile Menu Button -->
+                    <button
+                        id="mobileMenuBtn"
+                        class="lg:hidden navbar-menu-btn text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all"
+                        aria-label="Toggle mobile menu"
+                        type="button"
+                    >
+                        <i class="fas fa-bars" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -370,7 +376,7 @@
                         Terbaik di Indonesia
                     </h1>
 
-                    <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <p class="text-xl text-gray-600 dark:text-white leading-relaxed">
                         Wujudkan website impian Anda dengan teknologi modern, desain menarik, dan performa maksimal.
                         <strong class="text-blue-600">Harga mulai 3.5 juta</strong> dengan kualitas terjamin!
                     </p>
@@ -390,21 +396,21 @@
                             <i class="fas fa-shield-check text-3xl text-green-500"></i>
                             <div>
                                 <div class="text-sm font-bold">100% Aman</div>
-                                <div class="text-xs text-gray-500">SSL Certificate</div>
+                                <div class="text-xs text-gray-500 dark:text-white">SSL Certificate</div>
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
                             <i class="fas fa-bolt text-3xl text-yellow-500"></i>
                             <div>
                                 <div class="text-sm font-bold">Super Cepat</div>
-                                <div class="text-xs text-gray-500">Optimized</div>
+                                <div class="text-xs text-gray-500 dark:text-white">Optimized</div>
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
                             <i class="fas fa-headset text-3xl text-blue-500"></i>
                             <div>
                                 <div class="text-sm font-bold">Support 24/7</div>
-                                <div class="text-xs text-gray-500">Always Ready</div>
+                                <div class="text-xs text-gray-500 dark:text-white">Always Ready</div>
                             </div>
                         </div>
                     </div>
@@ -427,7 +433,7 @@
                             </div>
                             <div>
                                 <div class="text-2xl font-bold text-gradient">950+</div>
-                                <div class="text-sm text-gray-600 dark:text-gray-400">Happy Clients</div>
+                                <div class="text-sm text-gray-600 dark:text-white">Happy Clients</div>
                             </div>
                         </div>
                     </div>
@@ -439,7 +445,7 @@
                             </div>
                             <div>
                                 <div class="text-2xl font-bold text-gradient">4.9/5</div>
-                                <div class="text-sm text-gray-600 dark:text-gray-400">Rating</div>
+                                <div class="text-sm text-gray-600 dark:text-white">Rating</div>
                             </div>
                         </div>
                     </div>
@@ -450,19 +456,19 @@
             <div id="statsSection" class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-24">
                 <div class="stat-card">
                     <div class="stat-number counter" data-suffix="+">1250</div>
-                    <div class="text-gray-600 dark:text-gray-400 font-semibold mt-2">Project Selesai</div>
+                    <div class="text-gray-600 dark:text-white font-semibold mt-2">Project Selesai</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number counter" data-suffix="+">950</div>
-                    <div class="text-gray-600 dark:text-gray-400 font-semibold mt-2">Klien Puas</div>
+                    <div class="text-gray-600 dark:text-white font-semibold mt-2">Klien Puas</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number counter">4.9</div>
-                    <div class="text-gray-600 dark:text-gray-400 font-semibold mt-2">Rating Bintang 5</div>
+                    <div class="text-gray-600 dark:text-white font-semibold mt-2">Rating Bintang 5</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number counter" data-suffix="%">100</div>
-                    <div class="text-gray-600 dark:text-gray-400 font-semibold mt-2">Kepuasan</div>
+                    <div class="text-gray-600 dark:text-white font-semibold mt-2">Kepuasan</div>
                 </div>
             </div>
         </div>
@@ -486,7 +492,7 @@
                         <i class="fas fa-laptop-code"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Website Company Profile</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    <p class="text-gray-600 dark:text-white mb-6 leading-relaxed">
                         Website profesional untuk memperkenalkan perusahaan Anda dengan desain modern dan informasi lengkap tentang bisnis.
                     </p>
                     <ul class="space-y-3 mb-6">
@@ -518,7 +524,7 @@
                         <i class="fas fa-shopping-cart"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4">E-Commerce & Toko Online</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    <p class="text-gray-600 dark:text-white mb-6 leading-relaxed">
                         Platform toko online lengkap dengan sistem pembayaran, manajemen produk, dan tracking pesanan real-time.
                     </p>
                     <ul class="space-y-3 mb-6">
@@ -550,7 +556,7 @@
                         <i class="fas fa-rocket"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Landing Page</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    <p class="text-gray-600 dark:text-white mb-6 leading-relaxed">
                         Halaman landing page yang fokus untuk meningkatkan konversi dan penjualan produk atau layanan Anda.
                     </p>
                     <ul class="space-y-3 mb-6">
@@ -582,7 +588,7 @@
                         <i class="fas fa-newspaper"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Portal Berita & Blog</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    <p class="text-gray-600 dark:text-white mb-6 leading-relaxed">
                         Website portal berita dengan CMS lengkap, kategori artikel, sistem komentar, dan fitur interaktif lainnya.
                     </p>
                     <ul class="space-y-3 mb-6">
@@ -614,7 +620,7 @@
                         <i class="fas fa-graduation-cap"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4">Sistem Informasi</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    <p class="text-gray-600 dark:text-white mb-6 leading-relaxed">
                         Aplikasi web custom untuk kebutuhan manajemen bisnis, sekolah, rumah sakit, atau organisasi lainnya.
                     </p>
                     <ul class="space-y-3 mb-6">
@@ -646,7 +652,7 @@
                         <i class="fas fa-search"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-4">SEO & Digital Marketing</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    <p class="text-gray-600 dark:text-white mb-6 leading-relaxed">
                         Optimasi website untuk mesin pencari dan strategi digital marketing untuk meningkatkan visibilitas online.
                     </p>
                     <ul class="space-y-3 mb-6">
@@ -692,7 +698,7 @@
                         <i class="fas fa-bolt text-4xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Super Cepat</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Website loading cepat dengan teknologi modern dan optimasi maksimal</p>
+                    <p class="text-gray-600 dark:text-white">Website loading cepat dengan teknologi modern dan optimasi maksimal</p>
                 </div>
 
                 <div class="card text-center animate-on-scroll">
@@ -700,7 +706,7 @@
                         <i class="fas fa-mobile-alt text-4xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Responsive Design</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Tampilan sempurna di semua perangkat dari mobile hingga desktop</p>
+                    <p class="text-gray-600 dark:text-white">Tampilan sempurna di semua perangkat dari mobile hingga desktop</p>
                 </div>
 
                 <div class="card text-center animate-on-scroll">
@@ -708,7 +714,7 @@
                         <i class="fas fa-shield-alt text-4xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Keamanan Terjamin</h3>
-                    <p class="text-gray-600 dark:text-gray-400">SSL Certificate dan security terbaik untuk melindungi data Anda</p>
+                    <p class="text-gray-600 dark:text-white">SSL Certificate dan security terbaik untuk melindungi data Anda</p>
                 </div>
 
                 <div class="card text-center animate-on-scroll">
@@ -716,7 +722,7 @@
                         <i class="fas fa-headset text-4xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Support 24/7</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Tim support siap membantu Anda kapan saja di mana saja</p>
+                    <p class="text-gray-600 dark:text-white">Tim support siap membantu Anda kapan saja di mana saja</p>
                 </div>
 
                 <div class="card text-center animate-on-scroll">
@@ -724,7 +730,7 @@
                         <i class="fas fa-search text-4xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">SEO Friendly</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Optimasi SEO untuk ranking terbaik di Google search</p>
+                    <p class="text-gray-600 dark:text-white">Optimasi SEO untuk ranking terbaik di Google search</p>
                 </div>
 
                 <div class="card text-center animate-on-scroll">
@@ -732,7 +738,7 @@
                         <i class="fas fa-sync text-4xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Free Revisi</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Unlimited revisi hingga Anda puas dengan hasilnya</p>
+                    <p class="text-gray-600 dark:text-white">Unlimited revisi hingga Anda puas dengan hasilnya</p>
                 </div>
 
                 <div class="card text-center animate-on-scroll">
@@ -740,7 +746,7 @@
                         <i class="fas fa-dollar-sign text-4xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Harga Terjangkau</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Harga kompetitif dengan kualitas premium</p>
+                    <p class="text-gray-600 dark:text-white">Harga kompetitif dengan kualitas premium</p>
                 </div>
 
                 <div class="card text-center animate-on-scroll">
@@ -748,14 +754,14 @@
                         <i class="fas fa-clock text-4xl text-white"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Pengerjaan Cepat</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Project selesai tepat waktu sesuai deadline</p>
+                    <p class="text-gray-600 dark:text-white">Project selesai tepat waktu sesuai deadline</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Portfolio Section -->
-    <section id="portofolio" class="section">
+    <section id="portofolio" class="section bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 animate-on-scroll">
                 <span class="badge mb-4">
@@ -788,7 +794,7 @@
                     <div class="p-6">
                         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-sm rounded-full font-bold">E-Commerce</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Toko Fashion Premium</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">Platform e-commerce dengan 10,000+ produk, payment gateway terintegrasi, dan live tracking pesanan</p>
+                        <p class="text-gray-600 dark:text-white mb-4">Platform e-commerce dengan 10,000+ produk, payment gateway terintegrasi, dan live tracking pesanan</p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center text-yellow-500">
                                 <i class="fas fa-star"></i>
@@ -796,7 +802,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
-                                <span class="ml-2 font-semibold text-gray-700 dark:text-gray-300">4.9/5</span>
+                                <span class="ml-2 font-semibold text-gray-700 dark:text-white">4.9/5</span>
                             </div>
                             <a href="#kontak" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
                                 Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
@@ -816,7 +822,7 @@
                     <div class="p-6">
                         <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 text-sm rounded-full font-bold">Website</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Sistem Manajemen Sekolah</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">Platform lengkap untuk manajemen akademik, absensi, nilai, dan pembayaran online</p>
+                        <p class="text-gray-600 dark:text-white mb-4">Platform lengkap untuk manajemen akademik, absensi, nilai, dan pembayaran online</p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center text-yellow-500">
                                 <i class="fas fa-star"></i>
@@ -824,7 +830,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
-                                <span class="ml-2 font-semibold text-gray-700 dark:text-gray-300">5.0/5</span>
+                                <span class="ml-2 font-semibold text-gray-700 dark:text-white">5.0/5</span>
                             </div>
                             <a href="#kontak" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
                                 Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
@@ -844,7 +850,7 @@
                     <div class="p-6">
                         <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 text-sm rounded-full font-bold">Mobile App</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Aplikasi Delivery Food</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">Aplikasi pesan antar makanan dengan real-time GPS tracking dan notifikasi push</p>
+                        <p class="text-gray-600 dark:text-white mb-4">Aplikasi pesan antar makanan dengan real-time GPS tracking dan notifikasi push</p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center text-yellow-500">
                                 <i class="fas fa-star"></i>
@@ -852,7 +858,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star-half-alt"></i>
-                                <span class="ml-2 font-semibold text-gray-700 dark:text-gray-300">4.8/5</span>
+                                <span class="ml-2 font-semibold text-gray-700 dark:text-white">4.8/5</span>
                             </div>
                             <a href="#kontak" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
                                 Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
@@ -872,7 +878,7 @@
                     <div class="p-6">
                         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-sm rounded-full font-bold">Website</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Company Profile Corporate</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">Website corporate profesional dengan animasi modern dan multi-language support</p>
+                        <p class="text-gray-600 dark:text-white mb-4">Website corporate profesional dengan animasi modern dan multi-language support</p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center text-yellow-500">
                                 <i class="fas fa-star"></i>
@@ -880,7 +886,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
-                                <span class="ml-2 font-semibold text-gray-700 dark:text-gray-300">4.9/5</span>
+                                <span class="ml-2 font-semibold text-gray-700 dark:text-white">4.9/5</span>
                             </div>
                             <a href="#kontak" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
                                 Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
@@ -900,7 +906,7 @@
                     <div class="p-6">
                         <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 text-sm rounded-full font-bold">Portal</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Portal Berita Online</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">Portal berita dengan CMS advanced, kategori dinamis, dan sistem komentar</p>
+                        <p class="text-gray-600 dark:text-white mb-4">Portal berita dengan CMS advanced, kategori dinamis, dan sistem komentar</p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center text-yellow-500">
                                 <i class="fas fa-star"></i>
@@ -908,7 +914,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star-half-alt"></i>
-                                <span class="ml-2 font-semibold text-gray-700 dark:text-gray-300">4.7/5</span>
+                                <span class="ml-2 font-semibold text-gray-700 dark:text-white">4.7/5</span>
                             </div>
                             <a href="#kontak" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
                                 Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
@@ -928,7 +934,7 @@
                     <div class="p-6">
                         <span class="px-3 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-400 text-sm rounded-full font-bold">Marketplace</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Marketplace Produk Digital</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">Platform jual-beli produk digital dengan auto-download dan affiliate system</p>
+                        <p class="text-gray-600 dark:text-white mb-4">Platform jual-beli produk digital dengan auto-download dan affiliate system</p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center text-yellow-500">
                                 <i class="fas fa-star"></i>
@@ -936,7 +942,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
-                                <span class="ml-2 font-semibold text-gray-700 dark:text-gray-300">5.0/5</span>
+                                <span class="ml-2 font-semibold text-gray-700 dark:text-white">5.0/5</span>
                             </div>
                             <a href="#kontak" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
                                 Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
@@ -978,42 +984,42 @@
                             <i class="fas fa-rocket text-3xl text-white"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-2">Starter</h3>
-                        <p class="text-gray-600 dark:text-gray-400">Perfect untuk pemula</p>
+                        <p class="text-gray-600 dark:text-white">Perfect untuk pemula</p>
                     </div>
 
                     <div class="text-center mb-8">
                         <div class="text-5xl font-black text-gradient mb-2">Rp 3,5jt</div>
-                        <p class="text-gray-600 dark:text-gray-400">One-time payment</p>
+                        <p class="text-gray-600 dark:text-white">One-time payment</p>
                     </div>
 
                     <ul class="space-y-4 mb-10">
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Landing Page Modern</span>
+                            <span class="text-gray-700 dark:text-white">Landing Page Modern</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Responsive Design</span>
+                            <span class="text-gray-700 dark:text-white">Responsive Design</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Domain & Hosting 1 Tahun</span>
+                            <span class="text-gray-700 dark:text-white">Domain & Hosting 1 Tahun</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">SSL Certificate</span>
+                            <span class="text-gray-700 dark:text-white">SSL Certificate</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">SEO Friendly</span>
+                            <span class="text-gray-700 dark:text-white">SEO Friendly</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Support 3 Bulan</span>
+                            <span class="text-gray-700 dark:text-white">Support 3 Bulan</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Free Revisi</span>
+                            <span class="text-gray-700 dark:text-white">Free Revisi</span>
                         </li>
                     </ul>
 
@@ -1023,19 +1029,19 @@
                 </div>
 
                 <!-- Professional Package (Featured) -->
-                <div class="pricing-card featured animate-on-scroll relative">
-                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2">
-                        <span class="bg-yellow-400 text-gray-900 px-6 py-2 rounded-full text-sm font-black shadow-xl">
+                <div class="pricing-card featured animate-on-scroll relative mt-8">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span class="badge-popular">
                             ⭐ PALING POPULER
                         </span>
                     </div>
 
-                    <div class="text-center mb-8 mt-4">
-                        <div class="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-crown text-3xl text-blue-600"></i>
+                    <div class="text-center mb-8 mt-6">
+                        <div class="w-20 h-20 gradient-blue rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-crown text-3xl text-white"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-2">Professional</h3>
-                        <p class="text-blue-100">Untuk bisnis berkembang</p>
+                        <p class="text-white/90">Untuk bisnis berkembang</p>
                     </div>
 
                     <div class="text-center mb-8">
@@ -1082,7 +1088,7 @@
                         </li>
                     </ul>
 
-                    <a href="#kontak" class="block w-full text-center px-8 py-4 bg-white text-blue-600 rounded-full font-bold hover:shadow-2xl transition">
+                    <a href="#kontak" class="block w-full text-center px-8 py-4 bg-white text-blue-600 rounded-full font-bold hover:shadow-2xl transition hover:bg-gray-100">
                         Pilih Paket Ini
                     </a>
                 </div>
@@ -1094,50 +1100,50 @@
                             <i class="fas fa-building text-3xl text-white"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
-                        <p class="text-gray-600 dark:text-gray-400">Solusi untuk perusahaan</p>
+                        <p class="text-gray-600 dark:text-white">Solusi untuk perusahaan</p>
                     </div>
 
                     <div class="text-center mb-8">
                         <div class="text-5xl font-black text-gradient mb-2">Rp 25jt+</div>
-                        <p class="text-gray-600 dark:text-gray-400">Custom pricing</p>
+                        <p class="text-gray-600 dark:text-white">Custom pricing</p>
                     </div>
 
                     <ul class="space-y-4 mb-10">
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Custom Website/App</span>
+                            <span class="text-gray-700 dark:text-white">Custom Website/App</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Advanced CMS</span>
+                            <span class="text-gray-700 dark:text-white">Advanced CMS</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Multi Language Support</span>
+                            <span class="text-gray-700 dark:text-white">Multi Language Support</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">API Integration</span>
+                            <span class="text-gray-700 dark:text-white">API Integration</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Dedicated Server</span>
+                            <span class="text-gray-700 dark:text-white">Dedicated Server</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Advanced Security</span>
+                            <span class="text-gray-700 dark:text-white">Advanced Security</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Priority Support</span>
+                            <span class="text-gray-700 dark:text-white">Priority Support</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Support 12 Bulan</span>
+                            <span class="text-gray-700 dark:text-white">Support 12 Bulan</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl flex-shrink-0"></i>
-                            <span class="text-gray-700 dark:text-gray-300">Unlimited Everything</span>
+                            <span class="text-gray-700 dark:text-white">Unlimited Everything</span>
                         </li>
                     </ul>
 
@@ -1150,7 +1156,7 @@
     </section>
 
     <!-- Tech Stack Section -->
-    <section class="section">
+    <section class="section bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 animate-on-scroll">
                 <span class="badge mb-4">
@@ -1163,62 +1169,62 @@
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-react tech-icon" style="color: #61DAFB;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">React</p>
+                    <p class="font-bold text-gray-700 dark:text-white">React</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-vuejs tech-icon" style="color: #42B883;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">Vue.js</p>
+                    <p class="font-bold text-gray-700 dark:text-white">Vue.js</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-node tech-icon" style="color: #68A063;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">Node.js</p>
+                    <p class="font-bold text-gray-700 dark:text-white">Node.js</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-laravel tech-icon" style="color: #FF2D20;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">Laravel</p>
+                    <p class="font-bold text-gray-700 dark:text-white">Laravel</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-python tech-icon" style="color: #3776AB;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">Python</p>
+                    <p class="font-bold text-gray-700 dark:text-white">Python</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-php tech-icon" style="color: #777BB4;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">PHP</p>
+                    <p class="font-bold text-gray-700 dark:text-white">PHP</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-js tech-icon" style="color: #F7DF1E;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">JavaScript</p>
+                    <p class="font-bold text-gray-700 dark:text-white">JavaScript</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-html5 tech-icon" style="color: #E34F26;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">HTML5</p>
+                    <p class="font-bold text-gray-700 dark:text-white">HTML5</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-css3-alt tech-icon" style="color: #1572B6;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">CSS3</p>
+                    <p class="font-bold text-gray-700 dark:text-white">CSS3</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-bootstrap tech-icon" style="color: #7952B3;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">Bootstrap</p>
+                    <p class="font-bold text-gray-700 dark:text-white">Bootstrap</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-wordpress tech-icon" style="color: #21759B;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">WordPress</p>
+                    <p class="font-bold text-gray-700 dark:text-white">WordPress</p>
                 </div>
 
                 <div class="tech-item animate-on-scroll">
                     <i class="fab fa-github tech-icon" style="color: #181717;"></i>
-                    <p class="font-bold text-gray-700 dark:text-gray-300">GitHub</p>
+                    <p class="font-bold text-gray-700 dark:text-white">GitHub</p>
                 </div>
             </div>
         </div>
@@ -1241,7 +1247,7 @@
                         <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Budi Santoso" class="w-16 h-16 rounded-full mr-4 border-4 border-blue-600">
                         <div>
                             <h4 class="font-bold text-lg">Budi Santoso</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">CEO - PT Maju Jaya</p>
+                            <p class="text-sm text-gray-600 dark:text-white">CEO - PT Maju Jaya</p>
                         </div>
                     </div>
                     <div class="flex mb-4 text-yellow-500">
@@ -1251,7 +1257,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-400 italic leading-relaxed">
+                    <p class="text-gray-600 dark:text-white italic leading-relaxed">
                         "Sangat puas dengan hasil website yang dibuat AlcaOfficial. Tim sangat profesional, responsif, dan hasilnya melebihi ekspektasi. Website kami sekarang loading cepat dan tampilannya sangat modern!"
                     </p>
                 </div>
@@ -1261,7 +1267,7 @@
                         <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Siti Nurhaliza" class="w-16 h-16 rounded-full mr-4 border-4 border-purple-600">
                         <div>
                             <h4 class="font-bold text-lg">Siti Nurhaliza</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Owner - Fashion Store</p>
+                            <p class="text-sm text-gray-600 dark:text-white">Owner - Fashion Store</p>
                         </div>
                     </div>
                     <div class="flex mb-4 text-yellow-500">
@@ -1271,7 +1277,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-400 italic leading-relaxed">
+                    <p class="text-gray-600 dark:text-white italic leading-relaxed">
                         "E-commerce yang dibuat sangat membantu bisnis saya berkembang. Sejak menggunakan website dari AlcaOfficial, penjualan meningkat 300%! Highly recommended untuk yang mau bikin toko online."
                     </p>
                 </div>
@@ -1281,7 +1287,7 @@
                         <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Ahmad Rizki" class="w-16 h-16 rounded-full mr-4 border-4 border-green-600">
                         <div>
                             <h4 class="font-bold text-lg">Ahmad Rizki</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Direktur - Yayasan</p>
+                            <p class="text-sm text-gray-600 dark:text-white">Direktur - Yayasan</p>
                         </div>
                     </div>
                     <div class="flex mb-4 text-yellow-500">
@@ -1291,7 +1297,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-400 italic leading-relaxed">
+                    <p class="text-gray-600 dark:text-white italic leading-relaxed">
                         "Sistem manajemen sekolah yang dibuat sangat memudahkan administrasi kami. Fitur-fiturnya lengkap dan mudah digunakan. Great job AlcaOfficial!"
                     </p>
                 </div>
@@ -1301,7 +1307,7 @@
                         <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dewi Lestari" class="w-16 h-16 rounded-full mr-4 border-4 border-orange-600">
                         <div>
                             <h4 class="font-bold text-lg">Dewi Lestari</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Marketing Manager</p>
+                            <p class="text-sm text-gray-600 dark:text-white">Marketing Manager</p>
                         </div>
                     </div>
                     <div class="flex mb-4 text-yellow-500">
@@ -1311,7 +1317,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-400 italic leading-relaxed">
+                    <p class="text-gray-600 dark:text-white italic leading-relaxed">
                         "Pelayanan sangat memuaskan! Tim support selalu siap membantu 24/7. Website kami sekarang jadi lebih modern dan user-friendly. Terima kasih AlcaOfficial!"
                     </p>
                 </div>
@@ -1321,7 +1327,7 @@
                         <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Andi Wijaya" class="w-16 h-16 rounded-full mr-4 border-4 border-cyan-600">
                         <div>
                             <h4 class="font-bold text-lg">Andi Wijaya</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Founder Startup</p>
+                            <p class="text-sm text-gray-600 dark:text-white">Founder Startup</p>
                         </div>
                     </div>
                     <div class="flex mb-4 text-yellow-500">
@@ -1331,7 +1337,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-400 italic leading-relaxed">
+                    <p class="text-gray-600 dark:text-white italic leading-relaxed">
                         "Aplikasi mobile yang dibuat sangat berkualitas. UI/UX-nya bagus dan performanya smooth. Investor kami sangat impressed dengan hasilnya!"
                     </p>
                 </div>
@@ -1341,7 +1347,7 @@
                         <img src="https://randomuser.me/api/portraits/women/90.jpg" alt="Rina Kusuma" class="w-16 h-16 rounded-full mr-4 border-4 border-pink-600">
                         <div>
                             <h4 class="font-bold text-lg">Rina Kusuma</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Owner Klinik</p>
+                            <p class="text-sm text-gray-600 dark:text-white">Owner Klinik</p>
                         </div>
                     </div>
                     <div class="flex mb-4 text-yellow-500">
@@ -1351,7 +1357,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-400 italic leading-relaxed">
+                    <p class="text-gray-600 dark:text-white italic leading-relaxed">
                         "Website booking appointment yang dibuat sangat membantu customer kami. Sekarang booking jadi lebih mudah dan efisien. Highly recommended!"
                     </p>
                 </div>
@@ -1360,7 +1366,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="section">
+    <section class="section bg-white dark:bg-gray-900">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 animate-on-scroll">
                 <span class="badge mb-4">
@@ -1449,25 +1455,25 @@
                 <div class="process-step animate-on-scroll">
                     <div class="process-number">1</div>
                     <h3 class="text-xl font-bold mb-3">Konsultasi</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Diskusi kebutuhan dan requirements project Anda secara detail</p>
+                    <p class="text-gray-600 dark:text-white">Diskusi kebutuhan dan requirements project Anda secara detail</p>
                 </div>
 
                 <div class="process-step animate-on-scroll">
                     <div class="process-number">2</div>
                     <h3 class="text-xl font-bold mb-3">Planning & Design</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Perencanaan detail fitur, wireframe, dan mockup design</p>
+                    <p class="text-gray-600 dark:text-white">Perencanaan detail fitur, wireframe, dan mockup design</p>
                 </div>
 
                 <div class="process-step animate-on-scroll">
                     <div class="process-number">3</div>
                     <h3 class="text-xl font-bold mb-3">Development</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Tim developer mulai coding dengan update progress berkala</p>
+                    <p class="text-gray-600 dark:text-white">Tim developer mulai coding dengan update progress berkala</p>
                 </div>
 
                 <div class="process-step animate-on-scroll">
                     <div class="process-number">4</div>
                     <h3 class="text-xl font-bold mb-3">Testing & Launch</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Quality testing, revisi, dan website siap diluncurkan</p>
+                    <p class="text-gray-600 dark:text-white">Quality testing, revisi, dan website siap diluncurkan</p>
                 </div>
             </div>
         </div>
@@ -1476,8 +1482,8 @@
     <!-- CTA Section -->
     <section class="section gradient-primary relative overflow-hidden">
         <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+            <div class="absolute top-0 left-0 w-96 h-96 bg-white dark:bg-blue-500 rounded-full blur-3xl animate-pulse opacity-20"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-white dark:bg-cyan-500 rounded-full blur-3xl animate-pulse opacity-20" style="animation-delay: 1s;"></div>
         </div>
 
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white relative z-10">
@@ -1485,15 +1491,15 @@
                 <h2 class="text-4xl md:text-5xl font-black mb-6">
                     Siap Memulai Project Anda?
                 </h2>
-                <p class="text-xl mb-10 text-blue-100 leading-relaxed">
+                <p class="text-xl mb-10 text-white leading-relaxed">
                     Hubungi kami sekarang untuk konsultasi gratis dan dapatkan penawaran terbaik!<br>
                     Kami siap mewujudkan website impian Anda.
                 </p>
                 <div class="flex flex-wrap justify-center gap-6">
-                    <a href="#kontak" class="px-10 py-5 bg-white text-blue-600 rounded-full font-black text-lg hover:shadow-2xl transition transform hover:scale-105">
+                    <a href="#kontak" class="px-10 py-5 bg-green-500 text-white rounded-full font-black text-lg hover:shadow-2xl hover:bg-green-600 transition transform hover:scale-105 shadow-xl">
                         <i class="fab fa-whatsapp mr-2 text-2xl"></i> WhatsApp Kami
                     </a>
-                    <a href="#kontak" class="px-10 py-5 border-2 border-white text-white rounded-full font-black text-lg hover:bg-white hover:text-blue-600 transition transform hover:scale-105">
+                    <a href="#kontak" class="px-10 py-5 border-4 border-white text-white rounded-full font-black text-lg hover:bg-white hover:text-blue-600 transition transform hover:scale-105 shadow-lg">
                         <i class="fas fa-envelope mr-2"></i> Email Kami
                     </a>
                 </div>
@@ -1502,7 +1508,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="kontak" class="section">
+    <section id="kontak" class="section bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 animate-on-scroll">
                 <span class="badge mb-4">
@@ -1525,7 +1531,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold mb-1 text-lg">Alamat</h4>
-                                    <p class="text-gray-600 dark:text-gray-400">Jl. Sudirman No. 123, Jakarta Pusat<br>DKI Jakarta 12190, Indonesia</p>
+                                    <p class="text-gray-600 dark:text-white">Jl. Sudirman No. 123, Jakarta Pusat<br>DKI Jakarta 12190, Indonesia</p>
                                 </div>
                             </div>
 
@@ -1535,7 +1541,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold mb-1 text-lg">WhatsApp</h4>
-                                    <p class="text-gray-600 dark:text-gray-400">+62 812-3456-7890</p>
+                                    <p class="text-gray-600 dark:text-white">+62 812-3456-7890</p>
                                     <a href="https://wa.me/6281234567890" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Chat Sekarang →</a>
                                 </div>
                             </div>
@@ -1546,7 +1552,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold mb-1 text-lg">Email</h4>
-                                    <p class="text-gray-600 dark:text-gray-400">info@alcaofficial.com</p>
+                                    <p class="text-gray-600 dark:text-white">info@alcaofficial.com</p>
                                     <a href="mailto:info@alcaofficial.com" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Kirim Email →</a>
                                 </div>
                             </div>
@@ -1557,7 +1563,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold mb-1 text-lg">Jam Kerja</h4>
-                                    <p class="text-gray-600 dark:text-gray-400">
+                                    <p class="text-gray-600 dark:text-white">
                                         Senin - Jumat: 09:00 - 18:00<br>
                                         Sabtu: 09:00 - 15:00<br>
                                         Minggu: Tutup
@@ -1713,6 +1719,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/6281234567890?text=Halo%20AlcaOfficial,%20saya%20tertarik%20dengan%20jasa%20pembuatan%20website" target="_blank" id="whatsappFloat" class="whatsapp-float opacity-0 pointer-events-none" aria-label="Chat WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <!-- Scroll to Top Button -->
     <button id="scrollTop" class="scroll-top opacity-0 pointer-events-none">
