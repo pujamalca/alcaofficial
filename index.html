@@ -88,10 +88,11 @@
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0066FF">
     <meta name="msapplication-TileColor" content="#0066FF">
     <meta name="msapplication-config" content="/browserconfig.xml">
@@ -357,7 +358,9 @@
     }
     </script>
 
-    <!-- Microsoft Clarity - Uncomment and add your Clarity ID when ready -->
+    <!-- Microsoft Clarity - Heatmaps & Session Recording -->
+    <!-- Get your ID from https://clarity.microsoft.com/ (FREE) -->
+    <!-- Benefits: Heatmaps, session recordings, rage clicks, dead clicks -->
     <!--
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -378,10 +381,8 @@
                 <!-- Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="/" class="flex items-center navbar-logo-link">
-                        <div class="navbar-logo-icon gradient-primary rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold">A</span>
-                        </div>
-                        <span class="navbar-logo-text font-black text-gradient">AlcaOfficial</span>
+                        <img src="/alca.png" alt="AlcaOfficial Logo" class="navbar-logo-img" width="40" height="40" style="border-radius: 8px;">
+                        <span class="navbar-logo-text font-black text-gradient ml-3">AlcaOfficial</span>
                     </a>
                 </div>
 
@@ -1762,9 +1763,7 @@
             <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div>
                     <div class="flex items-center space-x-3 mb-6">
-                        <div class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center">
-                            <span class="text-white font-bold text-2xl">A</span>
-                        </div>
+                        <img src="/alca.png" alt="AlcaOfficial Logo" class="w-12 h-12 rounded-xl" width="48" height="48">
                         <span class="text-2xl font-black text-white">AlcaOfficial</span>
                     </div>
                     <p class="text-gray-300 mb-4 leading-relaxed">
@@ -1844,6 +1843,78 @@
     <button id="scrollTop" class="scroll-top opacity-0 pointer-events-none">
         <i class="fas fa-arrow-up"></i>
     </button>
+
+    <!-- Live Chat Widget (Tawk.to) - Replace with your Property ID -->
+    <!--
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/YOUR_PROPERTY_ID/YOUR_WIDGET_ID';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    -->
+
+    <!-- Facebook Messenger Chat Plugin -->
+    <!--
+    <div id="fb-root"></div>
+    <div id="fb-customer-chat" class="fb-customerchat"></div>
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "YOUR_PAGE_ID");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v18.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/id_ID/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    -->
+
+    <!-- Performance Monitoring (Web Vitals) -->
+    <script>
+    // Track Core Web Vitals
+    function sendToAnalytics(metric) {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', metric.name, {
+          event_category: 'Web Vitals',
+          value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+          event_label: metric.id,
+          non_interaction: true,
+        });
+      }
+    }
+
+    // Load web-vitals library
+    if ('PerformanceObserver' in window) {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/web-vitals@3/dist/web-vitals.iife.js';
+      script.onload = function() {
+        webVitals.onCLS(sendToAnalytics);
+        webVitals.onFID(sendToAnalytics);
+        webVitals.onLCP(sendToAnalytics);
+        webVitals.onINP(sendToAnalytics);
+        webVitals.onFCP(sendToAnalytics);
+        webVitals.onTTFB(sendToAnalytics);
+      };
+      document.head.appendChild(script);
+    }
+    </script>
 
     <!-- Include external JavaScript -->
     <script src="script.js"></script>
