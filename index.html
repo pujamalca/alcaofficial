@@ -3,7 +3,7 @@
 <head>
     <!-- Essential Meta Tags -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Security Headers -->
@@ -43,11 +43,14 @@
     <meta property="og:title" content="Jasa Pembuatan Website Professional Terbaik #1 di Indonesia | AlcaOfficial">
     <meta property="og:description" content="⭐ Jasa Pembuatan Website Professional mulai 500K. 1250+ Project Sukses. Fast, Secure & SEO Friendly. Konsultasi Gratis!">
     <meta property="og:image" content="https://alcaofficial.com/assets/og-image-website.jpg">
+    <meta property="og:image:secure_url" content="https://alcaofficial.com/assets/og-image-website.jpg">
+    <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="AlcaOfficial - Jasa Pembuatan Website Professional">
     <meta property="og:site_name" content="AlcaOfficial">
     <meta property="og:locale" content="id_ID">
+    <meta property="og:locale:alternate" content="en_US">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -91,6 +94,13 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#0066FF">
     <meta name="msapplication-TileColor" content="#0066FF">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+
+    <!-- Apple Mobile Web App -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AlcaOfficial">
+    <meta name="format-detection" content="telephone=yes">
 
     <!-- Preconnect & DNS Prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,9 +111,11 @@
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
 
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="styles.css" as="style" fetchpriority="high">
     <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="/alca.png" as="image" type="image/png" fetchpriority="high">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style">
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -121,7 +133,7 @@
         "name": "AlcaOfficial",
         "alternateName": "AlcaOfficial Web Development",
         "url": "https://alcaofficial.com",
-        "logo": "https://alcaofficial.com/assets/logo.png",
+        "logo": "https://alcaofficial.com/alca.png",
         "description": "Jasa Pembuatan Website Professional Terbaik di Indonesia",
         "email": "alcait.id@gmail.com",
         "telephone": "+62-881-0101-85772",
@@ -161,7 +173,7 @@
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "AlcaOfficial - Jasa Pembuatan Website Professional",
-        "image": "https://alcaofficial.com/assets/logo.png",
+        "image": "https://alcaofficial.com/alca.png",
         "priceRange": "Rp500.000 - Rp50.000.000",
         "address": {
             "@type": "PostalAddress",
@@ -317,6 +329,31 @@
             },
             "query-input": "required name=search_term_string"
         }
+    }
+    </script>
+
+    <!-- Structured Data - ImageObject (Logo) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        "name": "AlcaOfficial Logo",
+        "description": "Logo resmi AlcaOfficial - Jasa Pembuatan Website Professional",
+        "url": "https://alcaofficial.com/alca.png",
+        "contentUrl": "https://alcaofficial.com/alca.png",
+        "width": "1080",
+        "height": "1080",
+        "encodingFormat": "image/png",
+        "creator": {
+            "@type": "Organization",
+            "name": "AlcaOfficial"
+        },
+        "copyrightHolder": {
+            "@type": "Organization",
+            "name": "AlcaOfficial"
+        },
+        "license": "https://alcaofficial.com/",
+        "acquireLicensePage": "https://alcaofficial.com/"
     }
     </script>
 

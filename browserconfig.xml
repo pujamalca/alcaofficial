@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square70x70logo src="/favicon-32x32.png"/>
+            <square150x150logo src="/apple-touch-icon.png"/>
+            <square310x310logo src="/apple-touch-icon.png"/>
+            <wide310x150logo src="/apple-touch-icon.png"/>
+            <TileColor>#0066FF</TileColor>
+        </tile>
+        <notification>
+            <polling-uri src="https://alcaofficial.com/notifications/feed1"/>
+            <polling-uri2 src="https://alcaofficial.com/notifications/feed2"/>
+            <polling-uri3 src="https://alcaofficial.com/notifications/feed3"/>
+            <polling-uri4 src="https://alcaofficial.com/notifications/feed4"/>
+            <polling-uri5 src="https://alcaofficial.com/notifications/feed5"/>
+            <frequency>30</frequency>
+            <cycle>1</cycle>
+        </notification>
+        <badge>
+            <polling-uri src="https://alcaofficial.com/badge/status"/>
+            <frequency>30</frequency>
+        </badge>
+    </msapplication>
+</browserconfig>
