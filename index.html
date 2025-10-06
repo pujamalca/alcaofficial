@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
     <!-- Primary SEO Meta Tags -->
     <title>Jasa Pembuatan Website Professional Terbaik #1 di Indonesia 2024 | AlcaOfficial</title>
     <meta name="title" content="Jasa Pembuatan Website Professional Terbaik #1 di Indonesia 2024 | AlcaOfficial">
@@ -19,6 +26,10 @@
     <meta name="revisit-after" content="1 days">
     <meta name="rating" content="general">
     <meta name="distribution" content="global">
+
+    <!-- Google Search Features -->
+    <meta name="google" content="nositelinkssearchbox">
+    <meta name="google-site-verification" content="">
 
     <!-- Geo Tags -->
     <meta name="geo.region" content="ID-JK">
@@ -37,7 +48,6 @@
     <meta property="og:image:alt" content="AlcaOfficial - Jasa Pembuatan Website Professional">
     <meta property="og:site_name" content="AlcaOfficial">
     <meta property="og:locale" content="id_ID">
-    <meta property="fb:app_id" content="YOUR_FB_APP_ID">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -47,6 +57,13 @@
     <meta name="twitter:image" content="https://alcaofficial.com/assets/twitter-image-website.jpg">
     <meta name="twitter:site" content="@alcaofficial">
     <meta name="twitter:creator" content="@alcaofficial">
+
+    <!-- Article Meta Tags -->
+    <meta property="article:published_time" content="2024-01-01T00:00:00+07:00">
+    <meta property="article:modified_time" content="2025-10-06T00:00:00+07:00">
+    <meta property="article:author" content="AlcaOfficial">
+    <meta property="article:section" content="Web Development">
+    <meta property="article:tag" content="Jasa Website, Web Development, E-Commerce, SEO">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBCL1033ZG"></script>
@@ -78,10 +95,15 @@
     <!-- Preconnect & DNS Prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+    <!-- Preload Critical Resources -->
     <link rel="preload" href="styles.css" as="style">
     <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -279,13 +301,23 @@
     }
     </script>
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
+    <!-- Structured Data - WebSite (for Google Search Box) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AlcaOfficial",
+        "alternateName": "AlcaOfficial - Jasa Pembuatan Website",
+        "url": "https://alcaofficial.com",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://alcaofficial.com/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
     </script>
 
     <!-- Microsoft Clarity - Uncomment and add your Clarity ID when ready -->
