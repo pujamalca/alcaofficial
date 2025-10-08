@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- Security Headers -->
+    <!-- Security Headers (X-Frame-Options moved to HTTP headers for proper implementation) -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
@@ -122,8 +121,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="styles.css">
 
     <!-- Structured Data - Organization -->
@@ -398,9 +397,9 @@
 
                 <!-- CTA & Theme Toggle -->
                 <div class="flex items-center navbar-actions flex-shrink-0">
-                    <button id="themeToggle" class="navbar-theme-btn rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                        <i class="fas fa-moon dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:inline"></i>
+                    <button id="themeToggle" class="navbar-theme-btn rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon dark:hidden" aria-hidden="true"></i>
+                        <i class="fas fa-sun hidden dark:inline" aria-hidden="true"></i>
                     </button>
 
                     <a href="#kontak" class="hidden lg:block btn-primary ml-3">
@@ -1369,7 +1368,7 @@
                     <div class="flex items-center mb-6">
                         <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Budi Santoso" class="w-16 h-16 rounded-full mr-4 border-4 border-blue-600">
                         <div>
-                            <h4 class="font-bold text-lg">Budi Santoso</h4>
+                            <h3 class="font-bold text-lg">Budi Santoso</h3>
                             <p class="text-sm text-gray-600 dark:text-white">CEO - PT Maju Jaya</p>
                         </div>
                     </div>
@@ -1389,7 +1388,7 @@
                     <div class="flex items-center mb-6">
                         <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Siti Nurhaliza" class="w-16 h-16 rounded-full mr-4 border-4 border-purple-600">
                         <div>
-                            <h4 class="font-bold text-lg">Siti Nurhaliza</h4>
+                            <h3 class="font-bold text-lg">Siti Nurhaliza</h3>
                             <p class="text-sm text-gray-600 dark:text-white">Owner - Fashion Store</p>
                         </div>
                     </div>
@@ -1409,7 +1408,7 @@
                     <div class="flex items-center mb-6">
                         <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Ahmad Rizki" class="w-16 h-16 rounded-full mr-4 border-4 border-green-600">
                         <div>
-                            <h4 class="font-bold text-lg">Ahmad Rizki</h4>
+                            <h3 class="font-bold text-lg">Ahmad Rizki</h3>
                             <p class="text-sm text-gray-600 dark:text-white">Direktur - Yayasan</p>
                         </div>
                     </div>
@@ -1429,7 +1428,7 @@
                     <div class="flex items-center mb-6">
                         <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dewi Lestari" class="w-16 h-16 rounded-full mr-4 border-4 border-orange-600">
                         <div>
-                            <h4 class="font-bold text-lg">Dewi Lestari</h4>
+                            <h3 class="font-bold text-lg">Dewi Lestari</h3>
                             <p class="text-sm text-gray-600 dark:text-white">Marketing Manager</p>
                         </div>
                     </div>
@@ -1449,7 +1448,7 @@
                     <div class="flex items-center mb-6">
                         <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Andi Wijaya" class="w-16 h-16 rounded-full mr-4 border-4 border-cyan-600">
                         <div>
-                            <h4 class="font-bold text-lg">Andi Wijaya</h4>
+                            <h3 class="font-bold text-lg">Andi Wijaya</h3>
                             <p class="text-sm text-gray-600 dark:text-white">Founder Startup</p>
                         </div>
                     </div>
@@ -1469,7 +1468,7 @@
                     <div class="flex items-center mb-6">
                         <img src="https://randomuser.me/api/portraits/women/90.jpg" alt="Rina Kusuma" class="w-16 h-16 rounded-full mr-4 border-4 border-pink-600">
                         <div>
-                            <h4 class="font-bold text-lg">Rina Kusuma</h4>
+                            <h3 class="font-bold text-lg">Rina Kusuma</h3>
                             <p class="text-sm text-gray-600 dark:text-white">Owner Klinik</p>
                         </div>
                     </div>
@@ -1653,7 +1652,7 @@
                                     <i class="fas fa-map-marker-alt text-white text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold mb-1 text-lg">Alamat</h4>
+                                    <h4 class="font-bold mb-1 text-lg">Alamat</h3>
                                     <p class="text-gray-600 dark:text-white">Tanah Datar<br>Sumatera Barat, Indonesia</p>
                                 </div>
                             </div>
@@ -1663,7 +1662,7 @@
                                     <i class="fab fa-whatsapp text-white text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold mb-1 text-lg">WhatsApp</h4>
+                                    <h4 class="font-bold mb-1 text-lg">WhatsApp</h3>
                                     <p class="text-gray-600 dark:text-white">+62 881-0101-85772</p>
                                     <a href="https://wa.me/62881010185772" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Chat Sekarang →</a>
                                 </div>
@@ -1674,7 +1673,7 @@
                                     <i class="fas fa-envelope text-white text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold mb-1 text-lg">Email</h4>
+                                    <h4 class="font-bold mb-1 text-lg">Email</h3>
                                     <p class="text-gray-600 dark:text-white">alcait.id@gmail.com</p>
                                     <a href="mailto:alcait.id@gmail.com" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Kirim Email →</a>
                                 </div>
@@ -1685,7 +1684,7 @@
                                     <i class="fas fa-clock text-white text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold mb-1 text-lg">Jam Kerja</h4>
+                                    <h4 class="font-bold mb-1 text-lg">Jam Kerja</h3>
                                     <p class="text-gray-600 dark:text-white">
                                         24 Jam<br>
                                         Setiap Hari
@@ -1698,14 +1697,14 @@
                     <div class="card">
                         <h3 class="text-2xl font-bold mb-6">Follow Kami</h3>
                         <div class="flex flex-wrap gap-4">
-                            <a href="https://www.instagram.com/alcaofficial.id" target="_blank" class="w-14 h-14 bg-pink-600 rounded-xl flex items-center justify-center text-white hover:shadow-xl transition transform hover:scale-110">
-                                <i class="fab fa-instagram text-xl"></i>
+                            <a href="https://www.instagram.com/alcaofficial.id" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" class="w-14 h-14 bg-pink-600 rounded-xl flex items-center justify-center text-white hover:shadow-xl transition transform hover:scale-110">
+                                <i class="fab fa-instagram text-xl" aria-hidden="true"></i>
                             </a>
-                            <a href="https://www.youtube.com/@alcaofficial" target="_blank" class="w-14 h-14 bg-red-600 rounded-xl flex items-center justify-center text-white hover:shadow-xl transition transform hover:scale-110">
-                                <i class="fab fa-youtube text-xl"></i>
+                            <a href="https://www.youtube.com/@alcaofficial" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube channel" class="w-14 h-14 bg-red-600 rounded-xl flex items-center justify-center text-white hover:shadow-xl transition transform hover:scale-110">
+                                <i class="fab fa-youtube text-xl" aria-hidden="true"></i>
                             </a>
-                            <a href="https://github.com/pujamalca" target="_blank" class="w-14 h-14 bg-gray-800 rounded-xl flex items-center justify-center text-white hover:shadow-xl transition transform hover:scale-110">
-                                <i class="fab fa-github text-xl"></i>
+                            <a href="https://github.com/pujamalca" target="_blank" rel="noopener noreferrer" aria-label="Visit our GitHub" class="w-14 h-14 bg-gray-800 rounded-xl flex items-center justify-center text-white hover:shadow-xl transition transform hover:scale-110">
+                                <i class="fab fa-github text-xl" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -1731,8 +1730,8 @@
                         </div>
 
                         <div>
-                            <label class="form-label">Layanan <span class="text-red-500">*</span></label>
-                            <select name="service" required class="form-select">
+                            <label for="service" class="form-label">Layanan <span class="text-red-500">*</span></label>
+                            <select id="service" name="service" required class="form-select">
                                 <option value="">Pilih layanan yang dibutuhkan</option>
                                 <option value="website">Website Development</option>
                                 <option value="ecommerce">E-Commerce</option>
@@ -1773,20 +1772,20 @@
                         "Nothing Impossible"
                     </p>
                     <div class="flex space-x-3">
-                        <a href="https://www.instagram.com/alcaofficial.id" target="_blank" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-pink-600 transition">
-                            <i class="fab fa-instagram"></i>
+                        <a href="https://www.instagram.com/alcaofficial.id" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-pink-600 transition">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
                         </a>
-                        <a href="https://www.youtube.com/@alcaofficial" target="_blank" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-red-600 transition">
-                            <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@alcaofficial" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube channel" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-red-600 transition">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
                         </a>
-                        <a href="https://github.com/pujamalca" target="_blank" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
-                            <i class="fab fa-github"></i>
+                        <a href="https://github.com/pujamalca" target="_blank" rel="noopener noreferrer" aria-label="Visit our GitHub" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gray-700 transition">
+                            <i class="fab fa-github" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-lg mb-6">Layanan</h4>
+                    <h3 class="font-bold text-lg mb-6">Layanan</h3>
                     <ul class="space-y-3">
                         <li><a href="#layanan" class="footer-link block">Website Development</a></li>
                         <li><a href="#layanan" class="footer-link block">E-Commerce</a></li>
@@ -1798,7 +1797,7 @@
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-lg mb-6">Perusahaan</h4>
+                    <h4 class="font-bold text-lg mb-6">Perusahaan</h3>
                     <ul class="space-y-3">
                         <li><a href="#beranda" class="footer-link block">Tentang Kami</a></li>
                         <li><a href="#portofolio" class="footer-link block">Portfolio</a></li>
@@ -1810,7 +1809,7 @@
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-lg mb-6">Hubungi Kami</h4>
+                    <h4 class="font-bold text-lg mb-6">Hubungi Kami</h3>
                     <ul class="space-y-4">
                         <li class="flex items-start text-gray-300">
                             <i class="fas fa-map-marker-alt mt-1 mr-3 flex-shrink-0"></i>
@@ -1835,7 +1834,7 @@
     </footer>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/62881010185772?text=Halo%20AlcaOfficial,%20saya%20tertarik%20dengan%20jasa%20pembuatan%20website" target="_blank" id="whatsappFloat" class="whatsapp-float opacity-0 pointer-events-none" aria-label="Chat WhatsApp">
+    <a href="https://wa.me/62881010185772?text=Halo%20AlcaOfficial,%20saya%20tertarik%20dengan%20jasa%20pembuatan%20website" target="_blank" rel="noopener noreferrer" id="whatsappFloat" class="whatsapp-float opacity-0 pointer-events-none" aria-label="Chat WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
