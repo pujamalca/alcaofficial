@@ -125,13 +125,14 @@
     <!-- Preload Critical Resources -->
     <link rel="preload" href="styles.min.css" as="style" fetchpriority="high">
     <link rel="preload" href="assets/fonts/fontawesome/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="script.min.js" as="script">
     <link rel="preload" href="/alca.webp" as="image" type="image/webp" fetchpriority="high">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style">
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Fonts - Optimized with font-display swap -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
 
     <!-- Stylesheets -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -885,7 +886,7 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Portfolio 1 -->
                 <div class="portfolio-card portfolio-item animate-on-scroll" data-category="ecommerce">
-                    <img src="https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop" alt="E-Commerce Fashion" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop" alt="E-Commerce Fashion" class="w-full h-64 object-cover" loading="lazy">
                     <div class="p-6">
                         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-sm rounded-full font-bold">E-Commerce</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Toko Fashion Premium</h3>
@@ -913,7 +914,7 @@
 
                 <!-- Portfolio 2 -->
                 <div class="portfolio-card portfolio-item animate-on-scroll" data-category="website">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Sistem Manajemen Sekolah" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Sistem Manajemen Sekolah" class="w-full h-64 object-cover" loading="lazy">
                     <div class="p-6">
                         <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 text-sm rounded-full font-bold">Website</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Sistem Manajemen Sekolah</h3>
@@ -941,7 +942,7 @@
 
                 <!-- Portfolio 3 -->
                 <div class="portfolio-card portfolio-item animate-on-scroll" data-category="mobile">
-                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop" alt="Aplikasi Delivery" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop" alt="Aplikasi Delivery" class="w-full h-64 object-cover" loading="lazy">
                     <div class="p-6">
                         <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 text-sm rounded-full font-bold">Mobile App</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Aplikasi Delivery Food</h3>
@@ -969,7 +970,7 @@
 
                 <!-- Portfolio 4 -->
                 <div class="portfolio-card portfolio-item animate-on-scroll" data-category="website">
-                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&h=400&fit=crop" alt="Company Profile" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&h=400&fit=crop" alt="Company Profile" class="w-full h-64 object-cover" loading="lazy">
                     <div class="p-6">
                         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-sm rounded-full font-bold">Website</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Company Profile Corporate</h3>
@@ -997,7 +998,7 @@
 
                 <!-- Portfolio 5 -->
                 <div class="portfolio-card portfolio-item animate-on-scroll" data-category="website">
-                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop" alt="Portal Berita" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop" alt="Portal Berita" class="w-full h-64 object-cover" loading="lazy">
                     <div class="p-6">
                         <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 text-sm rounded-full font-bold">Portal</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Portal Berita Online</h3>
@@ -1025,7 +1026,7 @@
 
                 <!-- Portfolio 6 -->
                 <div class="portfolio-card portfolio-item animate-on-scroll" data-category="ecommerce">
-                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop" alt="Marketplace Digital" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop" alt="Marketplace Digital" class="w-full h-64 object-cover" loading="lazy">
                     <div class="p-6">
                         <span class="px-3 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-400 text-sm rounded-full font-bold">Marketplace</span>
                         <h3 class="text-2xl font-bold mt-4 mb-2">Marketplace Produk Digital</h3>
@@ -1929,6 +1930,6 @@
     </script>
 
     <!-- Include external JavaScript -->
-    <script src="script.js"></script>
+    <script src="script.min.js" defer></script>
 </body>
 </html>
