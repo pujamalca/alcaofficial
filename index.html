@@ -67,14 +67,31 @@
     <meta property="article:section" content="Web Development">
     <meta property="article:tag" content="Jasa Website, Web Development, E-Commerce, SEO">
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBCL1033ZG"></script>
+    <!-- Google tag (gtag.js) - Optimized for Lighthouse Best Practices -->
+    <!-- Consent Mode V2 - Default Deny to prevent third-party cookies -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
 
-      gtag('config', 'G-LBCL1033ZG');
+      // Set default consent to 'denied' (no cookies until user consent)
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'wait_for_update': 500
+      });
+
+      gtag('js', new Date());
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBCL1033ZG"></script>
+    <script>
+      // Configure GA4 in cookieless mode for better Lighthouse score
+      gtag('config', 'G-LBCL1033ZG', {
+        'client_storage': 'none', // Disable client-side storage (no cookies)
+        'anonymize_ip': true,
+        'send_page_view': true
+      });
     </script>
 
     <!-- Canonical URL -->
@@ -87,10 +104,10 @@
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/webp" href="/favicon-96x96.webp" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0066FF">
     <meta name="msapplication-TileColor" content="#0066FF">
@@ -107,13 +124,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
 
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="styles.css" as="style" fetchpriority="high">
+    <link rel="preload" href="styles.min.css" as="style" fetchpriority="high">
+    <link rel="preload" href="assets/fonts/fontawesome/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="script.js" as="script">
-    <link rel="preload" href="/alca.png" as="image" type="image/png" fetchpriority="high">
+    <link rel="preload" href="/alca.webp" as="image" type="image/webp" fetchpriority="high">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style">
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -122,8 +139,8 @@
 
     <!-- Stylesheets -->
     <script src="https://cdn.tailwindcss.com" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome/all.min.css">
+    <link rel="stylesheet" href="styles.min.css">
 
     <!-- Structured Data - Organization -->
     <script type="application/ld+json">
@@ -380,7 +397,7 @@
                 <!-- Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="/" class="flex items-center navbar-logo-link">
-                        <img src="/alca.png" alt="AlcaOfficial Logo" class="navbar-logo-img" width="40" height="40" style="border-radius: 8px;">
+                        <img src="/alca.webp" alt="AlcaOfficial Logo" class="navbar-logo-img" width="40" height="40" style="border-radius: 8px;">
                         <span class="navbar-logo-text font-black text-gradient ml-3">AlcaOfficial</span>
                     </a>
                 </div>
@@ -1762,7 +1779,7 @@
             <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div>
                     <div class="flex items-center space-x-3 mb-6">
-                        <img src="/alca.png" alt="AlcaOfficial Logo" class="w-12 h-12 rounded-xl" width="48" height="48">
+                        <img src="/alca.webp" alt="AlcaOfficial Logo" class="w-12 h-12 rounded-xl" width="48" height="48">
                         <span class="text-2xl font-black text-white">AlcaOfficial</span>
                     </div>
                     <p class="text-gray-300 mb-4 leading-relaxed">
@@ -1839,8 +1856,8 @@
     </a>
 
     <!-- Scroll to Top Button -->
-    <button id="scrollTop" class="scroll-top opacity-0 pointer-events-none">
-        <i class="fas fa-arrow-up"></i>
+    <button id="scrollTop" class="scroll-top opacity-0 pointer-events-none" aria-label="Kembali ke atas">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
     </button>
 
     <!-- Live Chat Widget (Tawk.to) - Replace with your Property ID -->
