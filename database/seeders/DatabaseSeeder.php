@@ -15,8 +15,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call(RolePermissionSeeder::class);
-        $this->call(SettingSeeder::class);
+        $this->call([
+            RolePermissionSeeder::class,
+            SettingSeeder::class,
+            MarketingSeeder::class,
+        ]);
 
         if (app()->environment(['local', 'testing'])) {
             $admin = User::updateOrCreate(

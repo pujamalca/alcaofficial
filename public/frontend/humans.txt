@@ -1,0 +1,43 @@
+/* TEAM */
+Developer: AlcaOfficial Development Team
+Contact: alcait.id [at] gmail.com
+Website: https://alcaofficial.com
+Location: Tanah Datar, Sumatera Barat, Indonesia
+
+/* THANKS */
+Google Fonts - Typography
+Font Awesome - Icons
+Tailwind CSS - Styling Framework
+Claude Code - Development Assistant
+
+/* SITE */
+Last update: 2025/10/06
+Standards: HTML5, CSS3, JavaScript ES6+
+Components: Tailwind CSS, Font Awesome
+Software: VS Code, Git
+Language: Indonesian / Bahasa Indonesia
+Doctype: HTML5
+IDE: Visual Studio Code
+
+/* SERVICES */
+Website Development
+E-Commerce Solutions
+Company Profile Websites
+Landing Page Design
+SEO Optimization
+Mobile-First Design
+Progressive Web Apps (PWA)
+
+/* CONTACT */
+Email: alcait.id@gmail.com
+Phone: +62-881-0101-85772
+WhatsApp: +62-881-0101-85772
+
+/* SOCIAL */
+Instagram: @alcaofficial.id
+Facebook: /alcaofficial
+Twitter: @alcaofficial
+LinkedIn: /company/alcaofficial
+YouTube: @alcaofficial
+
+             AlcaOfficial - Built with ❤️

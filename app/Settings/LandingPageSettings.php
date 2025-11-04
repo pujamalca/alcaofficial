@@ -20,6 +20,40 @@ class LandingPageSettings extends Settings
     public string $features_subtitle;
     public string $features;
 
+    // Services Section
+    public bool $show_services = false;
+    public string $services_title = 'Solusi Kami';
+    public string $services_subtitle = '';
+    public string $services = '[]';
+
+    // Portfolio Section
+    public bool $show_portfolio = false;
+    public string $portfolio_title = 'Portofolio';
+    public string $portfolio_subtitle = '';
+    public string $portfolio_groups = '[]';
+
+    // Pricing Section
+    public bool $show_pricing = false;
+    public string $pricing_title = 'Harga';
+    public string $pricing_subtitle = '';
+    public string $pricing_plans = '[]';
+
+    // Testimonials Section
+    public bool $show_testimonials = false;
+    public string $testimonials_title = 'Testimoni';
+    public string $testimonials_subtitle = '';
+    public string $testimonials = '[]';
+
+    // Contact Section
+    public bool $show_contact = true;
+    public string $contact_title = 'Hubungi Kami';
+    public string $contact_subtitle = '';
+    public string $contact_description = '';
+    public string $contact_cards = '[]';
+    public string $contact_form_title = 'Diskusikan Project Anda';
+    public string $contact_form_subtitle = '';
+    public string $contact_form_success_message = 'Pesan berhasil terkirim!';
+
     // Blog Section
     public bool $show_blog;
     public string $blog_title;

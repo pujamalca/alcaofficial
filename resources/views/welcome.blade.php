@@ -1,496 +1,626 @@
-@extends('layouts.app')
-
 @php
-    $landingSettings = app(\App\Settings\LandingPageSettings::class);
+    /** @var \App\Settings\LandingPageSettings  */
+     = app(\App\Settings\LandingPageSettings::class);
+
+     = static function (?string ): array {
+        if (blank()) {
+            return [];
+        }
+
+         = json_decode(, true);
+
+        return is_array() ?  : [];
+    };
+
+     = (->hero_buttons);
+     = (->features);
+     = App\Models\Service::active()->get();
+     = App\Models\PortfolioGroup::with([
+        'items' => fn () => ->where('is_active', true)->orderBy('sort_order'),
+    ])->active()->get();
+     = App\Models\PricingPlan::active()->with([
+        'features' => fn () => ->orderBy('sort_order'),
+    ])->get();
+     = App\Models\Testimonial::active()->get();
+     = App\Models\ContactCard::active()->get();
+     = (->faqs);
+
+     = filled(->hero_image) = filled($landingSettings->hero_image)
+        ? asset('storage/' . ltrim($landingSettings->hero_image, '/'))
+        : asset('frontend/alca.webp');
+
+    $primaryButton = collect($heroButtons)->firstWhere('style', 'primary');
+    $secondaryButton = collect($heroButtons)->firstWhere('style', 'secondary');
 @endphp
 
-@section('title', 'Home - ' . config('app.name'))
-@section('meta_description', 'Laravel Starter Kit dengan Filament Admin Panel, RESTful API, Content Management, dan fitur modern untuk mempercepat development aplikasi web Anda.')
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@section('content')
-    {{-- Prepare Hero Buttons --}}
-    @php
-        $heroButtons = [];
-        if (!empty($landingSettings->hero_buttons)) {
-            $decoded = json_decode($landingSettings->hero_buttons, true);
-            $heroButtons = is_array($decoded) ? $decoded : [];
-        }
-    @endphp
+    <title>{{ $landingSettings->hero_title }} | {{ config('app.name') }}</title>
+    <meta name="description" content="{{ str($landingSettings->hero_description)->limit(160) }}">
 
-    {{-- Hero Section - Style image_right --}}
-    @if($landingSettings->hero_style === 'image_right')
-    <section class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white overflow-hidden">
-        {{-- Background Pattern --}}
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute transform rotate-45 -translate-x-1/2 -translate-y-1/2 top-0 left-0 w-96 h-96 bg-white rounded-full"></div>
-            <div class="absolute transform rotate-12 translate-x-1/2 translate-y-1/2 bottom-0 right-0 w-64 h-64 bg-white rounded-full"></div>
+    <link rel="preload" href="{{ asset('frontend/alca.webp') }}" as="image" type="image/webp" fetchpriority="high">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style">
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+
+    <link rel="stylesheet" href="{{ asset('frontend/assets/fonts/fontawesome/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/styles.min.css') }}">
+    @vite(['resources/css/app.css'])
+</head>
+<body class="gradient-mesh text-white">
+    <nav class="navbar fixed top-0 left-0 z-50 w-full bg-gradient-to-b from-slate-950/95 via-slate-950/70 to-transparent backdrop-blur">
+        <div class="container mx-auto flex h-20 items-center justify-between px-4">
+            <a href="#" class="flex items-center gap-3">
+                <img src="{{ asset('frontend/alca.webp') }}" alt="{{ config('app.name') }}" class="h-12 w-12 rounded-xl" loading="lazy">
+                <span class="text-2xl font-black text-white">{{ config('app.name') }}</span>
+            </a>
+
+            <div class="hidden items-center gap-10 lg:flex">
+                <div class="relative group">
+                    <button class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-white/80 transition hover:text-white">
+                        Website
+                        <i class="fas fa-chevron-down text-xs transition-transform group-focus-within:rotate-180 group-hover:rotate-180"></i>
+                    </button>
+                    <div class="invisible absolute left-0 top-full mt-3 w-56 rounded-2xl border border-white/10 bg-slate-900/95 p-4 opacity-0 shadow-2xl transition duration-200 group-hover:visible group-hover:opacity-100">
+                        <a href="#layanan" class="block rounded-xl px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Layanan</a>
+                        <a href="#portofolio" class="mt-2 block rounded-xl px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Portofolio</a>
+                        <a href="#harga" class="mt-2 block rounded-xl px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Harga</a>
+                        <a href="#testimoni" class="mt-2 block rounded-xl px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Testimoni</a>
+                    </div>
+                </div>
+                <a href="#keunggulan" class="text-sm font-semibold uppercase tracking-wide text-white/80 transition hover:text-white">Keunggulan</a>
+                <a href="#faq" class="text-sm font-semibold uppercase tracking-wide text-white/80 transition hover:text-white">FAQ</a>
+                <a href="#kontak" class="text-sm font-semibold uppercase tracking-wide text-white/80 transition hover:text-white">Kontak</a>
+            </div>
+
+            <div class="hidden items-center gap-3 lg:flex">
+                <a href="{{ route('login') }}" class="rounded-xl border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-white hover:text-white">Masuk</a>
+                <a href="#kontak" class="rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg transition hover:shadow-xl">Konsultasi Gratis</a>
+            </div>
+
+            <button class="inline-flex items-center justify-center rounded-xl border border-white/20 p-3 text-white lg:hidden" id="mobileMenuBtn">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
         </div>
 
-        <div class="container mx-auto px-4 py-20 md:py-32 relative z-10">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                {{-- Hero Content --}}
-                <div class="text-center md:text-left">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+        <div id="mobileMenu" class="hidden border-t border-white/10 bg-slate-950/95 px-6 py-6 lg:hidden">
+            <nav class="space-y-4">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-white/60">Website</p>
+                    <div class="mt-3 space-y-2">
+                        <a href="#layanan" class="block rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Layanan</a>
+                        <a href="#portofolio" class="block rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Portofolio</a>
+                        <a href="#harga" class="block rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Harga</a>
+                        <a href="#testimoni" class="block rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Testimoni</a>
+                    </div>
+                </div>
+                <a href="#keunggulan" class="block rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Keunggulan</a>
+                <a href="#faq" class="block rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">FAQ</a>
+                <a href="#kontak" class="block rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/10 hover:text-white">Kontak</a>
+            </nav>
+            <div class="mt-6 flex items-center gap-3">
+                <a href="{{ route('login') }}" class="flex-1 rounded-xl border border-white/20 px-4 py-2 text-center text-white/80 transition hover:border-white hover:text-white">Masuk</a>
+                <a href="#kontak" class="flex-1 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 px-4 py-2 text-center font-semibold text-white shadow-lg transition hover:shadow-xl">Konsultasi</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="relative overflow-hidden pt-28" id="hero">
+            <div class="absolute inset-0 opacity-30">
+                <div class="absolute -top-32 -left-16 h-80 w-80 rounded-full bg-blue-500 blur-3xl"></div>
+                <div class="absolute bottom-0 right-10 h-96 w-96 rounded-full bg-indigo-500 blur-3xl"></div>
+            </div>
+            <div class="container relative mx-auto grid gap-16 px-6 pt-12 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
+                <div class="space-y-6">
+                    <span class="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+                        Web Development Specialist
+                    </span>
+                    <h1 class="text-4xl font-black leading-tight md:text-5xl lg:text-6xl">
                         {{ $landingSettings->hero_title }}
                     </h1>
-                    @if($landingSettings->hero_subtitle)
-                        <h2 class="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-orange-400">
+                    @if(filled($landingSettings->hero_subtitle))
+                        <p class="text-2xl font-semibold text-white/80">
                             {{ $landingSettings->hero_subtitle }}
-                        </h2>
+                        </p>
                     @endif
-                    <p class="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed">
+                    <p class="max-w-xl text-lg leading-relaxed text-white/70">
                         {{ $landingSettings->hero_description }}
                     </p>
-                    <div class="flex flex-col sm:flex-row items-center md:items-start md:justify-start justify-center gap-4">
-                        @foreach($heroButtons as $button)
-                            @if($button['style'] === 'primary')
-                                <a href="{{ $button['url'] }}" class="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50 transition-all transform hover:scale-105 shadow-xl">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                    </svg>
-                                    {{ $button['text'] }}
-                                </a>
-                            @else
-                                <a href="{{ $button['url'] }}" class="inline-flex items-center gap-2 px-8 py-4 bg-blue-500 bg-opacity-20 backdrop-blur-sm border-2 border-white border-opacity-30 text-white rounded-lg font-bold hover:bg-opacity-30 transition-all">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                    </svg>
-                                    {{ $button['text'] }}
-                                </a>
-                            @endif
-                        @endforeach
+
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        @if($primaryButton)
+                            <a href="{{ $primaryButton['url'] ?? '#kontak' }}" class="inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 px-7 py-4 text-sm font-semibold uppercase tracking-wider text-white shadow-xl transition hover:shadow-2xl">
+                                {{ $primaryButton['text'] ?? 'Diskusi Proyek' }}
+                                <i class="fas fa-arrow-right text-base"></i>
+                            </a>
+                        @endif
+                        @if($secondaryButton)
+                            <a href="{{ $secondaryButton['url'] ?? '#portofolio' }}" class="inline-flex items-center gap-3 rounded-2xl border border-white/20 px-7 py-4 text-sm font-semibold uppercase tracking-wider text-white/80 transition hover:border-white hover:text-white">
+                                {{ $secondaryButton['text'] ?? 'Lihat Portofolio' }}
+                                <i class="fas fa-play text-sm"></i>
+                            </a>
+                        @endif
+                    </div>
+
+                    @php
+    /** @var \App\Settings\LandingPageSettings  */
+     = app(\App\Settings\LandingPageSettings::class);
+
+     = static function (?string ): array {
+        if (blank()) {
+            return [];
+        }
+
+         = json_decode(, true);
+
+        return is_array() ?  : [];
+    };
+
+     = (->hero_buttons);
+     = (->features);
+     = App\Models\Service::active()->get();
+     = App\Models\PortfolioGroup::with([
+        'items' => fn () => ->where('is_active', true)->orderBy('sort_order'),
+    ])->active()->get();
+     = App\Models\PricingPlan::active()->with([
+        'features' => fn () => ->orderBy('sort_order'),
+    ])->get();
+     = App\Models\Testimonial::active()->get();
+     = App\Models\ContactCard::active()->get();
+     = (->faqs);
+
+     = filled(->hero_image) }}" alt="{{ $landingSettings->hero_title }}" class="h-full w-full object-cover" loading="lazy">
+                        <div class="absolute inset-x-0 bottom-0 flex items-center gap-4 bg-gradient-to-t from-slate-950/90 to-transparent p-6">
+                            <div class="rounded-xl bg-white/15 p-3">
+                                <i class="fas fa-shield-halved text-lg text-emerald-300"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-white/70">Keamanan & Kualitas</p>
+                                <p class="text-base font-bold text-white">Tim berpengalaman siap membantu bisnis Anda berkembang.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                {{-- Hero Image --}}
-                <div class="relative ">
-                    @if($landingSettings->hero_image)
-                        <div class="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                            <img src="{{ asset('storage/' . $landingSettings->hero_image) }}"
-                                 alt="{{ $landingSettings->hero_title }}"
-                                 class="w-full h-auto object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
-                        </div>
-                    @else
-                        <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-500 to-purple-600 aspect-square flex items-center justify-center">
-                            <svg class="w-32 h-32 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
+            </div>
+        </section>
+        <section id="layanan" class="relative bg-slate-950 py-24">
+            <div class="absolute inset-0 opacity-30">
+                <div class="absolute left-10 top-0 h-72 w-72 rounded-full bg-blue-500 blur-3xl"></div>
+                <div class="absolute bottom-0 right-20 h-80 w-80 rounded-full bg-indigo-500 blur-3xl"></div>
+            </div>
+            <div class="relative z-10 container mx-auto px-6">
+                <div class="mx-auto max-w-3xl text-center">
+                    <span class="badge">Layanan Kami</span>
+                    <h2 class="section-title text-white">{{ $landingSettings->services_title }}</h2>
+                    @if(filled($landingSettings->services_subtitle))
+                        <p class="section-subtitle text-white/70">{{ $landingSettings->services_subtitle }}</p>
                     @endif
                 </div>
+
+                <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    @forelse($services as $service)
+                        <div class="card-gradient group h-full rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur transition hover:border-white/25">
+                            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-xl">
+                                @if(filled($service['icon'] ?? null))
+                                    <x-dynamic-component :component="$service['icon']" class="h-6 w-6" />
+                                @else
+                                    <i class="fas fa-bolt text-lg"></i>
+                                @endif
+                            </div>
+                            <h3 class="mt-6 text-xl font-bold text-white">{{ $service['title'] ?? 'Layanan' }}</h3>
+                            @if(filled($service['description'] ?? null))
+                                <p class="mt-3 text-white/70">{{ $service['description'] }}</p>
+                            @endif
+                        </div>
+                    @empty
+                        <div class="col-span-full text-center text-white/60">
+                            Data layanan belum tersedia.
+                        </div>
+                    @endforelse
+                </div>
             </div>
+        </section>
+        <section id="keunggulan" class="bg-slate-900 py-24">
+            <div class="container mx-auto px-6">
+                <div class="mx-auto max-w-3xl text-center">
+                    <span class="badge">Keunggulan</span>
+                    <h2 class="section-title text-white">{{ $landingSettings->features_title }}</h2>
+                    @if(filled($landingSettings->features_subtitle))
+                        <p class="section-subtitle text-white/70">{{ $landingSettings->features_subtitle }}</p>
+                    @endif
+                </div>
 
-            {{-- Stats --}}
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 max-w-4xl mx-auto">
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-yellow-300">{{ \App\Models\Post::published()->count() }}+</div>
-                    <div class="text-blue-200 mt-2">Blog Posts</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-yellow-300">{{ \App\Models\Category::count() }}+</div>
-                    <div class="text-blue-200 mt-2">Categories</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-yellow-300">10+</div>
-                    <div class="text-blue-200 mt-2">API Endpoints</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-yellow-300">100%</div>
-                    <div class="text-blue-200 mt-2">Open Source</div>
+                <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    @forelse($features as $feature)
+                        <div class="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur transition hover:-translate-y-1 hover:border-white/25">
+                            <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600/10 text-blue-400">
+                                @if(filled($feature['icon'] ?? null))
+                                    <x-dynamic-component :component="$feature['icon']" class="h-6 w-6" />
+                                @else
+                                    <i class="fas fa-check text-lg"></i>
+                                @endif
+                            </div>
+                            <h3 class="text-xl font-semibold text-white">{{ $feature['title'] ?? 'Fitur' }}</h3>
+                            @if(filled($feature['description'] ?? null))
+                                <p class="mt-3 text-white/70">{{ $feature['description'] }}</p>
+                            @endif
+                        </div>
+                    @empty
+                        <div class="col-span-full text-center text-white/60">
+                            Data keunggulan belum diatur.
+                        </div>
+                    @endforelse
                 </div>
             </div>
-        </div>
+        </section>
+        <section id="portofolio" class="bg-slate-950 py-24">
+            <div class="container mx-auto px-6" x-data="{ active: 0 }">
+                <div class="mx-auto max-w-3xl text-center text-white">
+                    <span class="badge">Portofolio</span>
+                    <h2 class="section-title">{{ $landingSettings->portfolio_title }}</h2>
+                    @if(filled($landingSettings->portfolio_subtitle))
+                        <p class="section-subtitle text-white/70">{{ $landingSettings->portfolio_subtitle }}</p>
+                    @endif
+                </div>
 
-        {{-- Wave Divider --}}
-        <div class="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F9FAFB"/>
-            </svg>
-        </div>
-    </section>
-    @endif
+                <div class="mt-12 flex flex-wrap justify-center gap-3">
+                    @foreach($portfolioGroups as $index => $group)
+                        <button type="button" @click="active = {{ $index }}" :class="active === {{ $index }} ? 'bg-white text-slate-900 shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/20'" class="rounded-full px-5 py-2 text-sm font-semibold transition">
+                            {{ $group['label'] ?? 'Kategori' }}
+                        </button>
+                    @endforeach
+                </div>
 
-    {{-- Hero Section - Style full_background --}}
-    @if($landingSettings->hero_style === 'full_background')
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {{-- Background Image with Overlay --}}
-        @if($landingSettings->hero_image)
-            <div class="absolute inset-0 z-0">
-                <img src="{{ asset('storage/' . $landingSettings->hero_image) }}"
-                     alt="{{ $landingSettings->hero_title }}"
-                     class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-br from-gray-900/90 via-blue-900/85 to-gray-900/90"></div>
-            </div>
-        @else
-            <div class="absolute inset-0 z-0 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900"></div>
-        @endif
+                @foreach($portfolioGroups as $index => $group)
+                    <div x-show="active === {{ $index }}" x-transition x-cloak class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        @foreach($group['items'] as $item)
+                            @php
+                                $image = filled($item['image'] ?? null) ? asset('storage/' . ltrim($item['image'], '/')) : null;
+                            @endphp
+                            <div class="flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur">
+                                @if($image)
+                                    <img src="{{ $image }}" alt="{{ $item['title'] ?? 'Portofolio' }}" class="h-48 w-full object-cover" loading="lazy">
+                                @else
+                                    <div class="flex h-48 items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-600">
+                                        <i class="fas fa-image text-4xl text-white/40"></i>
+                                    </div>
+                                @endif
+                                <div class="flex flex-1 flex-col space-y-4 p-6 text-white">
+                                    <div class="space-y-2">
+                                        @if(filled($item['category'] ?? null))
+                                            <span class="badge badge-light">{{ $item['category'] }}</span>
+                                        @endif
+                                        <h3 class="text-xl font-semibold">{{ $item['title'] ?? 'Project' }}</h3>
+                                    </div>
+                                    @if(filled($item['description'] ?? null))
+                                        <p class="flex-1 text-sm text-white/70">{{ $item['description'] }}</p>
+                                    @endif
+                                    @if(filled($item['url'] ?? null))
+                                        <a href="{{ $item['url'] }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 hover:text-emerald-200">
+                                            Lihat Proyek
+                                            <i class="fas fa-arrow-up-right-from-square text-xs"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
 
-        {{-- Decorative Elements --}}
-        <div class="absolute inset-0 z-0">
-            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-            <div class="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-        </div>
-
-        {{-- Content --}}
-        <div class="container mx-auto px-4 py-20 relative z-10">
-            <div class="max-w-4xl mx-auto text-center text-white">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                    {{ $landingSettings->hero_title }}
-                </h1>
-                @if($landingSettings->hero_subtitle)
-                    <h2 class="text-3xl md:text-5xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-                        {{ $landingSettings->hero_subtitle }}
-                    </h2>
+                @if(empty($portfolioGroups))
+                    <p class="mt-12 text-center text-white/60">Data portofolio belum tersedia.</p>
                 @endif
-                <p class="text-xl md:text-2xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
-                    {{ $landingSettings->hero_description }}
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    @foreach($heroButtons as $button)
-                        @if($button['style'] === 'primary')
-                            <a href="{{ $button['url'] }}" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-bold hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 shadow-2xl">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                                {{ $button['text'] }}
-                            </a>
-                        @else
-                            <a href="{{ $button['url'] }}" class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white rounded-lg font-bold hover:bg-white/20 transition-all">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                </svg>
-                                {{ $button['text'] }}
-                            </a>
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-        {{-- Scroll Indicator --}}
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-            </svg>
-        </div>
-    </section>
-    @endif
-
-    {{-- Hero Section - Style centered_overlay --}}
-    @if($landingSettings->hero_style === 'centered_overlay')
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
-        {{-- Background Image --}}
-        @if($landingSettings->hero_image)
-            <div class="absolute inset-0 z-0">
-                <img src="{{ asset('storage/' . $landingSettings->hero_image) }}"
-                     alt="{{ $landingSettings->hero_title }}"
-                     class="w-full h-full object-cover opacity-20">
-            </div>
-        @endif
-
-        {{-- Content --}}
-        <div class="container mx-auto px-4 py-20 relative z-10">
-            <div class="max-w-5xl mx-auto">
-                <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 md:p-16 border border-gray-200">
-                    <div class="text-center">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
-                            {{ $landingSettings->hero_title }}
-                        </h1>
-                        @if($landingSettings->hero_subtitle)
-                            <h2 class="text-2xl md:text-4xl font-semibold mb-6 text-gray-700">
-                                {{ $landingSettings->hero_subtitle }}
-                            </h2>
-                        @endif
-                        <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto">
-                            {{ $landingSettings->hero_description }}
-                        </p>
-                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            @foreach($heroButtons as $button)
-                                @if($button['style'] === 'primary')
-                                    <a href="{{ $button['url'] }}" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-xl">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                        </svg>
-                                        {{ $button['text'] }}
-                                    </a>
-                                @else
-                                    <a href="{{ $button['url'] }}" class="inline-flex items-center gap-2 px-8 py-4 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all border-2 border-gray-300">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                        </svg>
-                                        {{ $button['text'] }}
-                                    </a>
-                                @endif
-                            @endforeach
-                        </div>
-
-                        {{-- Image Preview if exists --}}
-                        @if($landingSettings->hero_image)
-                            <div class="mt-12">
-                                <img src="{{ asset('storage/' . $landingSettings->hero_image) }}"
-                                     alt="{{ $landingSettings->hero_title }}"
-                                     class="rounded-2xl shadow-2xl mx-auto max-w-2xl w-full">
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- Decorative gradient circles --}}
-        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -translate-x-1/2 -translate-y-1/2"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 translate-x-1/2 translate-y-1/2"></div>
-    </section>
-    @endif
-
-    {{-- Features Section --}}
-    @if($landingSettings->show_features)
-        <section class="py-20 bg-gray-50">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{{ $landingSettings->features_title }}</h2>
-                    @if($landingSettings->features_subtitle)
-                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                            {{ $landingSettings->features_subtitle }}
-                        </p>
-                    @endif
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @php
-                        // Decode features from JSON string
-                        $features = [];
-                        if (!empty($landingSettings->features)) {
-                            $decoded = json_decode($landingSettings->features, true);
-                            $features = is_array($decoded) ? $decoded : [];
-                        }
-
-                        $colors = [
-                            'from-blue-500 to-blue-600',
-                            'from-green-500 to-green-600',
-                            'from-purple-500 to-purple-600',
-                            'from-red-500 to-red-600',
-                            'from-yellow-500 to-yellow-600',
-                            'from-indigo-500 to-indigo-600',
-                            'from-pink-500 to-pink-600',
-                            'from-teal-500 to-teal-600',
-                        ];
-                    @endphp
-
-                    @if(count($features) > 0)
-                        @foreach($features as $index => $feature)
-                        <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-200">
-                            <div class="w-14 h-14 bg-gradient-to-br {{ $colors[$index % count($colors)] }} rounded-lg flex items-center justify-center mb-6">
-                                @if(isset($feature['icon']) && $feature['icon'])
-                                    <x-dynamic-component :component="$feature['icon']" class="w-7 h-7 text-white" />
-                                @else
-                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                    </svg>
-                                @endif
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">{{ $feature['title'] }}</h3>
-                            <p class="text-gray-600 leading-relaxed">
-                                {{ $feature['description'] ?? '' }}
-                            </p>
-                        </div>
-                        @endforeach
-                    @endif
-                </div>
             </div>
         </section>
-    @endif
+        <section id="harga" class="bg-slate-900 py-24 text-white">
+            <div class="container mx-auto px-6">
+                <div class="mx-auto max-w-3xl text-center">
+                    <span class="badge">Paket Harga</span>
+                    <h2 class="section-title">{{ $landingSettings->pricing_title }}</h2>
+                    @if(filled($landingSettings->pricing_subtitle))
+                        <p class="section-subtitle text-white/70">{{ $landingSettings->pricing_subtitle }}</p>
+                    @endif
+                </div>
 
-    {{-- Latest Blog Posts --}}
-    @if($landingSettings->show_blog)
-        @php
-            $latestPosts = \App\Models\Post::published()
-                ->with(['author', 'category'])
-                ->latest('published_at')
-                ->take($landingSettings->blog_posts_count)
-                ->get();
-        @endphp
-
-        @if($latestPosts->count() > 0)
-            <section class="py-20 bg-white">
-                <div class="container mx-auto px-4">
-                    <div class="flex items-center justify-between mb-12">
-                        <div>
-                            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{{ $landingSettings->blog_title }}</h2>
-                            @if($landingSettings->blog_subtitle)
-                                <p class="text-xl text-gray-600">{{ $landingSettings->blog_subtitle }}</p>
-                            @endif
-                        </div>
-                        <a href="/blog" class="hidden md:inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                            Lihat Semua
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                            </svg>
-                        </a>
-                    </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @foreach($latestPosts as $post)
-                        <article class="bg-gray-50 rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow group">
-                            @if($post->featured_image)
-                                <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 overflow-hidden">
-                                    <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                                </div>
-                            @else
-                                <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                                    <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                                    </svg>
-                                </div>
+                <div class="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    @forelse($pricingPlans as $plan)
+                        @php
+                            $featured = (bool)($plan['is_featured'] ?? false);
+                        @endphp
+                        <div class="relative flex h-full flex-col rounded-3xl border {{ $featured ? 'border-blue-500 shadow-2xl bg-white text-slate-900' : 'border-white/10 bg-white/5 backdrop-blur' }} p-8 transition hover:-translate-y-1">
+                            @if(filled($plan['badge'] ?? null))
+                                <span class="absolute -top-3 right-6 rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-wide {{ $featured ? 'bg-blue-600 text-white' : 'bg-white/20 text-white' }}">
+                                    {{ $plan['badge'] }}
+                                </span>
                             @endif
 
-                            <div class="p-6">
-                                @if($post->category)
-                                    <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full mb-3">
-                                        {{ $post->category->name }}
-                                    </span>
+                            <div>
+                                <p class="text-sm font-semibold uppercase tracking-wide {{ $featured ? 'text-blue-600' : 'text-white/60' }}">{{ $plan['name'] }}</p>
+                                <h3 class="mt-3 text-3xl font-black">{{ $plan['price'] }}</h3>
+                                @if(filled($plan['price_suffix'] ?? null))
+                                    <p class="text-xs uppercase tracking-wider {{ $featured ? 'text-slate-500' : 'text-white/50' }}">{{ $plan['price_suffix'] }}</p>
                                 @endif
-
-                                <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
-                                    <a href="/blog/{{ $post->slug }}">{{ $post->title }}</a>
-                                </h3>
-
-                                <p class="text-gray-600 mb-4 line-clamp-3">
-                                    {{ $post->excerpt ?? strip_tags($post->content) }}
-                                </p>
-
-                                <div class="flex items-center justify-between text-sm text-gray-500">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                                            {{ substr($post->author->name, 0, 1) }}
-                                        </div>
-                                        <span>{{ $post->author->name }}</span>
-                                    </div>
-                                    <span>{{ $post->published_at?->diffForHumans() ?? $post->created_at->diffForHumans() }}</span>
-                                </div>
                             </div>
-                        </article>
-                    @endforeach
-                </div>
 
-                    <div class="text-center mt-12 md:hidden">
-                        <a href="/blog" class="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                            Lihat Semua Blog
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </section>
-        @endif
-    @endif
+                            @if(filled($plan['description'] ?? null))
+                                <p class="mt-4 text-sm {{ $featured ? 'text-slate-600' : 'text-white/70' }}">{{ $plan['description'] }}</p>
+                            @endif
 
-    {{-- CTA Section --}}
-    @if($landingSettings->show_cta)
-        <section class="py-20 text-white relative overflow-hidden" style="background: {{ $landingSettings->cta_background_color }};">
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-0 left-1/4 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-                <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+                            @if(count($plan['features']) > 0)
+                                <ul class="mt-6 space-y-3 text-sm {{ $featured ? 'text-slate-600' : 'text-white/70' }}">
+                                    @foreach($plan['features'] as $feature)
+                                        <li class="flex items-start gap-3">
+                                            <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full {{ $featured ? 'bg-blue-600 text-white' : 'bg-white/20 text-emerald-300' }}">
+                                                <i class="fas fa-check text-[10px]"></i>
+                                            </span>
+                                            <span>{{ $feature }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+
+                            @if(filled($plan['cta_text'] ?? null))
+                                <a href="{{ $plan['cta_url'] ?? '#kontak' }}" class="mt-10 inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold uppercase tracking-widest {{ $featured ? 'bg-slate-900 text-white hover:bg-slate-950' : 'bg-white/10 text-white hover:bg-white/20' }}">
+                                    {{ $plan['cta_text'] }}
+                                    <i class="fas fa-arrow-right text-xs"></i>
+                                </a>
+                            @endif
+                        </div>
+                    @empty
+                        <p class="col-span-full text-center text-white/60">Data harga belum tersedia.</p>
+                    @endforelse
+                </div>
             </div>
-
-            <div class="container mx-auto px-4 relative z-10">
-                <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6">
-                        {{ $landingSettings->cta_title }}
-                    </h2>
-                    @if($landingSettings->cta_description)
-                        <p class="text-xl opacity-90 mb-8 leading-relaxed">
-                            {{ $landingSettings->cta_description }}
-                        </p>
+        </section>
+        <section id="testimoni" class="bg-slate-950 py-24">
+            <div class="container mx-auto px-6">
+                <div class="mx-auto max-w-2xl text-center text-white">
+                    <span class="badge">Testimoni</span>
+                    <h2 class="section-title">{{ $landingSettings->testimonials_title }}</h2>
+                    @if(filled($landingSettings->testimonials_subtitle))
+                        <p class="section-subtitle text-white/70">{{ $landingSettings->testimonials_subtitle }}</p>
                     @endif
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <a href="{{ $landingSettings->cta_button_url }}" class="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-lg font-bold hover:bg-gray-100 transition-all shadow-xl">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                            {{ $landingSettings->cta_button_text }}
-                        </a>
-                    </div>
                 </div>
-            </div>
-        </section>
-    @endif
 
-    {{-- FAQ Section --}}
-    @if($landingSettings->show_faq)
-        <section class="py-20 bg-gradient-to-b from-white to-gray-50">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <div class="text-center mb-16">
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                            {{ $landingSettings->faq_title }}
-                        </h2>
-                        @if($landingSettings->faq_subtitle)
-                            <p class="text-xl text-gray-600 leading-relaxed">
-                                {{ $landingSettings->faq_subtitle }}
-                            </p>
-                        @endif
-                    </div>
-
-                    @php
-                        // Decode faqs from JSON string
-                        $faqs = [];
-                        if (!empty($landingSettings->faqs)) {
-                            $decoded = json_decode($landingSettings->faqs, true);
-                            $faqs = is_array($decoded) ? $decoded : [];
-                        }
-                    @endphp
-
-                    <div class="space-y-4">
-                        @foreach($faqs as $index => $faq)
-                            <div x-data="{ open: {{ $index === 0 ? 'true' : 'false' }} }"
-                                 class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow">
-                                <button @click="open = !open"
-                                        class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-gray-50 transition-colors">
-                                    <span class="text-lg font-semibold text-gray-900 flex-1">
-                                        {{ $faq['question'] }}
-                                    </span>
-                                    <svg class="w-6 h-6 text-blue-600 transform transition-transform flex-shrink-0"
-                                         :class="{ 'rotate-180': open }"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                    </svg>
-                                </button>
-                                <div x-show="open"
-                                     x-transition:enter="transition ease-out duration-200"
-                                     x-transition:enter-start="opacity-0 transform scale-y-95"
-                                     x-transition:enter-end="opacity-100 transform scale-y-100"
-                                     x-transition:leave="transition ease-in duration-150"
-                                     x-transition:leave-start="opacity-100 transform scale-y-100"
-                                     x-transition:leave-end="opacity-0 transform scale-y-95"
-                                     class="px-6 pb-5 origin-top">
-                                    <div class="text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                                        {{ $faq['answer'] }}
+                <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    @forelse($testimonials as $testimonial)
+                        @php
+                            $avatar = filled($testimonial['avatar'] ?? null) ? asset('storage/' . ltrim($testimonial['avatar'], '/')) : null;
+                            $rating = max(0, min(5, (float)($testimonial['rating'] ?? 5)));
+                        @endphp
+                        <div class="flex h-full flex-col rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur">
+                            <div class="flex items-center gap-4">
+                                @if($avatar)
+                                    <img src="{{ $avatar }}" alt="{{ $testimonial['name'] ?? 'Klien' }}" class="h-14 w-14 rounded-full object-cover" loading="lazy">
+                                @else
+                                    <div class="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-lg font-bold text-white">
+                                        {{ strtoupper(substr($testimonial['name'] ?? 'A', 0, 1)) }}
                                     </div>
+                                @endif
+                                <div>
+                                    <p class="text-lg font-semibold text-white">{{ $testimonial['name'] ?? 'Klien' }}</p>
+                                    @if(filled($testimonial['role'] ?? null))
+                                        <p class="text-sm text-white/60">{{ $testimonial['role'] }}</p>
+                                    @endif
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                            <div class="mt-5 flex items-center gap-1 text-amber-400">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <i class="fas fa-star {{ $i <= round($rating) ? '' : 'text-white/20' }}"></i>
+                                @endfor
+                            </div>
+                            @if(filled($testimonial['quote'] ?? null))
+                                <p class="mt-5 flex-1 text-sm text-white/70">Ã¢â‚¬Å“{{ $testimonial['quote'] }}Ã¢â‚¬Â</p>
+                            @endif
+                        </div>
+                    @empty
+                        <p class="col-span-full text-center text-white/60">Belum ada testimoni.</p>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+        <section class="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 py-20 text-white">
+            <div class="container mx-auto flex flex-col items-center justify-between gap-8 px-6 lg:flex-row">
+                <div class="max-w-xl space-y-4 text-center lg:text-left">
+                    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Siap Mulai?</p>
+                    <h2 class="text-3xl font-bold md:text-4xl">{{ $landingSettings->cta_title }}</h2>
+                    @if(filled($landingSettings->cta_description))
+                        <p class="text-white/80">{{ $landingSettings->cta_description }}</p>
+                    @endif
+                </div>
+                <a href="{{ $landingSettings->cta_button_url }}" class="inline-flex items-center gap-3 rounded-2xl bg-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.3em] text-slate-900 shadow-xl transition hover:shadow-2xl">
+                    {{ $landingSettings->cta_button_text }}
+                    <i class="fas fa-arrow-right text-base"></i>
+                </a>
+            </div>
+        </section>
 
-                    {{-- Contact CTA in FAQ --}}
-                    <div class="mt-12 text-center p-8 bg-blue-50 rounded-2xl border border-blue-100">
-                        <p class="text-lg text-gray-700 mb-4">
-                            Masih ada pertanyaan lain?
-                        </p>
-                        <a href="/blog" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                            Hubungi Kami
-                        </a>
+        <section id="kontak" class="bg-slate-900 py-24">
+            <div class="container mx-auto grid gap-12 px-6 lg:grid-cols-[1.1fr,0.9fr]">
+                <div>
+                    <span class="badge">Hubungi Kami</span>
+                    <h2 class="section-title text-white">{{ $landingSettings->contact_title }}</h2>
+                    @if(filled($landingSettings->contact_subtitle))
+                        <p class="section-subtitle text-white/70">{{ $landingSettings->contact_subtitle }}</p>
+                    @endif
+                    @if(filled($landingSettings->contact_description))
+                        <p class="mt-6 max-w-xl text-white/60">{{ $landingSettings->contact_description }}</p>
+                    @endif
+
+                    <div class="mt-10 space-y-4">
+                        @forelse($contactCards as $card)
+                            <div class="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+                                <div class="rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-400 p-3 text-slate-900">
+                                    @if(filled($card['icon'] ?? null))
+                                        <x-dynamic-component :component="$card['icon']" class="h-6 w-6" />
+                                    @else
+                                        <i class="fas fa-phone"></i>
+                                    @endif
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold uppercase tracking-widest text-white/60">{{ $card['title'] ?? 'Kontak' }}</p>
+                                    @if(filled($card['value'] ?? null))
+                                        @if(filled($card['link'] ?? null))
+                                            <a href="{{ $card['link'] }}" target="_blank" rel="noopener" class="mt-1 block text-lg font-semibold text-white hover:text-emerald-300">
+                                                {{ $card['value'] }}
+                                            </a>
+                                        @else
+                                            <p class="mt-1 text-lg font-semibold text-white">{{ $card['value'] }}</p>
+                                        @endif
+                                    @endif
+                                    @if(filled($card['description'] ?? null))
+                                        <p class="mt-2 text-sm text-white/60">{{ $card['description'] }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-white/60">Informasi kontak belum tersedia.</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="rounded-3xl bg-white p-8 text-slate-900 shadow-2xl" x-data="{ submitted: false }">
+                    <div x-show="!submitted" x-transition>
+                        <h3 class="text-2xl font-bold">{{ $landingSettings->contact_form_title }}</h3>
+                        @if(filled($landingSettings->contact_form_subtitle))
+                            <p class="mt-3 text-slate-600">{{ $landingSettings->contact_form_subtitle }}</p>
+                        @endif
+
+                        <form class="mt-8 space-y-6" @submit.prevent="submitted = true">
+                            <div class="grid gap-6 sm:grid-cols-2">
+                                <div>
+                                    <label class="text-sm font-semibold text-slate-600">Nama</label>
+                                    <input type="text" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200" placeholder="Nama Anda">
+                                </div>
+                                <div>
+                                    <label class="text-sm font-semibold text-slate-600">Email</label>
+                                    <input type="email" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200" placeholder="email@domain.com">
+                                </div>
+                            </div>
+                            <div class="grid gap-6 sm:grid-cols-2">
+                                <div>
+                                    <label class="text-sm font-semibold text-slate-600">Nomor WhatsApp</label>
+                                    <input type="tel" class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200" placeholder="+62 8xx-xxxx-xxxx">
+                                </div>
+                                <div>
+                                    <label class="text-sm font-semibold text-slate-600">Perkiraan Budget</label>
+                                    <select class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200">
+                                        <option value="">Pilih kisaran</option>
+                                        <option value="500k-2jt">Rp 500K - 2 Juta</option>
+                                        <option value="2jt-5jt">Rp 2 Juta - 5 Juta</option>
+                                        <option value="5jt-10jt">Rp 5 Juta - 10 Juta</option>
+                                        <option value="10jt+">Lebih dari Rp 10 Juta</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-sm font-semibold text-slate-600">Deskripsi Project</label>
+                                <textarea rows="4" class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200" placeholder="Ceritakan kebutuhan Anda"></textarea>
+                            </div>
+                            <button type="submit" class="flex w-full items-center justify-center gap-3 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-950">
+                                Kirim Pesan
+                                <i class="fas fa-paper-plane text-base"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div x-show="submitted" x-transition x-cloak class="py-16 text-center">
+                        <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-500">
+                            <i class="fas fa-check text-3xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-bold">{{ $landingSettings->contact_form_success_message }}</h3>
+                        <p class="mt-3 text-slate-600">Tim kami akan segera menghubungi Anda.</p>
+                        <button type="button" class="mt-8 inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-950" @click="submitted = false">
+                            Kirim Pesan Baru
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
-    @endif
-@endsection
+        <section id="faq" class="bg-slate-950 py-24">
+            <div class="container mx-auto max-w-4xl px-6 text-white">
+                <div class="text-center">
+                    <span class="badge">FAQ</span>
+                    <h2 class="section-title">{{ $landingSettings->faq_title }}</h2>
+                    @if(filled($landingSettings->faq_subtitle))
+                        <p class="section-subtitle text-white/70">{{ $landingSettings->faq_subtitle }}</p>
+                    @endif
+                </div>
+
+                <div class="mt-12 space-y-4">
+                    @forelse($faqs as $index => $faq)
+                        <div x-data="{ open: {{ $index === 0 ? 'true' : 'false' }} }" class="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur">
+                            <button type="button" class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left" @click="open = !open">
+                                <span class="text-lg font-semibold text-white">{{ $faq['question'] ?? 'Pertanyaan' }}</span>
+                                <i class="fas fa-chevron-down text-sm transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                            </button>
+                            <div x-show="open" x-transition x-cloak class="border-t border-white/5 px-6 pb-6 text-sm text-white/70">
+                                {{ $faq['answer'] ?? '' }}
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-center text-white/60">Belum ada FAQ yang ditambahkan.</p>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-950/95 border-t border-white/10 py-12 text-white">
+        <div class="container mx-auto grid gap-10 px-6 lg:grid-cols-4">
+            <div>
+                <div class="flex items-center gap-3">
+                    <img src="{{ asset('frontend/alca.webp') }}" alt="{{ config('app.name') }}" class="h-12 w-12 rounded-xl" loading="lazy">
+                    <span class="text-2xl font-black">{{ config('app.name') }}</span>
+                </div>
+                <p class="mt-4 text-sm text-white/70">{{ $landingSettings->hero_description }}</p>
+            </div>
+            <div>
+                <h4 class="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">Website</h4>
+                <ul class="mt-4 space-y-2 text-sm text-white/70">
+                    <li><a href="#layanan" class="transition hover:text-white">Layanan</a></li>
+                    <li><a href="#portofolio" class="transition hover:text-white">Portofolio</a></li>
+                    <li><a href="#harga" class="transition hover:text-white">Harga</a></li>
+                    <li><a href="#testimoni" class="transition hover:text-white">Testimoni</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">Informasi</h4>
+                <ul class="mt-4 space-y-2 text-sm text-white/70">
+                    <li><a href="#keunggulan" class="transition hover:text-white">Keunggulan</a></li>
+                    <li><a href="#faq" class="transition hover:text-white">FAQ</a></li>
+                    <li><a href="{{ route('blog.index') }}" class="transition hover:text-white">Blog</a></li>
+                    <li><a href="{{ route('login') }}" class="transition hover:text-white">Masuk Admin</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">Hubungi</h4>
+                <ul class="mt-4 space-y-2 text-sm text-white/70">
+                    @foreach($contactCards as $card)
+                        @if(filled($card['value'] ?? null))
+                            <li>{{ $card['value'] }}</li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <div class="mt-10 border-t border-white/10 pt-6 text-center text-xs text-white/50">
+            Ã‚Â© {{ now()->year }} {{ config('app.name') }}. All rights reserved.
+        </div>
+    </footer>
+
+
+    <script src="{{ asset('frontend/script.min.js') }}" defer></script>
+    @vite(['resources/js/app.js'])
+</body>
+</html>
+
+

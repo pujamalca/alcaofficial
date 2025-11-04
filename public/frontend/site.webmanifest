@@ -1,0 +1,35 @@
+{
+  "name": "AlcaOfficial - Jasa Pembuatan Website Professional",
+  "short_name": "AlcaOfficial",
+  "description": "Jasa Pembuatan Website Professional dengan harga terjangkau mulai 500K. Spesialis Web Development, E-Commerce, Company Profile & Landing Page.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/alca.webp",
+      "sizes": "1355x1355",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-96x96.webp",
+      "sizes": "96x96",
+      "type": "image/webp"
+    },
+    {
+      "src": "/apple-touch-icon.webp",
+      "sizes": "180x180",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
