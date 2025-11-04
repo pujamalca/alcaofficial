@@ -12,17 +12,18 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
+use BackedEnum;
+use UnitEnum;
 
 class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
 
-    protected static string|Heroicon|null $navigationIcon = Heroicon::OutlinedBolt;
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-bolt';
 
-    protected static ?string $navigationGroup = 'Website';
+    protected static UnitEnum|string|null $navigationGroup = 'Website';
 
     protected static ?string $navigationLabel = 'Layanan';
 

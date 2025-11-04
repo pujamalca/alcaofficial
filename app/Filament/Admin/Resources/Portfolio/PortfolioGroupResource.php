@@ -5,7 +5,6 @@ namespace App\Filament\Admin\Resources\Portfolio;
 use App\Filament\Admin\Resources\Portfolio\Pages\CreatePortfolioGroup;
 use App\Filament\Admin\Resources\Portfolio\Pages\EditPortfolioGroup;
 use App\Filament\Admin\Resources\Portfolio\Pages\ListPortfolioGroups;
-use App\Filament\Admin\Resources\Portfolio\RelationManagers\ItemsRelationManager;
 use App\Models\PortfolioGroup;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -13,17 +12,18 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
+use BackedEnum;
+use UnitEnum;
 
 class PortfolioGroupResource extends Resource
 {
     protected static ?string $model = PortfolioGroup::class;
 
-    protected static string|Heroicon|null $navigationIcon = Heroicon::OutlinedCollection;
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Website';
+    protected static UnitEnum|string|null $navigationGroup = 'Website';
 
     protected static ?string $navigationLabel = 'Portofolio';
 
@@ -85,13 +85,6 @@ class PortfolioGroupResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            ItemsRelationManager::class,
-        ];
     }
 
     public static function getPages(): array

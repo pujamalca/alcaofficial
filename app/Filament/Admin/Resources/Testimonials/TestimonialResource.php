@@ -13,17 +13,18 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
+use BackedEnum;
+use UnitEnum;
 
 class TestimonialResource extends Resource
 {
     protected static ?string $model = Testimonial::class;
 
-    protected static string|Heroicon|null $navigationIcon = Heroicon::OutlinedChatBubbleBottomCenterText;
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
-    protected static ?string $navigationGroup = 'Website';
+    protected static UnitEnum|string|null $navigationGroup = 'Website';
 
     protected static ?string $navigationLabel = 'Testimoni';
 

@@ -5,7 +5,6 @@ namespace App\Filament\Admin\Resources\Pricing;
 use App\Filament\Admin\Resources\Pricing\Pages\CreatePricingPlan;
 use App\Filament\Admin\Resources\Pricing\Pages\EditPricingPlan;
 use App\Filament\Admin\Resources\Pricing\Pages\ListPricingPlans;
-use App\Filament\Admin\Resources\Pricing\RelationManagers\FeaturesRelationManager;
 use App\Models\PricingPlan;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -13,17 +12,18 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
+use BackedEnum;
+use UnitEnum;
 
 class PricingPlanResource extends Resource
 {
     protected static ?string $model = PricingPlan::class;
 
-    protected static string|Heroicon|null $navigationIcon = Heroicon::OutlinedCurrencyDollar;
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-currency-dollar';
 
-    protected static ?string $navigationGroup = 'Website';
+    protected static UnitEnum|string|null $navigationGroup = 'Website';
 
     protected static ?string $navigationLabel = 'Harga';
 
@@ -106,13 +106,6 @@ class PricingPlanResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            FeaturesRelationManager::class,
-        ];
     }
 
     public static function getPages(): array

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\\Filament\\Admin\\Resources\\Pricing\\Pages;
+namespace App\Filament\Admin\Resources\Pricing\Pages;
 
-use App\\Filament\\Admin\\Resources\\Pricing\\PricingPlanResource;
-use Filament\\Resources\\Pages\\ListRecords;
+use App\Filament\Admin\Resources\Pricing\PricingPlanResource;
+use Filament\Resources\Pages\ListRecords;
 
 class ListPricingPlans extends ListRecords
 {
-    protected static string  = PricingPlanResource::class;
+    protected static string $resource = PricingPlanResource::class;
 }
-

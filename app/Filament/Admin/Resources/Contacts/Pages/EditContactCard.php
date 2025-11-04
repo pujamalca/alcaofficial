@@ -1,12 +1,11 @@
 <?php
 
-namespace App\\Filament\\Admin\\Resources\\Contacts\\Pages;
+namespace App\Filament\Admin\Resources\Contacts\Pages;
 
-use App\\Filament\\Admin\\Resources\\Contacts\\ContactCardResource;
-use Filament\\Resources\\Pages\\EditRecord;
+use App\Filament\Admin\Resources\Contacts\ContactCardResource;
+use Filament\Resources\Pages\EditRecord;
 
 class EditContactCard extends EditRecord
 {
-    protected static string  = ContactCardResource::class;
+    protected static string $resource = ContactCardResource::class;
 }
-
