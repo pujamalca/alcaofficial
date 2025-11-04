@@ -1,5 +1,27 @@
 .claude
 
+# Laravel
+/vendor/
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+
+# Build files
+/public/build/
+/public/hot
+/public/storage
+
+# Storage
+/storage/*.key
+/storage/framework/
+/storage/logs/
+
 # Node
 node_modules/
 package-lock.json
