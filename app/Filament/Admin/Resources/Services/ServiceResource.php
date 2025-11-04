@@ -6,14 +6,17 @@ use App\Filament\Admin\Resources\Services\Pages\CreateService;
 use App\Filament\Admin\Resources\Services\Pages\EditService;
 use App\Filament\Admin\Resources\Services\Pages\ListServices;
 use App\Models\Service;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables;
 use BackedEnum;
 use UnitEnum;
 
@@ -87,11 +90,11 @@ class ServiceResource extends Resource
                     ->boolean(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ]);
     }
 

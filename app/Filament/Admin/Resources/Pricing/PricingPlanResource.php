@@ -12,6 +12,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Tables;
 use Filament\Tables\Table;
 use BackedEnum;
@@ -95,16 +98,14 @@ class PricingPlanResource extends Resource
             ])
             ->defaultSort('sort_order')
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Status')
-                    ->boolean(),
+                Tables\Filters\TernaryFilter::make('is_active')->label('Status')->boolean(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ]);
     }
 
