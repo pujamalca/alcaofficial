@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
@@ -28,6 +29,7 @@ class Post extends Model implements HasMedia
     use InteractsWithMedia;
     use LogsActivity;
     use SanitizesHtml;
+    use Searchable;
 
     protected $fillable = [
         'category_id',
@@ -242,5 +244,34 @@ class Post extends Model implements HasMedia
                 'author_id',
             ])
             ->logOnlyDirty();
+    }
+
+    /**
+     * Get the indexable data array for the model (Meilisearch).
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'excerpt' => $this->excerpt,
+            'content' => strip_tags($this->content), // Remove HTML for search
+            'status' => $this->status,
+            'category_id' => $this->category_id,
+            'author_id' => $this->author_id,
+            'is_featured' => $this->is_featured,
+            'view_count' => $this->view_count,
+            'published_at' => $this->published_at?->timestamp,
+            'created_at' => $this->created_at->timestamp,
+        ];
+    }
+
+    /**
+     * Determine if the model should be searchable.
+     */
+    public function shouldBeSearchable(): bool
+    {
+        return $this->status === 'published';
     }
 }
