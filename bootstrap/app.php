@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\AddRequestId;
+use App\Http\Middleware\CacheResponse;
 use App\Http\Middleware\CheckMaintenanceMode;
 use App\Http\Middleware\CheckUserActive;
 use App\Http\Middleware\ForceJsonResponse;
@@ -8,6 +10,7 @@ use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetLocale;
 use App\Services\DatabaseBackupService;
 use App\Settings\BackupSettings;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -25,6 +28,13 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
+        then: function () {
+            // API v2 routes for future enhancements
+            Route::prefix('api/v2')
+                ->name('api.v2.')
+                ->middleware(['api'])
+                ->group(base_path('routes/api_v2.php'));
+        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
@@ -36,6 +46,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'set.locale' => SetLocale::class,
             'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
             'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+            'cache.response' => CacheResponse::class,
         ]);
 
         $middleware->prepend(CheckMaintenanceMode::class);
@@ -47,6 +58,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 LogUserActivity::class,
             ],
             prepend: [
+                AddRequestId::class,
                 SetLocale::class,
                 ForceJsonResponse::class,
             ],

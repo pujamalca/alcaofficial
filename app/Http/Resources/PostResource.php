@@ -77,6 +77,42 @@ class PostResource extends JsonResource
             'tags' => $this->whenLoaded('tags', fn () => TagResource::collection($this->tags)),
             'created_at' => optional($this->created_at)->toIso8601String(),
             'updated_at' => optional($this->updated_at)->toIso8601String(),
+            'links' => [
+                'self' => route('api.v1.posts.show', $this->slug),
+                'author' => $this->when(
+                    $this->relationLoaded('author') && $this->author,
+                    fn () => route('api.v1.users.show', $this->author_id),
+                ),
+                'category' => $this->when(
+                    $this->relationLoaded('category') && $this->category,
+                    fn () => route('api.v1.categories.show', $this->category->slug),
+                ),
+                'comments' => route('api.v1.posts.comments.index', $this->slug),
+            ],
+        ];
+    }
+
+    /**
+     * Add pagination meta information
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array<string, mixed>
+     */
+    public function with(Request $request): array
+    {
+        if (! $this->resource instanceof \Illuminate\Pagination\AbstractPaginator) {
+            return [];
+        }
+
+        return [
+            'meta' => [
+                'current_page' => $this->currentPage(),
+                'last_page' => $this->lastPage(),
+                'per_page' => $this->perPage(),
+                'total' => $this->total(),
+                'from' => $this->firstItem(),
+                'to' => $this->lastItem(),
+            ],
         ];
     }
 }
