@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CommentController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\PostController;
+use App\Http\Controllers\MetricsController;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -50,6 +51,10 @@ Route::get('/health', function () {
 
     return response()->json($health, $statusCode);
 })->middleware('throttle:60,1');
+
+// Metrics endpoint for Prometheus
+Route::get('/metrics', [MetricsController::class, 'prometheus'])
+    ->middleware('throttle:60,1');
 
 // Simple search endpoint for landing page
 Route::get('/search', function (Request $request) {
