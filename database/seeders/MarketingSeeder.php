@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ContactCard;
-use App\Models\PortfolioGroup;
 use App\Models\PortfolioItem;
 use App\Models\PricingFeature;
 use App\Models\PricingPlan;
@@ -71,83 +70,53 @@ class MarketingSeeder extends Seeder
             ]);
         }
 
-        if (PortfolioGroup::count() === 0) {
-            $companyGroup = PortfolioGroup::create([
-                'name' => 'Company Profile',
-                'description' => 'Website informatif untuk memperkuat kepercayaan calon klien.',
-                'sort_order' => 10,
-            ]);
-
-            $ecommerceGroup = PortfolioGroup::create([
-                'name' => 'E-Commerce',
-                'description' => 'Solusi toko online untuk berbagai lini bisnis.',
-                'sort_order' => 20,
-            ]);
-
-            $landingGroup = PortfolioGroup::create([
-                'name' => 'Landing Page Campaign',
-                'description' => 'Halaman konversi tinggi untuk kampanye digital.',
-                'sort_order' => 30,
-            ]);
-
-            $portalGroup = PortfolioGroup::create([
-                'name' => 'Portal & Media',
-                'description' => 'Portal berita dan blog dengan manajemen konten lengkap.',
-                'sort_order' => 40,
-            ]);
-
+        if (PortfolioItem::count() === 0) {
             PortfolioItem::insert([
                 [
-                    'portfolio_group_id' => $companyGroup->id,
                     'title' => 'PT Sukses Makmur',
-                    'category' => 'Manufaktur',
+                    'category' => 'Web Development',
                     'description' => 'Company profile dengan katalog produk digital dan formulir konsultasi.',
                     'sort_order' => 10,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,
                 ],
                 [
-                    'portfolio_group_id' => $companyGroup->id,
                     'title' => 'BPR Nusantara Finance',
-                    'category' => 'Keuangan',
+                    'category' => 'Web Development',
                     'description' => 'Website lembaga keuangan dengan simulasi kredit dan integrasi WhatsApp.',
                     'sort_order' => 20,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,
                 ],
                 [
-                    'portfolio_group_id' => $ecommerceGroup->id,
                     'title' => 'Fashionista Premium Store',
-                    'category' => 'Retail',
+                    'category' => 'E-Commerce',
                     'description' => 'E-commerce fashion dengan membership, loyalty points, dan notifikasi pesanan.',
-                    'sort_order' => 10,
+                    'sort_order' => 30,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,
                 ],
                 [
-                    'portfolio_group_id' => $ecommerceGroup->id,
                     'title' => 'Kuliner Nusantara',
-                    'category' => 'F&B',
+                    'category' => 'E-Commerce',
                     'description' => 'Marketplace kuliner dengan integrasi kurir lokal dan sistem rating.',
-                    'sort_order' => 20,
+                    'sort_order' => 40,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,
                 ],
                 [
-                    'portfolio_group_id' => $landingGroup->id,
                     'title' => 'Event Tech Conference',
-                    'category' => 'Event',
+                    'category' => 'Landing Page',
                     'description' => 'Landing page event dengan integrasi pendaftaran, countdown, dan highlight pembicara.',
-                    'sort_order' => 10,
+                    'sort_order' => 50,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,
                 ],
                 [
-                    'portfolio_group_id' => $portalGroup->id,
                     'title' => 'EduTech Insight',
-                    'category' => 'Pendidikan',
+                    'category' => 'Dashboard & CMS',
                     'description' => 'Portal edukasi dengan multi-penulis, membership, dan integrasi newsletter.',
-                    'sort_order' => 10,
+                    'sort_order' => 60,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,
                 ],

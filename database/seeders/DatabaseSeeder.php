@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             SettingSeeder::class,
             MarketingSeeder::class,
+            LandingPageSeeder::class,
         ]);
 
         if (app()->environment(['local', 'testing'])) {

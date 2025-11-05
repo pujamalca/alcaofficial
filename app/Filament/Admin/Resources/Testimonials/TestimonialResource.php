@@ -5,29 +5,20 @@ namespace App\Filament\Admin\Resources\Testimonials;
 use App\Filament\Admin\Resources\Testimonials\Pages\CreateTestimonial;
 use App\Filament\Admin\Resources\Testimonials\Pages\EditTestimonial;
 use App\Filament\Admin\Resources\Testimonials\Pages\ListTestimonials;
+use App\Filament\Admin\Resources\Testimonials\Schemas\TestimonialForm;
+use App\Filament\Admin\Resources\Testimonials\Tables\TestimonialsTable;
 use App\Models\Testimonial;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use BackedEnum;
-use UnitEnum;
 
 class TestimonialResource extends Resource
 {
     protected static ?string $model = Testimonial::class;
 
-    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-
-    protected static UnitEnum|string|null $navigationGroup = 'Website';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleLeftRight;
 
     protected static ?string $navigationLabel = 'Testimoni';
 
@@ -35,77 +26,17 @@ class TestimonialResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema->components([
-            Section::make('Informasi Testimoni')
-                ->schema([
-                    TextInput::make('name')
-                        ->label('Nama')
-                        ->required()
-                        ->maxLength(150),
-                    TextInput::make('role')
-                        ->label('Jabatan / Perusahaan')
-                        ->maxLength(150),
-                    TextInput::make('rating')
-                        ->label('Rating')
-                        ->numeric()
-                        ->minValue(0)
-                        ->maxValue(5)
-                        ->step(0.1)
-                        ->default(5),
-                    Textarea::make('quote')
-                        ->label('Testimoni')
-                        ->rows(5)
-                        ->required(),
-                    FileUpload::make('avatar')
-                        ->label('Foto / Avatar')
-                        ->image()
-                        ->directory('testimonials')
-                        ->imageEditor()
-                        ->imagePreviewHeight('150'),
-                    TextInput::make('sort_order')
-                        ->label('Urutan')
-                        ->numeric()
-                        ->default(0),
-                    Toggle::make('is_active')
-                        ->label('Tampilkan')
-                        ->default(true),
-                ])
-                ->columns(2),
-        ]);
+        return TestimonialForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Nama')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('role')
-                    ->label('Jabatan')
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('rating')
-                    ->label('Rating')
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('Aktif')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('sort_order')
-                    ->label('Urutan')
-                    ->sortable(),
-            ])
-            ->defaultSort('sort_order')
-            ->filters([
-                Tables\Filters\TernaryFilter::make('is_active')->label('Status')->boolean(),
-            ])
-            ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
-            ])
-            ->bulkActions([
-                DeleteBulkAction::make(),
-            ]);
+        return TestimonialsTable::configure($table);
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Website';
     }
 
     public static function getPages(): array

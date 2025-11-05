@@ -14,12 +14,14 @@ class Service extends Model
         'title',
         'icon',
         'description',
+        'features',
         'sort_order',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'bool',
+        'features' => 'array',
     ];
 
     public function scopeActive(Builder $query): Builder
