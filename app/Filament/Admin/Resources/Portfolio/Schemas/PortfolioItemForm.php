@@ -23,17 +23,54 @@ class PortfolioItemForm
                         ->label('Judul')
                         ->required()
                         ->maxLength(255),
+                    FileUpload::make('header_image')
+                        ->label('Gambar Header / Thumbnail')
+                        ->image()
+                        ->disk('public')
+                        ->directory('portfolio/headers')
+                        ->imageEditor()
+                        ->imagePreviewHeight('250')
+                        ->helperText('Gambar utama untuk tampilan frontend (thumbnail)')
+                        ->columnSpanFull()
+                        ->required(),
                     Select::make('category')
                         ->label('Kategori')
                         ->options([
-                            'Web Development' => 'Web Development',
-                            'Mobile App' => 'Mobile App',
-                            'UI/UX Design' => 'UI/UX Design',
-                            'Branding & Identity' => 'Branding & Identity',
-                            'E-Commerce' => 'E-Commerce',
+                            // Web Platform
+                            'Web Application' => 'Web Application',
+                            'Website Company Profile' => 'Website Company Profile',
+                            'E-Commerce Website' => 'E-Commerce Website',
                             'Landing Page' => 'Landing Page',
                             'Dashboard & CMS' => 'Dashboard & CMS',
+                            'Web Portal' => 'Web Portal',
+
+                            // Mobile Platform
+                            'Mobile App (Android)' => 'Mobile App (Android)',
+                            'Mobile App (iOS)' => 'Mobile App (iOS)',
+                            'Mobile App (Hybrid)' => 'Mobile App (Hybrid)',
+
+                            // Desktop Platform
+                            'Desktop App (Windows)' => 'Desktop App (Windows)',
+                            'Desktop App (macOS)' => 'Desktop App (macOS)',
+                            'Desktop App (Linux)' => 'Desktop App (Linux)',
+                            'Desktop App (Cross-Platform)' => 'Desktop App (Cross-Platform)',
+
+                            // Design & Creative
+                            'UI/UX Design' => 'UI/UX Design',
+                            'Branding & Identity' => 'Branding & Identity',
+                            'Graphic Design' => 'Graphic Design',
+
+                            // Development Services
+                            'API Development' => 'API Development',
                             'System Integration' => 'System Integration',
+                            'Plugin/Extension' => 'Plugin/Extension',
+                            'SaaS Application' => 'SaaS Application',
+
+                            // Specialized
+                            'Game Development' => 'Game Development',
+                            'IoT Application' => 'IoT Application',
+                            'Blockchain/Web3' => 'Blockchain/Web3',
+                            'AI/Machine Learning' => 'AI/Machine Learning',
                         ])
                         ->required()
                         ->searchable()
