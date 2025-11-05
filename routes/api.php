@@ -11,20 +11,19 @@ use Illuminate\Support\Facades\Route;
 
 // Simple search endpoint for landing page
 Route::get('/search', function (Request $request) {
-    $query = $request->get('q', '');
+    // Validate and sanitize input
+    $validated = $request->validate([
+        'q' => 'required|string|min:2|max:100',
+    ]);
 
-    if (strlen($query) < 2) {
-        return response()->json(['data' => []]);
-    }
+    // Sanitize HTML and special characters
+    $query = strip_tags($validated['q']);
 
+    // Use FULLTEXT search (safe from SQL injection)
     $posts = Post::query()
         ->where('status', 'published')
-        ->where(function($q) use ($query) {
-            $q->where('title', 'LIKE', "%{$query}%")
-              ->orWhere('excerpt', 'LIKE', "%{$query}%")
-              ->orWhere('content', 'LIKE', "%{$query}%");
-        })
-        ->with('category')
+        ->search($query) // Using scopeSearch with parameter binding
+        ->with('category') // Eager load to prevent N+1
         ->orderBy('published_at', 'desc')
         ->limit(10)
         ->get()
@@ -39,15 +38,19 @@ Route::get('/search', function (Request $request) {
         });
 
     return response()->json(['data' => $posts]);
-})->middleware('throttle:60,1');
+})->middleware('throttle:public-content'); // Use rate limit from config
 
 Route::prefix('v1')
     ->name('api.v1.')
     ->middleware(['api'])
     ->group(function (): void {
         Route::prefix('auth')->group(function (): void {
-            Route::post('register', [AuthController::class, 'register'])->name('auth.register');
-            Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+            Route::post('register', [AuthController::class, 'register'])
+                ->middleware('throttle:60,1')
+                ->name('auth.register');
+            Route::post('login', [AuthController::class, 'login'])
+                ->middleware('throttle:5,5') // 5 attempts per 5 minutes
+                ->name('auth.login');
 
             Route::middleware(['auth:sanctum', 'active'])->group(function (): void {
                 Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
