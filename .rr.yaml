@@ -1,0 +1,85 @@
+# RoadRunner Configuration for Laravel Octane
+# https://roadrunner.dev/docs
+
+version: "3"
+
+# RPC is used for communication between RoadRunner server and workers
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+# Server configuration
+server:
+  command: "php artisan octane:start --server=roadrunner --host=0.0.0.0 --rpc-port=6001 --port=8000"
+  relay: pipes
+
+# HTTP server configuration
+http:
+  address: 0.0.0.0:8000
+  max_request_size: 10
+  middleware: ["static", "gzip"]
+
+  # Static files
+  static:
+    dir: "public"
+    forbid: [".php", ".htaccess"]
+
+  # Gzip compression
+  gzip:
+    level: 5
+
+  # HTTP/2 support
+  http2:
+    h2c: false
+    max_concurrent_streams: 128
+
+  # Access logs
+  access_logs: true
+
+  # Upload configuration
+  uploads:
+    forbid: [".php", ".exe", ".bat"]
+
+  # Trusted subnets (for X-Forwarded-* headers)
+  trusted_subnets:
+    - "10.0.0.0/8"
+    - "127.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+    - "::1/128"
+    - "fc00::/7"
+    - "fe80::/10"
+
+# Octane-specific configuration
+octane:
+  # Number of workers
+  workers:
+    num_workers: 4
+    max_jobs: 500
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+
+# Logs configuration
+logs:
+  mode: production
+  level: error
+  encoding: json
+  output: stdout
+  err_output: stderr
+
+# Metrics (Prometheus)
+metrics:
+  address: 127.0.0.1:2112
+
+# Health check
+status:
+  address: 127.0.0.1:2114
+  unavailable_status_code: 503
+
+# Reload configuration
+reload:
+  interval: 1s
+  patterns: [".php"]
+  services:
+    http:
+      dirs: ["app", "config", "routes"]
+      recursive: true
