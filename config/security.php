@@ -19,7 +19,7 @@ return [
         "img-src 'self' data: https: blob:",
         "font-src 'self' https://fonts.gstatic.com",
         "connect-src 'self' ws://localhost:5173 ws://127.0.0.1:5173 ws://[::1]:5173 http://localhost:5173 http://127.0.0.1:5173 http://[::1]:5173",
-        "worker-src 'self'",
+        "worker-src 'self' blob:",
         "frame-ancestors 'self'",
         "base-uri 'self'",
         "form-action 'self'",

@@ -35,7 +35,7 @@ class SecurityHeaders
         }
 
         // Content-Security-Policy: Prevent XSS and other code injection attacks
-        $csp = config('security.csp', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'");
+        $csp = config('security.csp', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:");
         $response->headers->set('Content-Security-Policy', $csp);
 
         // Permissions-Policy: Control browser features

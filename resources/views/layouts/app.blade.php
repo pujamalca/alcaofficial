@@ -32,6 +32,15 @@
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome/all.min.css') }}">
+
+    <!-- Navigation Styles -->
+    <link rel="stylesheet" href="{{ asset('css/navigation.css') }}">
+
+    <!-- Sections Styles -->
+    <link rel="stylesheet" href="{{ asset('css/sections.css') }}">
+
     <!-- Alpine.js -->
     <script
         defer
@@ -42,10 +51,10 @@
 
     @stack('styles')
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col antialiased">
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col antialiased">
 
     {{-- Header / Navbar --}}
-    @include('layouts.partials.header')
+    @include('layouts.partials.header-new')
 
     {{-- Alert/Preview Banner --}}
     @if (session('success'))
@@ -84,6 +93,17 @@
     {{-- Footer --}}
     @include('layouts.partials.footer')
 
+    {{-- Scroll to Top Button --}}
+    <button id="scrollTop" class="scroll-top opacity-0 pointer-events-none" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     @stack('scripts')
+
+    <!-- Navigation JavaScript -->
+    <script src="{{ asset('js/navigation.js') }}"></script>
+
+    <!-- Sections JavaScript -->
+    <script src="{{ asset('js/sections.js') }}"></script>
 </body>
 </html>
