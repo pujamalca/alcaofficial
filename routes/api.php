@@ -7,24 +7,65 @@ use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Route;
+
+// Health check endpoint for monitoring
+Route::get('/health', function () {
+    $health = [
+        'status' => 'healthy',
+        'timestamp' => now()->toIso8601String(),
+        'services' => [],
+    ];
+
+    // Check database connection
+    try {
+        DB::connection()->getPdo();
+        $health['services']['database'] = 'ok';
+    } catch (\Exception $e) {
+        $health['status'] = 'unhealthy';
+        $health['services']['database'] = 'error';
+    }
+
+    // Check cache
+    try {
+        Cache::store()->getStore();
+        $health['services']['cache'] = 'ok';
+    } catch (\Exception $e) {
+        $health['services']['cache'] = 'error';
+    }
+
+    // Check queue size (warning if > 1000)
+    try {
+        $queueSize = Queue::size();
+        $health['services']['queue'] = $queueSize < 1000 ? 'ok' : 'warning';
+        $health['services']['queue_size'] = $queueSize;
+    } catch (\Exception $e) {
+        $health['services']['queue'] = 'error';
+    }
+
+    $statusCode = $health['status'] === 'healthy' ? 200 : 503;
+
+    return response()->json($health, $statusCode);
+})->middleware('throttle:60,1');
 
 // Simple search endpoint for landing page
 Route::get('/search', function (Request $request) {
-    $query = $request->get('q', '');
+    // Validate and sanitize input
+    $validated = $request->validate([
+        'q' => 'required|string|min:2|max:100',
+    ]);
 
-    if (strlen($query) < 2) {
-        return response()->json(['data' => []]);
-    }
+    // Sanitize HTML and special characters
+    $query = strip_tags($validated['q']);
 
+    // Use FULLTEXT search (safe from SQL injection)
     $posts = Post::query()
         ->where('status', 'published')
-        ->where(function($q) use ($query) {
-            $q->where('title', 'LIKE', "%{$query}%")
-              ->orWhere('excerpt', 'LIKE', "%{$query}%")
-              ->orWhere('content', 'LIKE', "%{$query}%");
-        })
-        ->with('category')
+        ->search($query) // Using scopeSearch with parameter binding
+        ->with('category') // Eager load to prevent N+1
         ->orderBy('published_at', 'desc')
         ->limit(10)
         ->get()
@@ -39,15 +80,19 @@ Route::get('/search', function (Request $request) {
         });
 
     return response()->json(['data' => $posts]);
-})->middleware('throttle:60,1');
+})->middleware('throttle:public-content'); // Use rate limit from config
 
 Route::prefix('v1')
     ->name('api.v1.')
     ->middleware(['api'])
     ->group(function (): void {
         Route::prefix('auth')->group(function (): void {
-            Route::post('register', [AuthController::class, 'register'])->name('auth.register');
-            Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+            Route::post('register', [AuthController::class, 'register'])
+                ->middleware('throttle:60,1')
+                ->name('auth.register');
+            Route::post('login', [AuthController::class, 'login'])
+                ->middleware('throttle:5,5') // 5 attempts per 5 minutes
+                ->name('auth.login');
 
             Route::middleware(['auth:sanctum', 'active'])->group(function (): void {
                 Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -56,17 +101,17 @@ Route::prefix('v1')
         });
 
         Route::get('posts', [PostController::class, 'index'])
-            ->middleware('throttle:public-content')
+            ->middleware(['throttle:public-content', 'cache.response:600'])
             ->name('posts.index');
         Route::get('posts/{post:slug}', [PostController::class, 'show'])
-            ->middleware('throttle:public-content')
+            ->middleware(['throttle:public-content', 'cache.response:1800'])
             ->name('posts.show');
 
         Route::get('pages', [PageController::class, 'index'])
-            ->middleware('throttle:public-content')
+            ->middleware(['throttle:public-content', 'cache.response:3600'])
             ->name('pages.index');
         Route::get('pages/{slug}', [PageController::class, 'show'])
-            ->middleware('throttle:public-content')
+            ->middleware(['throttle:public-content', 'cache.response:3600'])
             ->name('pages.show');
 
         Route::middleware(['auth:sanctum', 'active', 'abilities:posts:write', 'throttle:content-write'])->group(function (): void {

@@ -18,6 +18,8 @@ use App\Repositories\PageRepository;
 use App\Support\HtmlCleaner;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -43,6 +45,19 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Comment::observe(CommentObserver::class);
         Tag::observe(TagObserver::class);
+
+        // Slow query detection for development
+        if (app()->environment('local')) {
+            DB::listen(function ($query) {
+                if ($query->time > 1000) { // > 1 second
+                    Log::warning('Slow query detected', [
+                        'sql' => $query->sql,
+                        'bindings' => $query->bindings,
+                        'time' => $query->time . 'ms',
+                    ]);
+                }
+            });
+        }
 
         RateLimiter::for('public-content', function (Request $request) {
             return [
