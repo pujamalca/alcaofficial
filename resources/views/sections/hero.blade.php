@@ -5,9 +5,9 @@
     $happyClientsCount = \App\Models\Testimonial::active()->count();
     $averageRatingRaw = \App\Models\Testimonial::active()->avg('rating');
     $averageRating = $averageRatingRaw ? round($averageRatingRaw, 1) : 0;
-    $satisfactionPercent = ($projectCount > 0 && $happyClientsCount > 0)
-        ? min(100, max(1, round(($happyClientsCount / $projectCount) * 100)))
-        : 100;
+    $satisfactionPercent = $averageRating > 0
+        ? min(100, max(0, round(($averageRating / 5) * 100)))
+        : 0;
 @endphp
     <div class="hero-bg-pattern"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
