@@ -83,7 +83,8 @@ return [
      * register them.
      */
     'auto_discover_settings' => [
-        app_path('Settings'),
+        // Temporarily disabled for testing without database
+        // app_path('Settings'),
     ],
 
     /*
