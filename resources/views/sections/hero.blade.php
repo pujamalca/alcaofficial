@@ -1,5 +1,14 @@
 {{-- Hero Section --}}
 <section id="beranda" class="hero-section">
+@php
+    $projectCount = \App\Models\PortfolioItem::where('is_active', true)->count();
+    $happyClientsCount = \App\Models\Testimonial::active()->count();
+    $averageRatingRaw = \App\Models\Testimonial::active()->avg('rating');
+    $averageRating = $averageRatingRaw ? round($averageRatingRaw, 1) : 0;
+    $satisfactionPercent = ($projectCount > 0 && $happyClientsCount > 0)
+        ? min(100, max(1, round(($happyClientsCount / $projectCount) * 100)))
+        : 100;
+@endphp
     <div class="hero-bg-pattern"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -98,21 +107,37 @@
         </div>
 
         {{-- Stats Section --}}
-        <div id="statsSection" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 md:gap-8 mt-24">
-            <div class="stat-card w-full max-w-xs sm:max-w-none mx-auto sm:mx-0">
-                <div class="stat-number counter" data-target="1250" data-suffix="+">0</div>
+        <div id="statsSection" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-24">
+            <div class="stat-card">
+                <div
+                    class="stat-number counter"
+                    data-target="{{ max($projectCount, 0) }}"
+                    data-suffix="+"
+                >{{ max($projectCount, 0) }}+</div>
                 <div class="text-gray-600 dark:text-white font-semibold mt-2">Project Selesai</div>
             </div>
-            <div class="stat-card w-full max-w-xs sm:max-w-none mx-auto sm:mx-0">
-                <div class="stat-number counter" data-target="950" data-suffix="+">0</div>
+            <div class="stat-card">
+                <div
+                    class="stat-number counter"
+                    data-target="{{ max($happyClientsCount, 0) }}"
+                    data-suffix="+"
+                >{{ max($happyClientsCount, 0) }}+</div>
                 <div class="text-gray-600 dark:text-white font-semibold mt-2">Klien Puas</div>
             </div>
-            <div class="stat-card w-full max-w-xs sm:max-w-none mx-auto sm:mx-0">
-                <div class="stat-number counter" data-target="4.9" data-decimals="1">0</div>
+            <div class="stat-card">
+                <div
+                    class="stat-number counter"
+                    data-target="{{ number_format($averageRating, 1, '.', '') }}"
+                    data-decimals="1"
+                >{{ number_format($averageRating, 1) }}</div>
                 <div class="text-gray-600 dark:text-white font-semibold mt-2">Rating Bintang 5</div>
             </div>
-            <div class="stat-card w-full max-w-xs sm:max-w-none mx-auto sm:mx-0">
-                <div class="stat-number counter" data-target="100" data-suffix="%">0</div>
+            <div class="stat-card">
+                <div
+                    class="stat-number counter"
+                    data-target="{{ $satisfactionPercent }}"
+                    data-suffix="%"
+                >{{ $satisfactionPercent }}%</div>
                 <div class="text-gray-600 dark:text-white font-semibold mt-2">Kepuasan</div>
             </div>
         </div>
