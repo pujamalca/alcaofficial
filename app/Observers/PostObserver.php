@@ -2,7 +2,9 @@
 
 namespace App\Observers;
 
+use App\Events\PostUpdated;
 use App\Models\Post;
+use Illuminate\Support\Facades\Cache;
 
 class PostObserver
 {
@@ -36,7 +38,11 @@ class PostObserver
      */
     public function updated(Post $post): void
     {
-        //
+        // Dispatch event for cache invalidation
+        PostUpdated::dispatch($post, $post->getOriginal('status'));
+
+        // Clear response cache for this post
+        $this->clearPostCache($post);
     }
 
     /**
@@ -44,7 +50,25 @@ class PostObserver
      */
     public function deleted(Post $post): void
     {
-        //
+        // Clear cache when post is deleted
+        $this->clearPostCache($post);
+    }
+
+    /**
+     * Clear all caches related to this post
+     */
+    protected function clearPostCache(Post $post): void
+    {
+        // Clear specific post cache
+        Cache::forget("response_cache:*posts/{$post->slug}*");
+
+        // Clear posts list cache
+        Cache::forget('response_cache:*posts*');
+
+        // Clear category cache if exists
+        if ($post->category_id && $post->category) {
+            Cache::forget("response_cache:*categories/{$post->category->slug}*");
+        }
     }
 
     /**
