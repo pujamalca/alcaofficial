@@ -74,6 +74,60 @@ class RolePermissionSeeder extends Seeder
                 'module' => 'system',
                 'description' => 'Melihat catatan aktivitas aplikasi.',
             ],
+            [
+                'slug' => 'manage-pages',
+                'label' => 'Manage Pages',
+                'module' => 'content',
+                'description' => 'Mengelola halaman statis.',
+            ],
+            [
+                'slug' => 'manage-media',
+                'label' => 'Manage Media',
+                'module' => 'content',
+                'description' => 'Mengelola file media dan galeri.',
+            ],
+            [
+                'slug' => 'manage-services',
+                'label' => 'Manage Services',
+                'module' => 'website',
+                'description' => 'Mengelola layanan yang ditawarkan.',
+            ],
+            [
+                'slug' => 'manage-pricing',
+                'label' => 'Manage Pricing',
+                'module' => 'website',
+                'description' => 'Mengelola paket harga dan pricing plan.',
+            ],
+            [
+                'slug' => 'manage-testimonials',
+                'label' => 'Manage Testimonials',
+                'module' => 'website',
+                'description' => 'Mengelola testimoni pelanggan.',
+            ],
+            [
+                'slug' => 'manage-contacts',
+                'label' => 'Manage Contacts',
+                'module' => 'website',
+                'description' => 'Mengelola pesan kontak dari pelanggan.',
+            ],
+            [
+                'slug' => 'manage-portfolio',
+                'label' => 'Manage Portfolio',
+                'module' => 'website',
+                'description' => 'Mengelola portfolio proyek.',
+            ],
+            [
+                'slug' => 'manage-source-codes',
+                'label' => 'Manage Source Codes',
+                'module' => 'ecommerce',
+                'description' => 'Mengelola source code yang dijual.',
+            ],
+            [
+                'slug' => 'manage-orders',
+                'label' => 'Manage Orders',
+                'module' => 'ecommerce',
+                'description' => 'Mengelola order pembelian source code.',
+            ],
         ];
 
         $permissions = collect($permissionDefinitions)->mapWithKeys(function (array $attributes) {
