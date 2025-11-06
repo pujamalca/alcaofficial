@@ -8,6 +8,21 @@
 {{-- Hero Section --}}
 @include('sections.hero')
 
-{{-- Other sections will be added in Phase 2-4 --}}
+{{-- Why Choose Us Section --}}
+@include('sections.why-choose')
+
+{{-- Tech Stack Section --}}
+@include('sections.tech-stack')
+
+{{-- FAQ Section --}}
+@include('sections.faq')
+
+{{-- Process Section --}}
+@include('sections.process')
+
+{{-- CTA Section --}}
+@include('sections.cta')
+
+{{-- Other sections (Services, Portfolio, Pricing, Testimonials, Contact, Footer) will be added in Phase 3-4 --}}
 
 @endsection
