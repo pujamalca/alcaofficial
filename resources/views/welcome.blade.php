@@ -35,6 +35,10 @@
 {{-- CTA Section --}}
 @include('sections.cta')
 
-{{-- Contact and Footer sections will be added in Phase 4 --}}
+{{-- Contact Section (Phase 4) --}}
+@include('sections.contact')
+
+{{-- WhatsApp Float Button (Phase 4) --}}
+@include('components.whatsapp-float')
 
 @endsection

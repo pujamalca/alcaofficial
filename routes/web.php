@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostPreviewController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ Route::get('/', function () {
         ->with('features')
         ->get();
     $testimonials = \App\Models\Testimonial::active()->get();
+    $contactCards = \App\Models\ContactCard::active()->get();
 
     $projectCount = $portfolios->count();
     $happyClientsCount = $testimonials->count();
@@ -32,6 +34,7 @@ Route::get('/', function () {
         'portfolios' => $portfolios,
         'pricingPlans' => $pricingPlans,
         'testimonials' => $testimonials,
+        'contactCards' => $contactCards,
         'heroStats' => [
             'projects' => $projectCount,
             'clients' => $happyClientsCount,
@@ -40,6 +43,9 @@ Route::get('/', function () {
         ],
     ]);
 });
+
+// Contact form submission
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Blog routes
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');

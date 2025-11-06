@@ -105,11 +105,12 @@ html {
     }
 
     .navbar-actions .btn-primary {
-        display: inline-flex;
+        display: inline-flex !important;
+        align-items: center;
     }
 
     .navbar-menu-btn {
-        display: none;
+        display: none !important;
     }
 
     #mobileMenu {
@@ -563,5 +564,11 @@ html {
     .btn-primary, .btn-outline {
         padding: 10px 18px;
         font-size: 0.85rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .navbar-menu-btn {
+        display: none !important;
     }
 }

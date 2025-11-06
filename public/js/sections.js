@@ -246,31 +246,40 @@ class ContactForm {
 
         if (!allValid) return;
 
-        // Get form data
+        // Siapkan data FormData agar kompatibel dengan backend Laravel
         const formData = new FormData(this.form);
-        const data = Object.fromEntries(formData);
 
-        // Show loading state
+        // Tampilkan status loading
         const submitButton = this.form.querySelector('button[type="submit"]');
         const originalText = submitButton.innerHTML;
         submitButton.disabled = true;
         submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Mengirim...';
 
         try {
-            // Submit to server
+            // Kirim ke server
             const response = await fetch(this.form.action, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: formData
             });
 
-            const result = await response.json();
+            let result = {};
+            const contentType = response.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+                result = await response.json();
+            } else {
+                const text = await response.text();
+                if (!response.ok) {
+                    throw new Error(text);
+                }
+            }
 
             if (response.ok) {
-                this.showSuccessMessage('Pesan berhasil dikirim! Kami akan menghubungi Anda segera.');
+                const successMessage = result.message || 'Pesan berhasil dikirim! Kami akan menghubungi Anda segera.';
+                this.showSuccessMessage(successMessage);
                 this.form.reset();
             } else {
                 this.showErrorMessage(result.message || 'Terjadi kesalahan. Silakan coba lagi.');
@@ -344,19 +353,34 @@ class WhatsAppFloat {
 }
 
 // ===== Initialize Everything =====
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all section components
+const syncCsrfToken = () => {
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfInput = document.getElementById('csrf-token-input');
+
+    if (!csrfMeta || !csrfInput) return;
+
+    const applyToken = () => {
+        csrfInput.value = csrfMeta.getAttribute('content');
+    };
+
+    applyToken();
+    setInterval(applyToken, 300000); // 5 menit
+};
+
+const initializeSections = () => {
     new CounterAnimation();
     new ScrollAnimations();
     new FAQAccordion();
     new PortfolioFilter();
     new ContactForm();
     new WhatsAppFloat();
+    syncCsrfToken();
 
-    console.log('✓ Sections initialized successfully');
-});
+    console.log('Sections initialized successfully');
+};
 
-// Export for module use (if needed)
+document.addEventListener('DOMContentLoaded', initializeSections);
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         CounterAnimation,
@@ -364,6 +388,7 @@ if (typeof module !== 'undefined' && module.exports) {
         FAQAccordion,
         PortfolioFilter,
         ContactForm,
-        WhatsAppFloat
+        WhatsAppFloat,
+        initializeSections
     };
 }

@@ -1,5 +1,5 @@
 {{-- Why Choose Us Section --}}
-<section class="section bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900">
+<section class="section section-gradient section-overlay">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-20 animate-on-scroll">
             <span class="badge mb-4">

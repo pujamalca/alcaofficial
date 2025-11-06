@@ -1,5 +1,5 @@
 {{-- Services Section --}}
-<section id="layanan" class="section bg-white dark:bg-gray-900">
+<section id="layanan" class="section section-surface">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-20 animate-on-scroll">
             <span class="badge mb-4">
