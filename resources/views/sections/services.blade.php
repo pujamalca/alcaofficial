@@ -31,7 +31,7 @@
                         </ul>
                     @endif
 
-                    <a href="#kontak" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                    <a href="{{ route('services.show', $service->slug) }}" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
                         Pelajari Lebih Lanjut <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>

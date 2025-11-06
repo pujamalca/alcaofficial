@@ -36,12 +36,12 @@
             <div class="footer-col">
                 <h3 class="footer-heading">Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="#beranda">Beranda</a></li>
-                    <li><a href="#layanan">Layanan</a></li>
-                    <li><a href="#portofolio">Portfolio</a></li>
-                    <li><a href="#harga">Harga</a></li>
-                    <li><a href="#testimoni">Testimoni</a></li>
-                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="{{ url('/') }}">Beranda</a></li>
+                    <li><a href="{{ route('services.index') }}">Layanan</a></li>
+                    <li><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
+                    <li><a href="{{ route('blog.index') }}">Blog</a></li>
+                    <li><a href="{{ url('/#testimoni') }}">Testimoni</a></li>
+                    <li><a href="{{ url('/#kontak') }}">Kontak</a></li>
                 </ul>
             </div>
 
@@ -49,12 +49,12 @@
             <div class="footer-col">
                 <h3 class="footer-heading">Layanan Kami</h3>
                 <ul class="footer-links">
-                    <li><a href="#layanan">Website Company Profile</a></li>
-                    <li><a href="#layanan">Toko Online / E-Commerce</a></li>
-                    <li><a href="#layanan">Landing Page</a></li>
-                    <li><a href="#layanan">Website Sekolah</a></li>
-                    <li><a href="#layanan">Aplikasi Web Custom</a></li>
-                    <li><a href="#layanan">Maintenance & Support</a></li>
+                    <li><a href="{{ route('services.index') }}">Website Company Profile</a></li>
+                    <li><a href="{{ route('services.index') }}">Toko Online / E-Commerce</a></li>
+                    <li><a href="{{ route('services.index') }}">Landing Page</a></li>
+                    <li><a href="{{ route('services.index') }}">Website Sekolah</a></li>
+                    <li><a href="{{ route('services.index') }}">Aplikasi Web Custom</a></li>
+                    <li><a href="{{ route('services.index') }}">Maintenance & Support</a></li>
                 </ul>
             </div>
 

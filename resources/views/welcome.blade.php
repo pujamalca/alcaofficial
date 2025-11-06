@@ -8,11 +8,23 @@
 {{-- Hero Section --}}
 @include('sections.hero')
 
+{{-- Services Section --}}
+@include('sections.services')
+
 {{-- Why Choose Us Section --}}
 @include('sections.why-choose')
 
+{{-- Portfolio Section --}}
+@include('sections.portfolio')
+
+{{-- Pricing Section --}}
+@include('sections.pricing')
+
 {{-- Tech Stack Section --}}
 @include('sections.tech-stack')
+
+{{-- Testimonials Section --}}
+@include('sections.testimonials')
 
 {{-- FAQ Section --}}
 @include('sections.faq')
@@ -20,22 +32,10 @@
 {{-- Process Section --}}
 @include('sections.process')
 
-{{-- Services Section (Phase 3) --}}
-@include('sections.services')
-
-{{-- Portfolio Section (Phase 3) --}}
-@include('sections.portfolio')
-
-{{-- Pricing Section (Phase 3) --}}
-@include('sections.pricing')
-
-{{-- Testimonials Section (Phase 3) --}}
-@include('sections.testimonials')
-
 {{-- CTA Section --}}
 @include('sections.cta')
 
-{{-- Contact Section (Phase 4) --}}
+{{-- Contact Section --}}
 @include('sections.contact')
 
 {{-- WhatsApp Float Button (Phase 4) --}}

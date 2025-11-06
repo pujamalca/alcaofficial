@@ -77,31 +77,17 @@
                                 <span class="ml-2 font-semibold text-gray-700 dark:text-white">{{ number_format($rating, 1) }}/5</span>
                             </div>
 
-                            @if($portfolio->url)
-                                <a href="{{ $portfolio->url }}"
-                                   target="_blank"
-                                   class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
-                                    Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
-                                </a>
-                            @else
-                                <a href="#kontak"
-                                   class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
-                                    Hubungi Kami <i class="fas fa-arrow-right ml-1"></i>
-                                </a>
-                            @endif
+                            <a href="{{ route('portfolio.show', $portfolio->slug) }}"
+                               class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                                Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
                         </div>
                     </div>
 
                     <div class="portfolio-overlay">
-                        @if($portfolio->url)
-                            <a href="{{ $portfolio->url }}" target="_blank" class="btn-primary">
-                                <i class="fas fa-eye mr-2"></i> View Project
-                            </a>
-                        @else
-                            <a href="#kontak" class="btn-primary">
-                                <i class="fas fa-envelope mr-2"></i> Contact Us
-                            </a>
-                        @endif
+                        <a href="{{ route('portfolio.show', $portfolio->slug) }}" class="btn-primary">
+                            <i class="fas fa-eye mr-2"></i> Lihat Detail
+                        </a>
                     </div>
                 </div>
             @empty

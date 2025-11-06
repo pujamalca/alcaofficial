@@ -9,8 +9,15 @@
             <p class="section-subtitle">Harga transparan dengan fitur lengkap. Tidak ada biaya tersembunyi!</p>
         </div>
 
+        @php
+            $pricingCollection = collect($pricingPlans ?? []);
+            $sourceCodeCollection = collect($sourceCodes ?? []);
+            $hasPricing = $pricingCollection->isNotEmpty();
+            $hasSourceCodes = $sourceCodeCollection->isNotEmpty();
+        @endphp
+
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-            @forelse($pricingPlans ?? [] as $plan)
+            @foreach($pricingCollection as $plan)
                 <div class="pricing-card animate-on-scroll {{ $plan->is_featured ? 'featured' : '' }}"
                      data-featured="{{ $plan->is_featured ? 'true' : 'false' }}">
 
@@ -78,7 +85,75 @@
                         @endif
                     </div>
                 </div>
-            @empty
+            @endforeach
+
+            @foreach($sourceCodeCollection as $code)
+                <div class="pricing-card animate-on-scroll source-card"
+                     data-featured="{{ $code->is_featured ? 'true' : 'false' }}">
+
+                    <div class="source-card-badge">
+                        <i class="fas fa-code mr-2"></i> {{ $code->category->name ?? 'Source Code' }}
+                    </div>
+
+                    <div class="pricing-header">
+                        <h3 class="text-2xl font-bold mb-2">{{ $code->title }}</h3>
+
+                        @if($code->short_description)
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                                {{ $code->short_description }}
+                            </p>
+                        @endif
+
+                        <div class="pricing-price">
+                            @php
+                                $effectivePrice = $code->effective_price ?? 0;
+                                $formattedEffective = number_format((float) $effectivePrice, 0, ',', '.');
+                                $hasDiscount = $code->has_discount ?? false;
+                                $formattedOriginal = $hasDiscount ? number_format((float) ($code->price ?? 0), 0, ',', '.') : null;
+                            @endphp
+
+                            <span class="price-currency">{{ $code->currency ?? 'Rp' }}</span>
+                            <span class="price-amount">{{ $formattedEffective }}</span>
+                            @if($hasDiscount && $formattedOriginal)
+                                <span class="price-original">Rp {{ $formattedOriginal }}</span>
+                            @endif
+                            <span class="price-suffix">{{ $code->price_suffix ?? 'Sekali Beli' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="pricing-features">
+                        @if(!empty($code->features))
+                            <ul class="space-y-4">
+                                @foreach(array_slice($code->features, 0, 6) as $feature)
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-600 dark:text-blue-400 mt-1 mr-3 flex-shrink-0"></i>
+                                        <span class="text-gray-700 dark:text-gray-200">{{ is_array($feature) ? ($feature['name'] ?? json_encode($feature)) : $feature }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="text-gray-500 dark:text-gray-400 text-sm italic">Detail fitur segera hadir.</p>
+                        @endif
+                    </div>
+
+                    <div class="pricing-cta">
+                        @php
+                            $primaryLink = $code->external_link ?: $code->demo_link;
+                            $ctaText = $code->cta_text ?? ($code->external_link ? 'Beli Sekarang' : 'Lihat Detail');
+                            $target = $primaryLink && str_starts_with($primaryLink, 'http') ? '_blank' : '_self';
+                            $href = $primaryLink ?: '#kontak';
+                        @endphp
+                        <a href="{{ $href }}"
+                           class="btn-pricing btn-pricing-source"
+                           target="{{ $target }}">
+                            {{ $ctaText }}
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+
+            @if(!$hasPricing && !$hasSourceCodes)
                 <div class="col-span-full text-center py-12">
                     <div class="max-w-md mx-auto">
                         <i class="fas fa-box-open text-gray-400 text-6xl mb-4"></i>
@@ -86,11 +161,11 @@
                         <p class="text-gray-500 dark:text-gray-500 text-sm mt-2">Silakan hubungi kami untuk informasi harga.</p>
                     </div>
                 </div>
-            @endforelse
+            @endif
         </div>
 
         {{-- Additional Note --}}
-        @if(count($pricingPlans ?? []) > 0)
+        @if($hasPricing || $hasSourceCodes)
             <div class="text-center mt-16 animate-on-scroll">
                 <p class="text-gray-600 dark:text-gray-300 text-lg">
                     <i class="fas fa-info-circle mr-2 text-blue-600 dark:text-blue-400"></i>

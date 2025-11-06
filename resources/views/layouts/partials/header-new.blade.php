@@ -36,12 +36,12 @@
                    class="nav-link text-base {{ request()->is('/') ? 'text-blue-600' : '' }}">
                     Beranda
                 </a>
-                <a href="{{ url('/#layanan') }}"
-                   class="nav-link text-base">
+                <a href="{{ route('services.index') }}"
+                   class="nav-link text-base {{ request()->is('layanan*') ? 'text-blue-600' : '' }}">
                     Layanan
                 </a>
-                <a href="{{ url('/#portofolio') }}"
-                   class="nav-link text-base">
+                <a href="{{ route('portfolio.index') }}"
+                   class="nav-link text-base {{ request()->is('portofolio*') ? 'text-blue-600' : '' }}">
                     Portofolio
                 </a>
                 <a href="{{ url('/#paket') }}"
@@ -101,12 +101,12 @@
                class="block py-2 font-semibold hover:text-blue-600 {{ request()->is('/') ? 'text-blue-600' : '' }}">
                 Beranda
             </a>
-            <a href="{{ url('/#layanan') }}"
-               class="block py-2 font-semibold hover:text-blue-600">
+            <a href="{{ route('services.index') }}"
+               class="block py-2 font-semibold hover:text-blue-600 {{ request()->is('layanan*') ? 'text-blue-600' : '' }}">
                 Layanan
             </a>
-            <a href="{{ url('/#portofolio') }}"
-               class="block py-2 font-semibold hover:text-blue-600">
+            <a href="{{ route('portfolio.index') }}"
+               class="block py-2 font-semibold hover:text-blue-600 {{ request()->is('portofolio*') ? 'text-blue-600' : '' }}">
                 Portofolio
             </a>
             <a href="{{ url('/#paket') }}"

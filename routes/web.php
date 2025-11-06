@@ -6,7 +6,9 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PostPreviewController;
+use App\Http\Controllers\ServicesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,6 +19,10 @@ Route::get('/', function () {
         ->get();
     $pricingPlans = \App\Models\PricingPlan::active()
         ->with('features')
+        ->get();
+    $sourceCodes = \App\Models\SourceCode::active()
+        ->ordered()
+        ->limit(6)
         ->get();
     $testimonials = \App\Models\Testimonial::active()->get();
     $contactCards = \App\Models\ContactCard::active()->get();
@@ -33,6 +39,7 @@ Route::get('/', function () {
         'services' => $services,
         'portfolios' => $portfolios,
         'pricingPlans' => $pricingPlans,
+        'sourceCodes' => $sourceCodes,
         'testimonials' => $testimonials,
         'contactCards' => $contactCards,
         'heroStats' => [
@@ -46,6 +53,14 @@ Route::get('/', function () {
 
 // Contact form submission
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// Services routes
+Route::get('/layanan', [ServicesController::class, 'index'])->name('services.index');
+Route::get('/layanan/{service:slug}', [ServicesController::class, 'show'])->name('services.show');
+
+// Portfolio routes
+Route::get('/portofolio', [PortfolioController::class, 'index'])->name('portfolio.index');
+Route::get('/portofolio/{portfolioItem:slug}', [PortfolioController::class, 'show'])->name('portfolio.show');
 
 // Blog routes
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
@@ -89,3 +104,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/preview/posts/{post}', [PostPreviewController::class, 'show'])->name('posts.preview');
     Route::get('/preview/pages/{page}', [PageController::class, 'preview'])->name('pages.preview');
 });
+
