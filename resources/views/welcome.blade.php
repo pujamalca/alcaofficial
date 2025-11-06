@@ -20,9 +20,21 @@
 {{-- Process Section --}}
 @include('sections.process')
 
+{{-- Services Section (Phase 3) --}}
+@include('sections.services')
+
+{{-- Portfolio Section (Phase 3) --}}
+@include('sections.portfolio')
+
+{{-- Pricing Section (Phase 3) --}}
+@include('sections.pricing')
+
+{{-- Testimonials Section (Phase 3) --}}
+@include('sections.testimonials')
+
 {{-- CTA Section --}}
 @include('sections.cta')
 
-{{-- Other sections (Services, Portfolio, Pricing, Testimonials, Contact, Footer) will be added in Phase 3-4 --}}
+{{-- Contact and Footer sections will be added in Phase 4 --}}
 
 @endsection

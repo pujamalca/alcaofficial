@@ -9,7 +9,36 @@ use App\Http\Controllers\PostPreviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    // Fetch active database content for homepage sections
+    $services = \App\Models\Service::active()->get();
+    $portfolios = \App\Models\PortfolioItem::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+    $pricingPlans = \App\Models\PricingPlan::active()
+        ->with('features')
+        ->get();
+    $testimonials = \App\Models\Testimonial::active()->get();
+
+    $projectCount = $portfolios->count();
+    $happyClientsCount = $testimonials->count();
+    $averageRatingRaw = $testimonials->avg('rating');
+    $averageRating = $averageRatingRaw ? round($averageRatingRaw, 1) : 0;
+    $satisfactionPercent = $averageRating > 0
+        ? min(100, max(0, round(($averageRating / 5) * 100)))
+        : 0;
+
+    return view('welcome', [
+        'services' => $services,
+        'portfolios' => $portfolios,
+        'pricingPlans' => $pricingPlans,
+        'testimonials' => $testimonials,
+        'heroStats' => [
+            'projects' => $projectCount,
+            'clients' => $happyClientsCount,
+            'rating' => $averageRating,
+            'satisfaction' => $satisfactionPercent,
+        ],
+    ]);
 });
 
 // Blog routes

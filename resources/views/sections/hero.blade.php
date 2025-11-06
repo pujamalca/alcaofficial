@@ -1,13 +1,12 @@
 {{-- Hero Section --}}
 <section id="beranda" class="hero-section">
 @php
-    $projectCount = \App\Models\PortfolioItem::where('is_active', true)->count();
-    $happyClientsCount = \App\Models\Testimonial::active()->count();
-    $averageRatingRaw = \App\Models\Testimonial::active()->avg('rating');
-    $averageRating = $averageRatingRaw ? round($averageRatingRaw, 1) : 0;
-    $satisfactionPercent = $averageRating > 0
-        ? min(100, max(0, round(($averageRating / 5) * 100)))
-        : 0;
+    $stats = array_merge([
+        'projects' => 0,
+        'clients' => 0,
+        'rating' => 0,
+        'satisfaction' => 0,
+    ], $heroStats ?? []);
 @endphp
     <div class="hero-bg-pattern"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -111,33 +110,33 @@
             <div class="stat-card">
                 <div
                     class="stat-number counter"
-                    data-target="{{ max($projectCount, 0) }}"
+                    data-target="{{ max($stats['projects'], 0) }}"
                     data-suffix="+"
-                >{{ max($projectCount, 0) }}+</div>
+                >{{ max($stats['projects'], 0) }}+</div>
                 <div class="text-gray-600 dark:text-white font-semibold mt-2">Project Selesai</div>
             </div>
             <div class="stat-card">
                 <div
                     class="stat-number counter"
-                    data-target="{{ max($happyClientsCount, 0) }}"
+                    data-target="{{ max($stats['clients'], 0) }}"
                     data-suffix="+"
-                >{{ max($happyClientsCount, 0) }}+</div>
+                >{{ max($stats['clients'], 0) }}+</div>
                 <div class="text-gray-600 dark:text-white font-semibold mt-2">Klien Puas</div>
             </div>
             <div class="stat-card">
                 <div
                     class="stat-number counter"
-                    data-target="{{ number_format($averageRating, 1, '.', '') }}"
+                    data-target="{{ number_format($stats['rating'], 1, '.', '') }}"
                     data-decimals="1"
-                >{{ number_format($averageRating, 1) }}</div>
+                >{{ number_format($stats['rating'], 1) }}</div>
                 <div class="text-gray-600 dark:text-white font-semibold mt-2">Rating Bintang 5</div>
             </div>
             <div class="stat-card">
                 <div
                     class="stat-number counter"
-                    data-target="{{ $satisfactionPercent }}"
+                    data-target="{{ $stats['satisfaction'] }}"
                     data-suffix="%"
-                >{{ $satisfactionPercent }}%</div>
+                >{{ $stats['satisfaction'] }}%</div>
                 <div class="text-gray-600 dark:text-white font-semibold mt-2">Kepuasan</div>
             </div>
         </div>

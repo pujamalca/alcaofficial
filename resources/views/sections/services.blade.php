@@ -25,7 +25,7 @@
                             @foreach($service->features as $feature)
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle text-blue-600 mt-1 mr-3 flex-shrink-0"></i>
-                                    <span>{{ $feature }}</span>
+                                    <span>{{ is_array($feature) ? ($feature['name'] ?? $feature['feature'] ?? json_encode($feature)) : $feature }}</span>
                                 </li>
                             @endforeach
                         </ul>
