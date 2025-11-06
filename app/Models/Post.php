@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use Laravel\Scout\Searchable;
+// use Laravel\Scout\Searchable; // Commented out - install laravel/scout if search functionality is needed
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
@@ -29,7 +29,7 @@ class Post extends Model implements HasMedia
     use InteractsWithMedia;
     use LogsActivity;
     use SanitizesHtml;
-    use Searchable;
+    // use Searchable; // Commented out - install laravel/scout if search functionality is needed
 
     protected $fillable = [
         'category_id',

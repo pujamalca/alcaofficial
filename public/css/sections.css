@@ -433,13 +433,20 @@ body {
 /* ===== Dark Mode Hero Section ===== */
 .dark .hero-section {
     background-color: #0F172A;
-}
-
-.dark .hero-section p:not([class*="text-"]),
-.dark .hero-section span:not(.badge):not(.text-gradient):not([class*="text-"]):not(i) {
     color: #FFFFFF;
 }
 
+/* Ensure all text in hero section is white in dark mode */
+.dark .hero-section h1,
+.dark .hero-section h2,
+.dark .hero-section h3,
+.dark .hero-section p,
+.dark .hero-section span:not(.text-gradient):not(.badge),
+.dark .hero-section div:not(.badge):not(.text-gradient) {
+    color: #FFFFFF !important;
+}
+
+/* Override Tailwind utility classes in dark mode */
 .dark .hero-section .text-gray-600,
 .dark .hero-section .text-gray-500,
 .dark .hero-section .text-gray-900 {

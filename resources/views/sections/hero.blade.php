@@ -20,7 +20,7 @@
                     </span>
                 </div>
 
-                <h1 class="text-5xl lg:text-6xl xl:text-7xl font-black leading-tight">
+                <h1 class="text-5xl lg:text-6xl xl:text-7xl font-black leading-tight text-gray-900 dark:text-white">
                     Jasa Pembuatan<br>
                     <span class="text-gradient">Website Professional</span><br>
                     Terbaik di Indonesia

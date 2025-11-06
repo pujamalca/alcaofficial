@@ -69,8 +69,8 @@
                         class="navbar-theme-btn rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                         aria-label="Toggle dark mode"
                         data-theme="light">
-                    <i class="fas fa-moon theme-icon" data-theme-icon="moon" aria-hidden="true"></i>
-                    <i class="fas fa-sun theme-icon is-hidden" data-theme-icon="sun" aria-hidden="true"></i>
+                    <i class="fas fa-moon theme-icon" data-theme-icon="moon"></i>
+                    <i class="fas fa-sun theme-icon is-hidden" data-theme-icon="sun"></i>
                 </button>
 
                 <!-- CTA Button (Desktop) -->
