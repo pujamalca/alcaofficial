@@ -248,6 +248,20 @@ body {
     background: #0f172a;
 }
 
+.surface-card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 24px;
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.12);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark .surface-card {
+    background: rgba(15, 23, 42, 0.94);
+    border-color: rgba(56, 189, 248, 0.26);
+    box-shadow: 0 25px 60px rgba(2, 6, 23, 0.6);
+}
+
 .content-panel {
     background: rgba(255, 255, 255, 0.96);
     border: 1px solid rgba(148, 163, 184, 0.16);
@@ -755,10 +769,10 @@ body {
 
 /* ===== SERVICE CARDS (Phase 3) ===== */
 .service-card {
-    background: #FFFFFF;
-    border: 2px solid #E5E7EB;
+    background: var(--card-surface, rgba(255, 255, 255, 0.96));
+    border: 1px solid rgba(148, 163, 184, 0.18);
     border-radius: 24px;
-    padding: 40px 32px;
+    padding: 32px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -806,24 +820,121 @@ body {
     box-shadow: 0 12px 35px rgba(0, 102, 255, 0.5);
 }
 
+.service-card__gradient {
+    background: linear-gradient(140deg, #1d4ed8 0%, #2563eb 45%, #0ea5e9 100%);
+    padding: 48px 0 44px;
+    display: flex;
+    justify-content: center;
+}
+
+.dark .service-card__gradient {
+    background: linear-gradient(150deg, #0a1f3d 0%, #142f64 40%, #2563eb 100%);
+}
+
+.service-card__icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.98);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1d4ed8;
+    font-size: 2rem;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+}
+
+.dark .service-card__icon-wrapper {
+    background: rgba(10, 19, 35, 0.65);
+    color: #38bdf8;
+    box-shadow: 0 15px 35px rgba(14, 165, 233, 0.25);
+}
+
+.service-card__body {
+    padding: 32px 32px 36px;
+}
+
+.service-card__title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+.dark .service-card__title {
+    color: #f8fafc;
+}
+
+.service-card__description {
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.dark .service-card__description {
+    color: rgba(226, 232, 240, 0.92);
+}
+
+.service-card__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.service-card__features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: #1f2937;
+}
+
+.dark .service-card__features li {
+    color: rgba(226, 232, 240, 0.92);
+}
+
+.service-card__check {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    border-radius: 9999px;
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+
 .dark .service-card {
-    background: #1E293B;
-    border-color: #334155;
+    background: rgba(15, 23, 42, 0.92);
+    border-color: rgba(99, 102, 241, 0.35);
+    box-shadow: 0 18px 45px rgba(2, 6, 23, 0.55);
 }
 
 .dark .service-card:hover {
     border-color: var(--accent-blue);
-    box-shadow: 0 25px 60px rgba(0, 184, 255, 0.3);
+    box-shadow: 0 25px 60px rgba(14, 165, 233, 0.35);
+}
+
+.service-card__header,
+.service-label,
+.service-title,
+.service-description,
+.service-features,
+.service-features li {
+    all: unset;
 }
 
 /* ===== PORTFOLIO CARDS (Phase 3) ===== */
 .portfolio-card {
-    background: #FFFFFF;
+    background: var(--card-surface, rgba(255, 255, 255, 0.96));
     border-radius: 24px;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    border: 2px solid #E5E7EB;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
 }
 
 .portfolio-card:hover {
@@ -890,13 +1001,87 @@ body {
 }
 
 .dark .portfolio-card {
-    background: #1E293B;
-    border-color: #334155;
+    background: rgba(15, 23, 42, 0.94);
+    border-color: rgba(56, 189, 248, 0.28);
+    box-shadow: 0 20px 55px rgba(2, 6, 23, 0.55);
 }
 
 .dark .portfolio-card:hover {
-    border-color: var(--accent-blue);
-    box-shadow: 0 25px 60px rgba(0, 184, 255, 0.3);
+    border-color: rgba(147, 197, 253, 0.85);
+    box-shadow: 0 28px 68px rgba(14, 165, 233, 0.4);
+}
+
+.rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.7rem;
+    background: rgba(250, 204, 21, 0.92);
+    color: #78350f;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: 0 8px 20px rgba(250, 204, 21, 0.3);
+}
+
+.dark .rating-badge {
+    background: rgba(250, 204, 21, 0.95);
+    color: #78350f;
+    box-shadow: 0 10px 24px rgba(250, 204, 21, 0.35);
+}
+
+.card-primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-primary-btn:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 20px 45px rgba(14, 165, 233, 0.4);
+}
+
+.dark .card-primary-btn {
+    background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+    box-shadow: 0 18px 45px rgba(14, 165, 233, 0.45);
+}
+
+.card-primary-btn svg {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+/* Blog cards */
+.blog-card {
+    background: var(--card-surface, rgba(255, 255, 255, 0.96));
+    border-radius: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blog-card:hover {
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: 0 28px 68px rgba(37, 99, 235, 0.18);
+}
+
+.dark .blog-card {
+    background: rgba(15, 23, 42, 0.94);
+    border-color: rgba(56, 189, 248, 0.22);
+    box-shadow: 0 20px 60px rgba(2, 6, 23, 0.6);
+}
+
+.dark .blog-card:hover {
+    border-color: rgba(147, 197, 253, 0.85);
+    box-shadow: 0 30px 76px rgba(14, 165, 233, 0.42);
 }
 
 /* ===== PRICING CARDS (Phase 3) ===== */
@@ -1660,3 +1845,100 @@ body {
 .dark .text-gray-500 { color: rgba(255, 255, 255, 0.82) !important; }
 .dark .text-gray-400 { color: rgba(255, 255, 255, 0.7) !important; }
 .dark .text-gray-300 { color: rgba(255, 255, 255, 0.6) !important; }
+.prose-custom {
+    max-width: none;
+    color: #1f2937;
+    font-size: 1.125rem;
+    line-height: 1.8;
+}
+
+.prose-custom h1,
+.prose-custom h2,
+.prose-custom h3,
+.prose-custom h4,
+.prose-custom h5,
+.prose-custom h6 {
+    color: #111827;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.prose-custom h1 {
+    font-size: 2.5rem;
+}
+
+.prose-custom h2 {
+    font-size: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(15, 23, 42, 0.08);
+}
+
+.prose-custom h3 {
+    font-size: 1.65rem;
+}
+
+.prose-custom h4 {
+    font-size: 1.35rem;
+}
+
+.prose-custom p {
+    color: #374151;
+    margin-bottom: 1.5rem;
+}
+
+.prose-custom ul,
+.prose-custom ol {
+    padding-left: 1.75rem;
+    margin: 1.5rem 0;
+}
+
+.prose-custom li {
+    color: #4b5563;
+    margin: 0.65rem 0;
+}
+
+.prose-custom a {
+    color: #2563eb;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.prose-custom blockquote {
+    border-left: 4px solid rgba(37, 99, 235, 0.35);
+    padding-left: 1.25rem;
+    color: #1f2937;
+    font-style: italic;
+    background: rgba(227, 233, 255, 0.35);
+    border-radius: 0 16px 16px 0;
+}
+
+.dark .prose-custom {
+    color: rgba(226, 232, 240, 0.92);
+}
+
+.dark .prose-custom h1,
+.dark .prose-custom h2,
+.dark .prose-custom h3,
+.dark .prose-custom h4,
+.dark .prose-custom h5,
+.dark .prose-custom h6 {
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.2);
+}
+
+.dark .prose-custom p,
+.dark .prose-custom li {
+    color: rgba(203, 213, 225, 0.95);
+}
+
+.dark .prose-custom a {
+    color: #60a5fa;
+}
+
+.dark .prose-custom blockquote {
+    border-color: rgba(96, 165, 250, 0.6);
+    background: rgba(17, 42, 87, 0.45);
+    color: rgba(224, 231, 255, 0.95);
+}

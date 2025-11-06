@@ -46,53 +46,47 @@
         @if($services->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($services as $service)
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700/70">
-                        {{-- Service Icon --}}
-                        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-8 text-center">
-                            <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full">
-                                <i class="{{ $service->icon }} text-4xl text-blue-600"></i>
+                    <div class="service-card surface-card overflow-hidden animate-on-scroll">
+                        <div class="service-card__gradient">
+                            <div class="service-card__icon-wrapper">
+                                <i class="{{ $service->icon }}"></i>
                             </div>
                         </div>
 
-                        {{-- Service Content --}}
-                        <div class="p-6">
-                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                                {{ $service->title }}
-                            </h3>
-                            <p class="text-gray-600 dark:text-gray-200 mb-4 leading-relaxed line-clamp-3">
+                        <div class="service-card__body">
+                            <h3 class="service-card__title">{{ $service->title }}</h3>
+                            <p class="service-card__description">
                                 {{ $service->description }}
                             </p>
 
-                            {{-- Features Preview --}}
                             @if($service->features && count($service->features) > 0)
-                                <ul class="space-y-2 mb-6">
+                                <ul class="service-card__features mb-6">
                                     @foreach(array_slice($service->features, 0, 3) as $feature)
-                                        <li class="flex items-start">
-                                            <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                            </svg>
-                                            <span class="text-sm text-gray-700 dark:text-gray-200">{{ $feature }}</span>
+                                        <li>
+                                            <span class="service-card__check">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                            <span>{{ $feature }}</span>
                                         </li>
                                     @endforeach
                                     @if(count($service->features) > 3)
-                                        <li class="text-sm text-gray-500 dark:text-gray-400 ml-7">
+                                        <li class="pl-9 text-sm text-gray-500 dark:text-gray-400">
                                             +{{ count($service->features) - 3 }} fitur lainnya
                                         </li>
                                     @endif
                                 </ul>
                             @endif
 
-                            {{-- CTA Button --}}
                             <a href="{{ route('services.show', $service->slug) }}"
-                               class="inline-flex items-center justify-center w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                               class="card-primary-btn gap-2 mt-6">
                                 Lihat Detail
-                                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </a>
-                            </div>
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
                 </div>
             @else
                 {{-- Empty State --}}

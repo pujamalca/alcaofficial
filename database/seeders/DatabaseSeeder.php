@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             SettingSeeder::class,
             MarketingSeeder::class,
-            LandingPageSeeder::class,
+            AlcaOfficialShowcaseSeeder::class,
         ]);
 
         if (app()->environment(['local', 'testing'])) {
@@ -54,9 +54,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Gunakan IndonesianContentSeeder untuk konten berbahasa Indonesia
-        // Atau gunakan ContentSeeder untuk konten random (English)
-        $this->call(IndonesianContentSeeder::class);
-        // $this->call(ContentSeeder::class);
+        // Konten blog & landing page sudah di-handle oleh AlcaOfficialShowcaseSeeder
+        // Jika membutuhkan konten acak tambahan, panggil ContentSeeder secara manual.
     }
 }

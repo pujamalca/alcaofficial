@@ -16,11 +16,15 @@
     @endif
 @endpush
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/blog.css') }}">
+@endpush
+
 @section('content')
     {{-- Post Header --}}
-    <article class="bg-white">
-        <div class="container mx-auto px-4 py-12">
-            <div class="max-w-4xl mx-auto">
+    <article class="blog-post-wrapper">
+        <div class="container mx-auto px-4 py-10">
+            <div class="max-w-4xl mx-auto blog-content-wrapper">
                 {{-- Breadcrumb --}}
                 <nav class="flex items-center gap-2 text-sm text-gray-600 mb-8">
                     <a href="/" class="hover:text-blue-600">Home</a>
@@ -97,17 +101,17 @@
 
         {{-- Featured Image --}}
         @if($post->featured_image)
-            <div class="w-full bg-gray-100">
+            <div class="w-full blog-featured-wrapper">
                 <div class="container mx-auto px-4">
                     <div class="max-w-5xl mx-auto">
-                        <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full rounded-xl shadow-lg">
+                        <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full rounded-xl shadow-lg blog-featured-image">
                     </div>
                 </div>
             </div>
         @endif
 
         {{-- Post Content --}}
-        <div class="container mx-auto px-4 py-12">
+        <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
                 {{-- Excerpt --}}
                 @if($post->excerpt)
@@ -125,11 +129,11 @@
 
                 {{-- Tags --}}
                 @if($post->tags->count() > 0)
-                    <div class="mt-12 pt-8 border-t border-gray-200">
+                    <div class="mt-12 pt-8 border-t border-gray-200 blog-tags-section">
                         <h3 class="text-sm font-semibold text-gray-500 mb-4">TAGS:</h3>
                         <div class="flex flex-wrap gap-2">
                             @foreach($post->tags as $tag)
-                                <a href="{{ route('blog.index', ['tag' => $tag->slug]) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors">
+                                <a href="{{ route('blog.index', ['tag' => $tag->slug]) }}" class="px-4 py-2 rounded-full text-sm transition-colors blog-tag">
                                     #{{ $tag->name }}
                                 </a>
                             @endforeach
@@ -138,9 +142,9 @@
                 @endif
 
                 {{-- Share Buttons --}}
-                <div class="mt-8 pt-8 border-t border-gray-200">
+                <div class="mt-8 pt-8 border-t border-gray-200 blog-share-section">
                     <h3 class="text-sm font-semibold text-gray-500 mb-4">BAGIKAN:</h3>
-                    <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-3 blog-share-buttons">
                         {{-- Twitter --}}
                         <a href="https://twitter.com/intent/tweet?text={{ urlencode($post->title) }}&url={{ urlencode(request()->url()) }}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/></svg>
@@ -198,7 +202,7 @@
                 </div>
 
                 {{-- Author Bio --}}
-                <div class="mt-12 p-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                <div class="mt-12 p-8 rounded-2xl border blog-author-card">
                     <div class="flex items-start gap-6">
                         <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
                             {{ substr($post->author->name, 0, 1) }}
@@ -222,13 +226,13 @@
 
     {{-- Related Posts --}}
     @if($relatedPosts->count() > 0)
-        <section class="py-16 bg-gray-50">
+        <section class="py-16 blog-related-section">
             <div class="container mx-auto px-4">
                 <div class="max-w-6xl mx-auto">
                     <h2 class="text-3xl font-bold text-gray-900 mb-8">Artikel Terkait</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         @foreach($relatedPosts as $relatedPost)
-                            <article class="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow group">
+                            <article class="blog-related-card rounded-2xl overflow-hidden border transition-shadow group">
                                 @if($relatedPost->featured_image)
                                     <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 overflow-hidden">
                                         <img src="{{ $relatedPost->featured_image }}" alt="{{ $relatedPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
@@ -243,7 +247,7 @@
 
                                 <div class="p-6">
                                     @if($relatedPost->category)
-                                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full mb-3">
+                                        <span class="inline-block px-3 py-1 text-sm font-medium rounded-full mb-3 blog-related-badge">
                                             {{ $relatedPost->category->name }}
                                         </span>
                                     @endif
@@ -269,7 +273,7 @@
     @endif
 
     {{-- Comments Section --}}
-    <section class="py-16 bg-white">
+    <section class="py-16 blog-comments-section">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl font-bold text-gray-900 mb-8">
@@ -280,7 +284,7 @@
                 @if($post->comments->count() > 0)
                     <div class="space-y-6 mb-12">
                         @foreach($post->comments as $comment)
-                            <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                            <div class="rounded-xl p-6 border blog-comment-card">
                                 <div class="flex items-start gap-4">
                                     <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
                                         {{ substr($comment->user ? $comment->user->name : $comment->guest_name, 0, 1) }}
@@ -302,7 +306,7 @@
                                         @if($comment->replies && $comment->replies->count() > 0)
                                             <div class="mt-4 space-y-4">
                                                 @foreach($comment->replies as $reply)
-                                                    <div class="flex items-start gap-4 pl-8 border-l-2 border-blue-200">
+                                                    <div class="flex items-start gap-4 pl-8 border-l-2 border-blue-200 blog-comment-reply">
                                                         <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                                                             {{ substr($reply->user ? $reply->user->name : $reply->guest_name, 0, 1) }}
                                                         </div>
@@ -329,7 +333,7 @@
                         @endforeach
                     </div>
                 @else
-                    <div class="text-center py-12 bg-gray-50 rounded-lg mb-12">
+                    <div class="text-center py-12 rounded-xl mb-12 blog-comment-empty">
                         <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                         </svg>
@@ -338,7 +342,7 @@
                 @endif
 
                 {{-- Comment Form --}}
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 border border-blue-200">
+                <div class="rounded-2xl p-8 border blog-comment-form">
                     <h3 class="text-xl font-bold text-gray-900 mb-6">Tulis Komentar</h3>
                     <p class="text-sm text-gray-600 mb-6">
                         Komentar Anda akan ditinjau sebelum dipublikasikan. Mohon gunakan bahasa yang sopan dan relevan.
@@ -776,3 +780,5 @@
         </script>
     @endpush
 @endsection
+
+

@@ -85,7 +85,7 @@
             @if($posts->count() > 0)
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($posts as $post)
-                        <article class="group bg-white/95 dark:bg-slate-900/90 border border-gray-100/70 dark:border-gray-700/70 rounded-3xl shadow-lg overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                        <article class="group blog-card overflow-hidden flex flex-col">
                             {{-- Featured Image --}}
                             <div class="relative overflow-hidden aspect-video bg-gradient-to-br from-blue-500 to-indigo-600">
                                 @if($post->featured_image)

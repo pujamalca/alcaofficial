@@ -7,255 +7,7 @@
 @endif
 
 @push('styles')
-    <style>
-        /* Custom styling untuk content - Comprehensive prose styles */
-        .prose-custom {
-            max-width: none;
-            color: #374151;
-            font-size: 1.125rem;
-            line-height: 1.75rem;
-        }
-
-        /* Headings */
-        .prose-custom h1 {
-            font-size: 2.25rem;
-            line-height: 2.5rem;
-            font-weight: 800;
-            color: #111827;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
-        .prose-custom h1:first-child {
-            margin-top: 0;
-        }
-        .prose-custom h2 {
-            font-size: 1.875rem;
-            line-height: 2.25rem;
-            font-weight: 700;
-            color: #111827;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e5e7eb;
-        }
-        .prose-custom h3 {
-            font-size: 1.5rem;
-            line-height: 2rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-        .prose-custom h4 {
-            font-size: 1.25rem;
-            line-height: 1.75rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin-top: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Paragraphs */
-        .prose-custom p {
-            color: #4b5563;
-            line-height: 1.75;
-            margin-bottom: 1.25rem;
-            margin-top: 0;
-        }
-        .prose-custom p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Lists */
-        .prose-custom ul {
-            list-style-type: disc;
-            padding-left: 1.625rem;
-            margin-top: 1.25rem;
-            margin-bottom: 1.25rem;
-        }
-        .prose-custom ol {
-            list-style-type: decimal;
-            padding-left: 1.625rem;
-            margin-top: 1.25rem;
-            margin-bottom: 1.25rem;
-        }
-        .prose-custom li {
-            color: #4b5563;
-            line-height: 1.75;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-            padding-left: 0.375rem;
-        }
-        .prose-custom ul ul,
-        .prose-custom ul ol,
-        .prose-custom ol ul,
-        .prose-custom ol ol {
-            margin-top: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-        .prose-custom li > p {
-            margin-top: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        /* Inline elements */
-        .prose-custom strong,
-        .prose-custom b {
-            font-weight: 600;
-            color: #111827;
-        }
-        .prose-custom em,
-        .prose-custom i {
-            font-style: italic;
-        }
-        .prose-custom u {
-            text-decoration: underline;
-            text-decoration-color: #9ca3af;
-        }
-        .prose-custom s {
-            text-decoration: line-through;
-        }
-
-        /* Links */
-        .prose-custom a {
-            color: #2563eb;
-            text-decoration: underline;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        .prose-custom a:hover {
-            color: #1d4ed8;
-        }
-
-        /* Blockquotes */
-        .prose-custom blockquote {
-            border-left: 4px solid #3b82f6;
-            padding-left: 1rem;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-            font-style: italic;
-            color: #6b7280;
-            margin: 1.5rem 0;
-            background-color: #f9fafb;
-            border-radius: 0.25rem;
-        }
-        .prose-custom blockquote p {
-            margin-bottom: 0.5rem;
-        }
-        .prose-custom blockquote p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Code */
-        .prose-custom code {
-            background-color: #f3f4f6;
-            color: #dc2626;
-            padding: 0.125rem 0.375rem;
-            border-radius: 0.25rem;
-            font-size: 0.875rem;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-weight: 400;
-        }
-        .prose-custom pre {
-            background-color: #1f2937;
-            color: #f9fafb;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            line-height: 1.625;
-        }
-        .prose-custom pre code {
-            background-color: transparent;
-            color: inherit;
-            padding: 0;
-            font-size: 0.875rem;
-        }
-
-        /* Tables */
-        .prose-custom table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            font-size: 0.875rem;
-        }
-        .prose-custom thead {
-            border-bottom: 2px solid #d1d5db;
-        }
-        .prose-custom th {
-            background-color: #f9fafb;
-            padding: 0.75rem 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: #111827;
-            border: 1px solid #e5e7eb;
-        }
-        .prose-custom td {
-            padding: 0.75rem 1rem;
-            border: 1px solid #e5e7eb;
-            color: #4b5563;
-        }
-        .prose-custom tbody tr:hover {
-            background-color: #f9fafb;
-        }
-
-        /* Horizontal Rule */
-        .prose-custom hr {
-            border: 0;
-            border-top: 1px solid #e5e7eb;
-            margin: 2rem 0;
-        }
-
-        /* Images */
-        .prose-custom img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            margin: 1.5rem 0;
-        }
-
-        /* Figure */
-        .prose-custom figure {
-            margin: 2rem 0;
-        }
-        .prose-custom figcaption {
-            margin-top: 0.75rem;
-            font-size: 0.875rem;
-            color: #6b7280;
-            text-align: center;
-        }
-
-        /* Ensure proper spacing between elements */
-        .prose-custom > * + * {
-            margin-top: 1.25rem;
-        }
-        .prose-custom > h2 + *,
-        .prose-custom > h3 + *,
-        .prose-custom > h4 + * {
-            margin-top: 0.75rem;
-        }
-
-        /* Post content wrapper - handle all child elements as block */
-        .post-content {
-            display: block;
-        }
-        .post-content > * {
-            display: block;
-        }
-
-        /* Fix for content that might not have proper paragraph tags */
-        .post-content br {
-            display: block;
-            content: "";
-            margin-top: 0.75rem;
-        }
-
-        /* Preserve line breaks for plain text content */
-        .post-content {
-            white-space: pre-line;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/blog.css') }}">
 @endpush
 
 @push('scripts')
@@ -472,24 +224,34 @@
     @endif
 
     {{-- Post Meta --}}
-    <div class="bg-white border-b border-gray-200">
+    <div class="blog-hero">
         <div class="container mx-auto px-4 py-6">
-            <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+            @if ($post->category)
+                <div class="blog-badge mb-4">
+                    <i class="fas fa-folder-open"></i>
+                    {{ $post->category->name }}
+                </div>
+            @endif>
+            <h1 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-6">
+                {{ $post->title }}
+            </h1>
+            <div class="blog-meta text-sm text-gray-600 dark:text-gray-300">
+                {{-- Author --}}
                 {{-- Author --}}
                 @if ($post->author)
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="blog-meta-chip">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        <span class="font-semibold text-gray-900">{{ $post->author->name }}</span>
+                        <span class="font-semibold">{{ $post->author->name }}</span>
                     </div>
                 @endif
 
                 {{-- Published Date --}}
                 @if ($post->published_at)
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    <div class="blog-meta-chip">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2z"/>
                         </svg>
                         <span>{{ $post->published_at->translatedFormat('d F Y') }}</span>
                     </div>
@@ -497,8 +259,8 @@
 
                 {{-- Reading Time --}}
                 @if ($post->reading_time)
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="blog-meta-chip">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <span>{{ $post->reading_time }} menit baca</span>
@@ -547,7 +309,8 @@
     {{-- Post Content --}}
     <div class="container mx-auto px-4 py-12">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 md:p-12">
+            <div class="blog-article">
+                <div class="blog-content-wrapper">
                 {{-- Excerpt --}}
                 @if ($post->excerpt)
                     <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded">
@@ -577,29 +340,29 @@
                 @endif
 
                 {{-- Share Buttons --}}
-                <div class="mt-8 pt-8 border-t border-gray-200">
+                <div class="mt-8 pt-8 border-t border-gray-200 dark:border-slate-700/60">
                     <h3 class="text-sm font-semibold text-gray-500 mb-4">BAGIKAN:</h3>
                     <div class="flex flex-wrap items-center gap-3">
                         {{-- Twitter --}}
-                        <a href="https://twitter.com/intent/tweet?text={{ urlencode($post->title) }}&url={{ urlencode(request()->url()) }}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors">
+                        <a href="https://twitter.com/intent/tweet?text={{ urlencode($post->title) }}&url={{ urlencode(request()->url()) }}" target="_blank" class="blog-share-button">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/></svg>
                             Twitter
                         </a>
 
                         {{-- Facebook --}}
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" class="blog-share-button">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                             Facebook
                         </a>
 
                         {{-- LinkedIn --}}
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors">
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}" target="_blank" class="blog-share-button">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                             LinkedIn
                         </a>
 
                         {{-- WhatsApp --}}
-                        <a href="https://wa.me/?text={{ urlencode($post->title . ' - ' . request()->url()) }}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                        <a href="https://wa.me/?text={{ urlencode($post->title . ' - ' . request()->url()) }}" target="_blank" class="blog-share-button">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                             WhatsApp
                         </a>
@@ -629,7 +392,7 @@
                         </a>
 
                         {{-- Copy Link --}}
-                        <button onclick="copyToClipboard('{{ request()->url() }}')" class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors">
+                        <button onclick="copyToClipboard('{{ request()->url() }}')" class="blog-share-button">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                             Copy Link
                         </button>
@@ -651,7 +414,7 @@
 
             {{-- Author Info --}}
             @if ($post->author)
-                <div class="mt-8 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="mt-8 p-6 blog-article">
                     <div class="flex items-start gap-4">
                         <div class="flex-shrink-0">
                             @if ($post->author->avatar)
@@ -677,14 +440,14 @@
 
             {{-- Preview Actions --}}
             @if (isset($preview) && $preview)
-                <div class="mt-8 p-6 bg-amber-50 rounded-lg border border-amber-200">
+                <div class="mt-8 p-6 bg-amber-50 rounded-lg border border-amber-200 dark:bg-amber-900/30 dark:border-amber-500/40">
                     <div class="flex items-center justify-between flex-wrap gap-4">
                         <div>
                             <h4 class="font-semibold text-amber-900 mb-1">Preview Mode</h4>
                             <p class="text-sm text-amber-700">Anda melihat preview dari postingan ini</p>
                         </div>
                         <div class="flex gap-3">
-                            <a href="{{ url()->previous() }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                            <a href="{{ url()->previous() }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors dark:bg-slate-900/60 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-800/80">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                                 </svg>

@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class MarketingSeeder extends Seeder
 {
@@ -17,110 +18,106 @@ class MarketingSeeder extends Seeder
     {
         $timestamp = Carbon::now()->toDateTimeString();
 
-        if (Service::count() === 0) {
-            Service::insert([
-                [
-                    'title' => 'Website Company Profile',
-                    'icon' => 'heroicon-o-briefcase',
-                    'description' => 'Website profesional untuk memperkenalkan perusahaan Anda dengan gaya modern dan informatif.',
-                    'sort_order' => 10,
+        $services = [
+            [
+                'title' => 'Website Company Profile',
+                'icon' => 'heroicon-o-briefcase',
+                'description' => 'Website profesional untuk memperkenalkan perusahaan Anda dengan gaya modern dan informatif.',
+                'sort_order' => 10,
+            ],
+            [
+                'title' => 'E-Commerce & Toko Online',
+                'icon' => 'heroicon-o-shopping-cart',
+                'description' => 'Solusi toko online lengkap dengan payment gateway, manajemen produk, dan pelacakan pesanan.',
+                'sort_order' => 20,
+            ],
+            [
+                'title' => 'Landing Page Campaign',
+                'icon' => 'heroicon-o-rocket-launch',
+                'description' => 'Halaman konversi tinggi yang dirancang khusus untuk kampanye pemasaran digital Anda.',
+                'sort_order' => 30,
+            ],
+            [
+                'title' => 'Portal Berita & Blog',
+                'icon' => 'heroicon-o-newspaper',
+                'description' => 'Portal konten dengan CMS lengkap, sistem kategori, komentar, dan integrasi media sosial.',
+                'sort_order' => 40,
+            ],
+            [
+                'title' => 'Sistem Informasi Kustom',
+                'icon' => 'heroicon-o-cpu-chip',
+                'description' => 'Aplikasi web khusus untuk otomasi proses bisnis, dashboard, dan pelaporan real-time.',
+                'sort_order' => 50,
+            ],
+            [
+                'title' => 'SEO & Digital Marketing',
+                'icon' => 'heroicon-o-chart-bar',
+                'description' => 'Optimasi mesin pencari, konten, dan strategi digital marketing untuk meningkatkan traffic.',
+                'sort_order' => 60,
+            ],
+        ];
+
+        foreach ($services as $data) {
+            Service::updateOrCreate(
+                ['slug' => Str::slug($data['title'])],
+                array_merge($data, [
+                    'slug' => Str::slug($data['title']),
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'E-Commerce & Toko Online',
-                    'icon' => 'heroicon-o-shopping-cart',
-                    'description' => 'Solusi toko online lengkap dengan payment gateway, manajemen produk, dan pelacakan pesanan.',
-                    'sort_order' => 20,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'Landing Page Campaign',
-                    'icon' => 'heroicon-o-rocket-launch',
-                    'description' => 'Halaman konversi tinggi yang dirancang khusus untuk kampanye pemasaran digital Anda.',
-                    'sort_order' => 30,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'Portal Berita & Blog',
-                    'icon' => 'heroicon-o-newspaper',
-                    'description' => 'Portal konten dengan CMS lengkap, sistem kategori, komentar, dan integrasi media sosial.',
-                    'sort_order' => 40,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'Sistem Informasi Kustom',
-                    'icon' => 'heroicon-o-cpu-chip',
-                    'description' => 'Aplikasi web khusus untuk otomasi proses bisnis, dashboard, dan pelaporan real-time.',
-                    'sort_order' => 50,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'SEO & Digital Marketing',
-                    'icon' => 'heroicon-o-chart-bar',
-                    'description' => 'Optimasi mesin pencari, konten, dan strategi digital marketing untuk meningkatkan traffic.',
-                    'sort_order' => 60,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-            ]);
+                    'is_active' => true,
+                ])
+            );
         }
 
-        if (PortfolioItem::count() === 0) {
-            PortfolioItem::insert([
-                [
-                    'title' => 'PT Sukses Makmur',
-                    'category' => 'Web Development',
-                    'description' => 'Company profile dengan katalog produk digital dan formulir konsultasi.',
-                    'sort_order' => 10,
+        $portfolios = [
+            [
+                'title' => 'PT Sukses Makmur',
+                'category' => 'Web Development',
+                'description' => 'Company profile dengan katalog produk digital dan formulir konsultasi.',
+                'sort_order' => 10,
+            ],
+            [
+                'title' => 'BPR Nusantara Finance',
+                'category' => 'Web Development',
+                'description' => 'Website lembaga keuangan dengan simulasi kredit dan integrasi WhatsApp.',
+                'sort_order' => 20,
+            ],
+            [
+                'title' => 'Fashionista Premium Store',
+                'category' => 'E-Commerce',
+                'description' => 'E-commerce fashion dengan membership, loyalty points, dan notifikasi pesanan.',
+                'sort_order' => 30,
+            ],
+            [
+                'title' => 'Kuliner Nusantara',
+                'category' => 'E-Commerce',
+                'description' => 'Marketplace kuliner dengan integrasi kurir lokal dan sistem rating.',
+                'sort_order' => 40,
+            ],
+            [
+                'title' => 'Event Tech Conference',
+                'category' => 'Landing Page',
+                'description' => 'Landing page event dengan integrasi pendaftaran, countdown, dan highlight pembicara.',
+                'sort_order' => 50,
+            ],
+            [
+                'title' => 'EduTech Insight',
+                'category' => 'Dashboard & CMS',
+                'description' => 'Portal edukasi dengan multi-penulis, membership, dan integrasi newsletter.',
+                'sort_order' => 60,
+            ],
+        ];
+
+        foreach ($portfolios as $data) {
+            PortfolioItem::updateOrCreate(
+                ['slug' => Str::slug($data['title'])],
+                array_merge($data, [
+                    'slug' => Str::slug($data['title']),
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'BPR Nusantara Finance',
-                    'category' => 'Web Development',
-                    'description' => 'Website lembaga keuangan dengan simulasi kredit dan integrasi WhatsApp.',
-                    'sort_order' => 20,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'Fashionista Premium Store',
-                    'category' => 'E-Commerce',
-                    'description' => 'E-commerce fashion dengan membership, loyalty points, dan notifikasi pesanan.',
-                    'sort_order' => 30,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'Kuliner Nusantara',
-                    'category' => 'E-Commerce',
-                    'description' => 'Marketplace kuliner dengan integrasi kurir lokal dan sistem rating.',
-                    'sort_order' => 40,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'Event Tech Conference',
-                    'category' => 'Landing Page',
-                    'description' => 'Landing page event dengan integrasi pendaftaran, countdown, dan highlight pembicara.',
-                    'sort_order' => 50,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-                [
-                    'title' => 'EduTech Insight',
-                    'category' => 'Dashboard & CMS',
-                    'description' => 'Portal edukasi dengan multi-penulis, membership, dan integrasi newsletter.',
-                    'sort_order' => 60,
-                    'created_at' => $timestamp,
-                    'updated_at' => $timestamp,
-                ],
-            ]);
+                    'is_active' => true,
+                ])
+            );
         }
 
         if (PricingPlan::count() === 0) {
