@@ -9,6 +9,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PostPreviewController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\SourceCodeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -57,6 +58,10 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 // Services routes
 Route::get('/layanan', [ServicesController::class, 'index'])->name('services.index');
 Route::get('/layanan/{service:slug}', [ServicesController::class, 'show'])->name('services.show');
+
+// Source code routes
+Route::get('/source-code', [SourceCodeController::class, 'index'])->name('source-codes.index');
+Route::get('/source-code/{sourceCode:slug}', [SourceCodeController::class, 'show'])->name('source-codes.show');
 
 // Portfolio routes
 Route::get('/portofolio', [PortfolioController::class, 'index'])->name('portfolio.index');

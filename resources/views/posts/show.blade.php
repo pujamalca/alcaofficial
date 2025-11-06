@@ -193,9 +193,15 @@
 
 @section('content')
     {{-- Post Header with Featured Image --}}
-    @if ($post->featured_image)
+    @php
+        $featuredImage = $post->featured_image;
+        $featuredImageUrl = $featuredImage
+            ? (Str::startsWith($featuredImage, ['http://', 'https://']) ? $featuredImage : Storage::url($featuredImage))
+            : null;
+    @endphp
+    @if ($featuredImageUrl)
         <div class="relative h-96 bg-gray-900">
-            <img src="{{ Storage::url($post->featured_image) }}"
+            <img src="{{ $featuredImageUrl }}"
                  alt="{{ $post->title }}"
                  class="w-full h-full object-cover opacity-80">
             <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
@@ -405,7 +411,10 @@
                         <h3 class="text-sm font-semibold text-gray-900 mb-4">Galeri Foto:</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                             @foreach($post->gallery as $image)
-                                <img src="{{ Storage::url($image) }}" alt="Gallery image" class="w-full h-48 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                                @php
+                                    $galleryUrl = Str::startsWith($image, ['http://', 'https://']) ? $image : Storage::url($image);
+                                @endphp
+                                <img src="{{ $galleryUrl }}" alt="Gallery image" class="w-full h-48 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow">
                             @endforeach
                         </div>
                     </div>
@@ -418,7 +427,11 @@
                     <div class="flex items-start gap-4">
                         <div class="flex-shrink-0">
                             @if ($post->author->avatar)
-                                <img src="{{ Storage::url($post->author->avatar) }}" alt="{{ $post->author->name }}" class="w-16 h-16 rounded-full">
+                                @php
+                                    $avatarPath = $post->author->avatar;
+                                    $avatarUrl = Str::startsWith($avatarPath, ['http://', 'https://']) ? $avatarPath : Storage::url($avatarPath);
+                                @endphp
+                                <img src="{{ $avatarUrl }}" alt="{{ $post->author->name }}" class="w-16 h-16 rounded-full">
                             @else
                                 <div class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl font-bold">
                                     {{ substr($post->author->name, 0, 1) }}

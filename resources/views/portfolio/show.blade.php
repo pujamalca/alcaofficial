@@ -3,14 +3,25 @@
 @section('title', $portfolioItem->title . ' - Portfolio ' . config('app.name'))
 @section('meta_description', $portfolioItem->description)
 
+@php
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+
+    $headerImageUrl = $portfolioItem->header_image
+        ? (Str::startsWith($portfolioItem->header_image, ['http://', 'https://'])
+            ? $portfolioItem->header_image
+            : Storage::url($portfolioItem->header_image))
+        : null;
+@endphp
+
 @push('meta')
     {{-- Open Graph / Facebook --}}
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ route('portfolio.show', $portfolioItem->slug) }}">
     <meta property="og:title" content="{{ $portfolioItem->title }} - {{ config('app.name') }}">
     <meta property="og:description" content="{{ $portfolioItem->description }}">
-    @if($portfolioItem->header_image)
-    <meta property="og:image" content="{{ Storage::url($portfolioItem->header_image) }}">
+    @if($headerImageUrl)
+    <meta property="og:image" content="{{ $headerImageUrl }}">
     @else
     <meta property="og:image" content="{{ asset('alca.webp') }}">
     @endif
@@ -23,8 +34,8 @@
     <meta property="twitter:url" content="{{ route('portfolio.show', $portfolioItem->slug) }}">
     <meta property="twitter:title" content="{{ $portfolioItem->title }} - {{ config('app.name') }}">
     <meta property="twitter:description" content="{{ $portfolioItem->description }}">
-    @if($portfolioItem->header_image)
-    <meta property="twitter:image" content="{{ Storage::url($portfolioItem->header_image) }}">
+    @if($headerImageUrl)
+    <meta property="twitter:image" content="{{ $headerImageUrl }}">
     @else
     <meta property="twitter:image" content="{{ asset('alca.webp') }}">
     @endif
@@ -33,20 +44,24 @@
     <link rel="canonical" href="{{ route('portfolio.show', $portfolioItem->slug) }}">
 @endpush
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/portfolio.css') }}">
+@endpush
+
 @push('scripts')
     {{-- JSON-LD Structured Data for Creative Work --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "CreativeWork",
         "@id": "{{ route('portfolio.show', $portfolioItem->slug) }}",
         "name": "{{ $portfolioItem->title }}",
         "description": "{{ $portfolioItem->description }}",
         "url": "{{ route('portfolio.show', $portfolioItem->slug) }}",
-        @if($portfolioItem->header_image)
+        @if($headerImageUrl)
         "image": {
             "@type": "ImageObject",
-            "url": "{{ Storage::url($portfolioItem->header_image) }}",
+            "url": "{{ $headerImageUrl }}",
             "width": "1200",
             "height": "630"
         },
@@ -95,7 +110,7 @@
     {{-- Breadcrumb Structured Data --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
             {
@@ -138,21 +153,21 @@
 
 @section('content')
     {{-- Portfolio Header --}}
-    <article class="bg-white">
-        <div class="container mx-auto px-4 py-12">
+    <article class="portfolio-article">
+        <div class="container mx-auto px-4 py-12 portfolio-header">
             <div class="max-w-5xl mx-auto">
                 {{-- Breadcrumb --}}
-                <nav class="flex items-center gap-2 text-sm text-gray-600 mb-8">
-                    <a href="/" class="hover:text-purple-600">Home</a>
+                <nav class="portfolio-breadcrumb flex items-center gap-2 text-sm text-gray-600 mb-8">
+                    <a href="/" class="hover:text-blue-500">Home</a>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
-                    <a href="{{ route('portfolio.index') }}" class="hover:text-purple-600">Portfolio</a>
+                    <a href="{{ route('portfolio.index') }}" class="hover:text-blue-500">Portfolio</a>
                     @if($portfolioItem->category)
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
-                        <a href="{{ route('portfolio.index', ['category' => $portfolioItem->category]) }}" class="hover:text-purple-600">
+                        <a href="{{ route('portfolio.index', ['category' => $portfolioItem->category]) }}" class="hover:text-blue-500">
                             {{ ucfirst($portfolioItem->category) }}
                         </a>
                     @endif
@@ -163,9 +178,9 @@
                 </nav>
 
                 {{-- Category Badge & Rating --}}
-                <div class="flex items-center gap-4 mb-6">
+                <div class="flex items-center gap-4 mb-6 portfolio-meta">
                     @if($portfolioItem->category)
-                        <span class="px-4 py-2 bg-purple-100 text-purple-700 text-sm font-semibold rounded-full">
+                        <span class="px-4 py-2 text-sm font-semibold rounded-full portfolio-category-badge">
                             {{ ucfirst($portfolioItem->category) }}
                         </span>
                     @endif
@@ -182,12 +197,12 @@
                 </div>
 
                 {{-- Title --}}
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 portfolio-title">
                     {{ $portfolioItem->title }}
                 </h1>
 
                 {{-- Meta Info --}}
-                <div class="flex flex-wrap items-center gap-6 pb-8 border-b border-gray-200 mb-8">
+                <div class="portfolio-meta-info flex flex-wrap items-center gap-6 pb-8 border-b border-gray-200 mb-8">
                     @if($portfolioItem->client_name)
                         <div class="flex items-center gap-2 text-gray-700">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,7 +222,7 @@
                     @endif
 
                     @if($portfolioItem->url)
-                        <a href="{{ $portfolioItem->url }}" target="_blank" rel="noopener" class="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium">
+                        <a href="{{ $portfolioItem->url }}" target="_blank" rel="noopener" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                             </svg>
@@ -219,24 +234,24 @@
         </div>
 
         {{-- Header Image --}}
-        @if($portfolioItem->header_image)
-            <div class="w-full bg-gray-100 mb-12">
+        @if($headerImageUrl)
+            <div class="w-full portfolio-media-wrapper mb-12">
                 <div class="container mx-auto px-4">
                     <div class="max-w-5xl mx-auto">
-                        <img src="{{ Storage::url($portfolioItem->header_image) }}"
+                        <img src="{{ $headerImageUrl }}"
                              alt="{{ $portfolioItem->title }}"
-                             class="w-full rounded-2xl shadow-2xl">
+                             class="w-full rounded-2xl shadow-2xl portfolio-media-image">
                     </div>
                 </div>
             </div>
         @endif
 
         {{-- Content Section --}}
-        <div class="container mx-auto px-4 pb-12">
+        <div class="container mx-auto px-4 pb-12 portfolio-body">
             <div class="max-w-5xl mx-auto">
                 {{-- Description --}}
-                <div class="mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Tentang Proyek</h2>
+                <div class="portfolio-section-card mb-12">
+                    <h2 class="portfolio-section-title text-3xl font-bold text-gray-900 mb-4">Tentang Proyek</h2>
                     <p class="text-lg text-gray-700 leading-relaxed">
                         {{ $portfolioItem->description }}
                     </p>
@@ -244,7 +259,7 @@
 
                 {{-- Detailed Content --}}
                 @if($portfolioItem->content)
-                    <div class="prose prose-lg max-w-none mb-12">
+                    <div class="prose prose-lg max-w-none mb-12 portfolio-richtext">
                         <h2 class="text-3xl font-bold text-gray-900 mb-4">Detail Proyek</h2>
                         {!! nl2br(e($portfolioItem->content)) !!}
                     </div>
@@ -252,11 +267,11 @@
 
                 {{-- Technologies Used --}}
                 @if($portfolioItem->technologies && count($portfolioItem->technologies) > 0)
-                    <div class="mb-12">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Teknologi yang Digunakan</h2>
-                        <div class="flex flex-wrap gap-3">
+                    <div class="mb-12 portfolio-section-card">
+                        <h2 class="portfolio-section-title text-3xl font-bold text-gray-900 mb-6">Teknologi yang Digunakan</h2>
+                        <div class="flex flex-wrap gap-3 portfolio-tech-list">
                             @foreach($portfolioItem->technologies as $tech)
-                                <span class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-medium rounded-lg">
+                                <span class="portfolio-tech-badge px-4 py-2 font-medium rounded-lg">
                                     {{ $tech }}
                                 </span>
                             @endforeach
@@ -266,14 +281,17 @@
 
                 {{-- Additional Images Gallery --}}
                 @if($portfolioItem->images && count($portfolioItem->images) > 0)
-                    <div class="mb-12">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Galeri</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="mb-12 portfolio-section-card">
+                        <h2 class="portfolio-section-title text-3xl font-bold text-gray-900 mb-6">Galeri</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 portfolio-gallery">
                             @foreach($portfolioItem->images as $image)
-                                <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                                    <img src="{{ Storage::url($image) }}"
+                                @php
+                                    $imageUrl = Str::startsWith($image, ['http://', 'https://']) ? $image : Storage::url($image);
+                                @endphp
+                                <div class="portfolio-gallery-card aspect-video rounded-lg overflow-hidden">
+                                    <img src="{{ $imageUrl }}"
                                          alt="Gallery image"
-                                         class="w-full h-full object-cover hover:scale-110 transition-transform duration-300 cursor-pointer">
+                                         class="portfolio-gallery-image w-full h-full object-cover hover:scale-110 transition-transform duration-300 cursor-pointer">
                                 </div>
                             @endforeach
                         </div>
@@ -281,23 +299,23 @@
                 @endif
 
                 {{-- CTA Section --}}
-                <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 text-center text-white">
+                <div class="portfolio-cta rounded-2xl p-8 text-center text-white">
                     <h3 class="text-2xl md:text-3xl font-bold mb-4">
                         Tertarik dengan Hasil Kerja Kami?
                     </h3>
-                    <p class="text-purple-100 text-lg mb-6">
+                    <p class="text-blue-100 text-lg mb-6">
                         Mari diskusikan proyek Anda dan wujudkan bersama
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <a href="{{ url('/#contact') }}"
-                           class="inline-flex items-center justify-center px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+                           class="portfolio-cta-primary inline-flex items-center justify-center px-8 py-4 font-semibold rounded-lg transition-colors">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
                             Hubungi Kami
                         </a>
                         <a href="https://wa.me/6288101018577?text=Halo%2C%20saya%20tertarik%20dengan%20portfolio%20{{ urlencode($portfolioItem->title) }}"
-                           class="inline-flex items-center justify-center px-8 py-4 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors">
+                           class="portfolio-cta-secondary inline-flex items-center justify-center px-8 py-4 font-semibold rounded-lg transition-colors">
                             <i class="fab fa-whatsapp text-xl mr-2"></i>
                             Chat via WhatsApp
                         </a>
@@ -309,35 +327,41 @@
 
     {{-- Related Portfolio Section --}}
     @if($relatedItems->count() > 0)
-        <section class="py-16 bg-gray-50">
+        <section class="py-16 portfolio-related-section">
             <div class="container mx-auto px-4">
                 <div class="max-w-6xl mx-auto">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Portfolio Terkait</h2>
+                    <h2 class="portfolio-section-title text-3xl font-bold text-gray-900 mb-8 text-center">Portfolio Terkait</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         @foreach($relatedItems as $item)
-                            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                                <div class="relative aspect-video bg-gray-200">
-                                    @if($item->header_image)
-                                        <img src="{{ Storage::url($item->header_image) }}"
+                            @php
+                                $relatedHeader = $item->header_image;
+                                $relatedImageUrl = $relatedHeader
+                                    ? (Str::startsWith($relatedHeader, ['http://', 'https://']) ? $relatedHeader : Storage::url($relatedHeader))
+                                    : null;
+                            @endphp
+                            <div class="portfolio-related-card rounded-xl shadow-md overflow-hidden transition-shadow">
+                                <div class="relative aspect-video portfolio-related-media">
+                                    @if($relatedImageUrl)
+                                        <img src="{{ $relatedImageUrl }}"
                                              alt="{{ $item->title }}"
-                                             class="w-full h-full object-cover">
+                                             class="portfolio-related-image w-full h-full object-cover">
                                     @else
-                                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-600">
-                                            <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div class="portfolio-related-placeholder w-full h-full flex items-center justify-center">
+                                            <svg class="w-16 h-16 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="p-6">
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2 portfolio-related-title">
                                         {{ $item->title }}
                                     </h3>
-                                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                                    <p class="text-gray-600 text-sm mb-4 line-clamp-2 portfolio-related-text">
                                         {{ $item->description }}
                                     </p>
                                     <a href="{{ route('portfolio.show', $item->slug) }}"
-                                       class="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium">
+                                       class="portfolio-related-link inline-flex items-center font-medium">
                                         Lihat Detail
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>

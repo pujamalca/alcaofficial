@@ -3,6 +3,11 @@
 @section('title', 'Portfolio - ' . config('app.name'))
 @section('meta_description', 'Lihat portfolio proyek-proyek yang telah kami kerjakan. Website, aplikasi web, dan sistem informasi berkualitas tinggi.')
 
+@php
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+@endphp
+
 @push('meta')
     {{-- Open Graph / Facebook --}}
     <meta property="og:type" content="website">
@@ -25,6 +30,15 @@
 @push('scripts')
     @php
         $structuredItems = $portfolioItems->map(function ($item, $index) {
+            $headerImage = $item->header_image;
+            $imageUrl = null;
+
+            if ($headerImage) {
+                $imageUrl = Str::startsWith($headerImage, ['http://', 'https://'])
+                    ? $headerImage
+                    : Storage::url($headerImage);
+            }
+
             $data = [
                 '@type' => 'ListItem',
                 'position' => $index + 1,
@@ -33,7 +47,7 @@
                     '@id' => route('portfolio.show', $item->slug),
                     'name' => $item->title,
                     'description' => $item->description,
-                    'image' => $item->header_image ? \Illuminate\Support\Facades\Storage::url($item->header_image) : null,
+                    'image' => $imageUrl,
                     'url' => $item->url,
                     'genre' => $item->category ? ucfirst($item->category) : null,
                     'aggregateRating' => $item->rating ? [
@@ -147,15 +161,15 @@
                         @php
                             $imageUrl = null;
                             if ($item->header_image) {
-                                $imageUrl = \Illuminate\Support\Str::startsWith($item->header_image, ['http://', 'https://'])
+                                $imageUrl = Str::startsWith($item->header_image, ['http://', 'https://'])
                                     ? $item->header_image
-                                    : \Illuminate\Support\Facades\Storage::url($item->header_image);
+                                    : Storage::url($item->header_image);
                             } elseif (! empty($item->images)) {
                                 $primaryImage = is_array($item->images) ? ($item->images[0] ?? null) : null;
                                 if ($primaryImage) {
-                                    $imageUrl = \Illuminate\Support\Str::startsWith($primaryImage, ['http://', 'https://'])
+                                    $imageUrl = Str::startsWith($primaryImage, ['http://', 'https://'])
                                         ? $primaryImage
-                                        : \Illuminate\Support\Facades\Storage::url($primaryImage);
+                                        : Storage::url($primaryImage);
                                 }
                             }
                         @endphp

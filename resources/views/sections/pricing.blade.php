@@ -138,10 +138,10 @@
 
                     <div class="pricing-cta">
                         @php
-                            $primaryLink = $code->external_link ?: $code->demo_link;
-                            $ctaText = $code->cta_text ?? ($code->external_link ? 'Beli Sekarang' : 'Lihat Detail');
+                            $primaryLink = $code->external_link;
+                            $href = $primaryLink ?: route('source-codes.show', $code->slug);
                             $target = $primaryLink && str_starts_with($primaryLink, 'http') ? '_blank' : '_self';
-                            $href = $primaryLink ?: '#kontak';
+                            $ctaText = $code->cta_text ?? ($primaryLink ? 'Beli Sekarang' : 'Lihat Detail');
                         @endphp
                         <a href="{{ $href }}"
                            class="btn-pricing btn-pricing-source"

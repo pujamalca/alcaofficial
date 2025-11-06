@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+@endphp
+
 {{-- Portfolio Section --}}
 <section id="portofolio" class="section section-muted section-overlay">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,8 +38,23 @@
             @forelse($portfolios ?? [] as $portfolio)
                 <div class="portfolio-card portfolio-item animate-on-scroll"
                      data-category="{{ strtolower($portfolio->category ?? 'other') }}">
-                    @if($portfolio->header_image)
-                        <img src="{{ asset('storage/' . $portfolio->header_image) }}"
+                    @php
+                        $portfolioImage = null;
+                        if ($portfolio->header_image) {
+                            $portfolioImage = Str::startsWith($portfolio->header_image, ['http://', 'https://'])
+                                ? $portfolio->header_image
+                                : Storage::url($portfolio->header_image);
+                        } elseif (!empty($portfolio->images)) {
+                            $firstImage = is_array($portfolio->images) ? ($portfolio->images[0] ?? null) : null;
+                            if ($firstImage) {
+                                $portfolioImage = Str::startsWith($firstImage, ['http://', 'https://'])
+                                    ? $firstImage
+                                    : Storage::url($firstImage);
+                            }
+                        }
+                    @endphp
+                    @if($portfolioImage)
+                        <img src="{{ $portfolioImage }}"
                              alt="{{ $portfolio->title }}"
                              class="w-full h-64 object-cover"
                              loading="lazy">

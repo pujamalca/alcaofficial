@@ -52,9 +52,9 @@
                    class="nav-link text-base {{ request()->is('blog*') ? 'text-blue-600' : '' }}">
                     Blog
                 </a>
-                <a href="{{ url('/#testimoni') }}"
-                   class="nav-link text-base">
-                    Testimoni
+                <a href="{{ route('source-codes.index') }}"
+                   class="nav-link text-base {{ request()->is('source-code*') ? 'text-blue-600' : '' }}">
+                    Source Code
                 </a>
                 <a href="{{ url('/#kontak') }}"
                    class="nav-link text-base">
@@ -117,9 +117,9 @@
                class="block py-2 font-semibold hover:text-blue-600 {{ request()->is('blog*') ? 'text-blue-600' : '' }}">
                 Blog
             </a>
-            <a href="{{ url('/#testimoni') }}"
-               class="block py-2 font-semibold hover:text-blue-600">
-                Testimoni
+            <a href="{{ route('source-codes.index') }}"
+               class="block py-2 font-semibold hover:text-blue-600 {{ request()->is('source-code*') ? 'text-blue-600' : '' }}">
+                Source Code
             </a>
             <a href="{{ url('/#kontak') }}"
                class="block py-2 font-semibold hover:text-blue-600">

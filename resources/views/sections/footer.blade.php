@@ -40,7 +40,7 @@
                     <li><a href="{{ route('services.index') }}">Layanan</a></li>
                     <li><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog</a></li>
-                    <li><a href="{{ url('/#testimoni') }}">Testimoni</a></li>
+                    <li><a href="{{ route('source-codes.index') }}">Source Code</a></li>
                     <li><a href="{{ url('/#kontak') }}">Kontak</a></li>
                 </ul>
             </div>

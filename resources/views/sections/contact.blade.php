@@ -196,3 +196,16 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+    @if(session('success') || session('error') || $errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var contactSection = document.getElementById('kontak');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        </script>
+    @endif
+@endpush

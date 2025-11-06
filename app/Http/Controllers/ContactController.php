@@ -19,11 +19,12 @@ class ContactController extends Controller
         if (RateLimiter::tooManyAttempts($key, 3)) {
             $seconds = RateLimiter::availableIn($key);
 
-            return back()->with('error', 'Terlalu banyak percobaan. Silakan coba lagi dalam ' . ceil($seconds / 60) . ' menit.');
+            return redirect()
+                ->to(url()->previous() . '#kontak')
+                ->with('error', 'Terlalu banyak percobaan. Silakan coba lagi dalam ' . ceil($seconds / 60) . ' menit.');
         }
 
-        // Validate the form
-        $validated = $request->validate([
+        $validator = validator($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
@@ -36,6 +37,15 @@ class ContactController extends Controller
             'subject.required' => 'Subjek wajib diisi.',
             'message.required' => 'Pesan wajib diisi.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->to(url()->previous() . '#kontak')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
 
         // Store the message
         ContactMessage::create([
@@ -53,6 +63,8 @@ class ContactController extends Controller
         RateLimiter::hit($key, 3600); // 1 hour decay
 
         // Redirect back with success message
-        return back()->with('success', 'Terima kasih! Pesan Anda telah terkirim. Kami akan menghubungi Anda segera.');
+        return redirect()
+            ->to(url()->previous() . '#kontak')
+            ->with('success', 'Terima kasih! Pesan Anda telah terkirim. Kami akan menghubungi Anda segera.');
     }
 }

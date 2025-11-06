@@ -1,0 +1,284 @@
+.portfolio-article {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark .portfolio-article {
+    background: var(--bg-primary);
+    color: rgba(226, 232, 240, 0.95);
+}
+
+.portfolio-header {
+    padding-top: 3rem;
+    padding-bottom: 2.5rem;
+}
+
+.portfolio-breadcrumb {
+    color: rgba(71, 85, 105, 0.85);
+}
+
+.portfolio-breadcrumb a {
+    color: inherit;
+    transition: color 0.2s ease;
+}
+
+.dark .portfolio-breadcrumb {
+    color: rgba(191, 219, 254, 0.8);
+}
+
+.portfolio-title {
+    color: #0f172a;
+}
+
+.portfolio-meta-info {
+    border-color: rgba(148, 163, 184, 0.25);
+}
+
+.portfolio-meta .text-gray-700,
+.portfolio-meta-info .text-gray-700,
+.portfolio-article .text-gray-600 {
+    color: rgba(55, 65, 81, 0.85);
+}
+
+.dark .portfolio-title,
+.dark .portfolio-article .text-gray-900,
+.dark .portfolio-meta .text-gray-700,
+.dark .portfolio-meta-info .text-gray-700,
+.dark .portfolio-article .text-gray-600 {
+    color: rgba(226, 232, 240, 0.92) !important;
+}
+
+.portfolio-category-badge {
+    background: rgba(37, 99, 235, 0.12);
+    color: #1d4ed8;
+    border: 1px solid rgba(37, 99, 235, 0.25);
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.15);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark .portfolio-category-badge {
+    background: rgba(37, 99, 235, 0.32);
+    color: rgba(219, 234, 254, 0.95);
+    border-color: rgba(59, 130, 246, 0.45);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
+}
+
+.portfolio-meta svg {
+    color: rgba(59, 130, 246, 0.65);
+}
+
+.dark .portfolio-meta svg {
+    color: rgba(147, 197, 253, 0.85);
+}
+
+.portfolio-meta-info svg {
+    color: rgba(59, 130, 246, 0.7);
+}
+
+.dark .portfolio-meta-info svg {
+    color: rgba(147, 197, 253, 0.9);
+}
+
+.portfolio-media-wrapper {
+    background: var(--bg-secondary);
+    padding: 2.25rem 0;
+}
+
+.dark .portfolio-media-wrapper {
+    background: rgba(9, 13, 23, 0.92);
+}
+
+.portfolio-media-image {
+    border-radius: 26px;
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.18);
+}
+
+.dark .portfolio-media-image {
+    box-shadow: 0 32px 95px rgba(2, 6, 23, 0.65);
+}
+
+.portfolio-body {
+    padding-bottom: 6rem;
+}
+
+.portfolio-section-card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 28px;
+    padding: 2.5rem;
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark .portfolio-section-card {
+    background: rgba(15, 23, 42, 0.9);
+    border-color: rgba(96, 165, 250, 0.3);
+    box-shadow: 0 25px 70px rgba(2, 6, 23, 0.65);
+}
+
+.portfolio-section-title {
+    color: #0f172a;
+}
+
+.dark .portfolio-section-title {
+    color: rgba(224, 231, 255, 0.92);
+}
+
+.portfolio-section-card p {
+    color: rgba(55, 65, 81, 0.88);
+}
+
+.dark .portfolio-section-card p {
+    color: rgba(226, 232, 240, 0.85);
+}
+
+.portfolio-richtext {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 28px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 55px rgba(15, 23, 42, 0.08);
+}
+
+.dark .portfolio-richtext {
+    background: rgba(15, 23, 42, 0.9);
+    border-color: rgba(96, 165, 250, 0.3);
+    color: rgba(226, 232, 240, 0.88);
+    box-shadow: 0 28px 75px rgba(2, 6, 23, 0.7);
+}
+
+.portfolio-tech-list {
+    gap: 0.75rem;
+}
+
+.portfolio-tech-badge {
+    background: linear-gradient(120deg, rgba(37, 99, 235, 0.22), rgba(56, 189, 248, 0.24));
+    color: #0f172a;
+    border: 1px solid rgba(59, 130, 246, 0.28);
+    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.2);
+}
+
+.dark .portfolio-tech-badge {
+    background: linear-gradient(120deg, rgba(37, 99, 235, 0.42), rgba(56, 189, 248, 0.38));
+    color: rgba(219, 234, 254, 0.95);
+    border-color: rgba(96, 165, 250, 0.4);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.45);
+}
+
+.portfolio-gallery-card {
+    background: rgba(226, 232, 240, 0.45);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    overflow: hidden;
+}
+
+.dark .portfolio-gallery-card {
+    background: rgba(15, 23, 42, 0.7);
+    border-color: rgba(96, 165, 250, 0.25);
+}
+
+.portfolio-gallery-image {
+    transition: transform 0.4s ease;
+}
+
+.portfolio-cta {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.92), rgba(56, 189, 248, 0.88));
+    box-shadow: 0 30px 85px rgba(37, 99, 235, 0.35);
+}
+
+.portfolio-cta p {
+    color: rgba(226, 232, 240, 0.9);
+}
+
+.portfolio-cta-primary {
+    background: rgba(255, 255, 255, 0.95);
+    color: #1d4ed8;
+}
+
+.portfolio-cta-primary:hover {
+    background: rgba(241, 245, 249, 0.9);
+}
+
+.portfolio-cta-secondary {
+    background: rgba(34, 197, 94, 0.92);
+    color: #fff;
+}
+
+.portfolio-cta-secondary:hover {
+    background: rgba(22, 163, 74, 0.92);
+}
+
+.dark .portfolio-cta-secondary {
+    background: rgba(34, 197, 94, 0.85);
+}
+
+.portfolio-related-section {
+    background: var(--bg-secondary);
+}
+
+.dark .portfolio-related-section {
+    background: var(--bg-primary);
+}
+
+.portfolio-related-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+}
+
+.portfolio-related-card:hover {
+    box-shadow: 0 24px 65px rgba(59, 130, 246, 0.16);
+}
+
+.dark .portfolio-related-card {
+    background: rgba(15, 23, 42, 0.92);
+    border-color: rgba(96, 165, 250, 0.28);
+    box-shadow: 0 25px 70px rgba(2, 6, 23, 0.6);
+}
+
+.dark .portfolio-related-card:hover {
+    box-shadow: 0 30px 85px rgba(37, 99, 235, 0.32);
+}
+
+.portfolio-related-placeholder {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.24), rgba(56, 189, 248, 0.28));
+    color: rgba(59, 130, 246, 0.8);
+}
+
+.dark .portfolio-related-placeholder {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.42), rgba(56, 189, 248, 0.4));
+    color: rgba(191, 219, 254, 0.88);
+}
+
+.portfolio-related-link {
+    color: #1d4ed8;
+    transition: color 0.2s ease;
+}
+
+.portfolio-related-link:hover {
+    color: #3b82f6;
+}
+
+.dark .portfolio-related-link {
+    color: rgba(147, 197, 253, 0.95);
+}
+
+.dark .portfolio-related-link:hover {
+    color: rgba(96, 165, 250, 1);
+}
+
+.dark .portfolio-related-text {
+    color: rgba(226, 232, 240, 0.82);
+}
+
+.dark .portfolio-related-title {
+    color: rgba(226, 232, 240, 0.94);
+}
+
+.portfolio-article .border-gray-200 {
+    border-color: rgba(148, 163, 184, 0.24) !important;
+}
+
+.dark .portfolio-article .border-gray-200 {
+    border-color: rgba(96, 165, 250, 0.35) !important;
+}
