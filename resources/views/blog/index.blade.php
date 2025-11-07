@@ -83,7 +83,11 @@
                             {{-- Featured Image --}}
                             @if($post->featured_image)
                                 <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 overflow-hidden">
-                                    <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                    <img src="{{ $post->featured_image }}"
+                                         alt="{{ $post->title }}"
+                                         loading="lazy"
+                                         decoding="async"
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
                                 </div>
                             @else
                                 <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">

@@ -218,8 +218,9 @@
                 <button
                     type="button"
                     onclick="window.dispatchEvent(new CustomEvent('open-search'))"
-                    class="hidden md:flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer z-10">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    aria-label="Open search"
+                    class="hidden md:flex items-center gap-2 px-3 py-2.5 min-h-[44px] text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer z-10 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                     <span>Search</span>
@@ -227,8 +228,10 @@
                 @endif
 
                 {{-- Admin Link --}}
-                <a href="/admin" class="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="/admin"
+                   aria-label="Admin panel"
+                   class="hidden md:inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
@@ -236,8 +239,13 @@
                 </a>
 
                 {{-- Mobile Menu Button --}}
-                <button type="button" class="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors" id="mobile-menu-button">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button"
+                        class="md:hidden p-2 min-h-[44px] min-w-[44px] text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        id="mobile-menu-button"
+                        aria-label="Toggle mobile menu"
+                        aria-expanded="false"
+                        aria-controls="mobile-menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
@@ -324,6 +332,31 @@
     query: '',
     results: [],
     loading: false,
+    previouslyFocused: null,
+    init() {
+        this.$watch('open', value => {
+            if (value) {
+                this.trapFocus();
+            } else {
+                this.releaseFocus();
+            }
+        });
+    },
+    trapFocus() {
+        this.previouslyFocused = document.activeElement;
+        document.body.style.overflow = 'hidden';
+        this.$nextTick(() => {
+            if (this.$refs.searchInput) {
+                this.$refs.searchInput.focus();
+            }
+        });
+    },
+    releaseFocus() {
+        document.body.style.overflow = '';
+        if (this.previouslyFocused) {
+            this.previouslyFocused.focus();
+        }
+    },
     async search() {
         if (this.query.length < 2) {
             this.results = [];
@@ -351,7 +384,10 @@
 @keydown.escape.window="open = false"
 x-show="open"
 x-cloak
-class="fixed inset-0 z-50 overflow-y-auto backdrop-blur-sm bg-white/10"
+role="dialog"
+aria-modal="true"
+aria-labelledby="search-title"
+class="fixed inset-0 z-50 overflow-y-auto backdrop-blur-sm bg-black/20"
 style="display: none;"
 @click="open = false">
     {{-- Modal Container --}}
@@ -359,23 +395,42 @@ style="display: none;"
         <div x-show="open" x-transition class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl border border-gray-200">
             {{-- Search Input --}}
             <div class="p-4 border-b border-gray-200">
+                <h2 id="search-title" class="sr-only">Search Articles</h2>
                 <div class="relative">
-                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
-                    <input type="text"
+                    <input type="search"
+                           x-ref="searchInput"
                            x-model="query"
                            @input.debounce.300ms="search()"
                            @keydown.enter="goToFirst()"
-                           placeholder="Cari artikel..."
-                           class="w-full pl-12 pr-4 py-3 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-lg"
-                           autofocus>
-                    <button @click="open = false" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           placeholder="Cari artikel... (min. 2 karakter)"
+                           role="searchbox"
+                           aria-label="Search articles"
+                           aria-describedby="search-help"
+                           aria-autocomplete="list"
+                           class="w-full pl-12 pr-12 py-3 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-lg">
+                    <button @click="open = false"
+                            aria-label="Close search"
+                            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:ring-2 focus:ring-blue-500 rounded p-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
+                <!-- Helper text -->
+                <p id="search-help" class="text-xs text-gray-500 mt-2">
+                    <span x-show="query.length > 0 && query.length < 2" class="text-amber-600">
+                        Ketik minimal 2 karakter untuk mencari
+                    </span>
+                    <span x-show="query.length === 0" class="text-gray-500">
+                        Tips: Tekan Enter untuk membuka artikel pertama
+                    </span>
+                    <span x-show="query.length >= 2 && results.length > 0" class="text-green-600">
+                        Ditemukan <span x-text="results.length"></span> artikel
+                    </span>
+                </p>
             </div>
 
             {{-- Search Results --}}
@@ -432,6 +487,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener('click', function() {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
             mobileMenu.classList.toggle('hidden');
         });
     }

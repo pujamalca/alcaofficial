@@ -6,9 +6,10 @@
     @section('meta_description', $post->seo_description)
 @endif
 
+{{-- Prose styles are now in resources/css/prose.css for better performance --}}
 @push('styles')
     <style>
-        /* Custom styling untuk content - Comprehensive prose styles */
+        /* Custom styling untuk content - Comprehensive prose styles - DEPRECATED: Moved to prose.css */
         .prose-custom {
             max-width: none;
             color: #374151;
