@@ -13,9 +13,13 @@ return [
     | framework. This connection is utilized if another isn't explicitly
     | specified when running a cache operation inside the application.
     |
+    | PERFORMANCE NOTE: 'file' cache is significantly faster than 'database'
+    | For production, use 'redis' for best performance. Set CACHE_STORE=redis
+    | in your .env file if Redis is available.
+    |
     */
 
-    'default' => env('CACHE_STORE', 'database'),
+    'default' => env('CACHE_STORE', 'file'),
 
     /*
     |--------------------------------------------------------------------------

@@ -76,8 +76,8 @@
         @if($post->tags->count() > 0)
         "keywords": "{{ $post->tags->pluck('name')->implode(', ') }}",
         @endif
-        "wordCount": {{ str_word_count(strip_tags($post->content)) }},
-        "commentCount": {{ $post->comments->count() }},
+        "wordCount": {{ $post->word_count }},
+        "commentCount": {{ $post->comment_count_cached }},
         "inLanguage": "id-ID",
         "url": "{{ request()->url() }}"
     }
@@ -325,7 +325,7 @@
                             </p>
                             <div class="flex items-center gap-4">
                                 <span class="text-sm text-gray-600">
-                                    <strong>{{ \App\Models\Post::where('author_id', $post->author_id)->published()->count() }}</strong> artikel ditulis
+                                    <strong>{{ $post->author_post_count }}</strong> artikel ditulis
                                 </span>
                             </div>
                         </div>
