@@ -87,22 +87,17 @@
                     @foreach($posts as $post)
                         <article class="group blog-card overflow-hidden flex flex-col">
                             {{-- Featured Image --}}
-                            <div class="relative overflow-hidden aspect-video bg-gradient-to-br from-blue-500 to-indigo-600">
-                                @if($post->featured_image)
-                                    <img
-                                        src="{{ $post->featured_image }}"
-                                        alt="{{ $post->title }}"
-                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                    >
-                                @else
-                                    <div class="w-full h-full flex items-center justify-center">
-                                        <svg class="w-16 h-16 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 16h14M5 12h9"/>
-                                        </svg>
-                                    </div>
-                                @endif
-                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/40 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            </div>
+                            @if($post->featured_image)
+                                <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 overflow-hidden">
+                                    <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                </div>
+                            @else
+                                <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                                    <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                    </svg>
+                                </div>
+                            @endif
 
                             <div class="p-6 sm:p-7 flex flex-col flex-1">
                                 {{-- Category Badge --}}

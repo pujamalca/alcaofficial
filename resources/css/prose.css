@@ -1,0 +1,219 @@
+/* ============================================
+   BLOG CONTENT PROSE STYLES
+   ============================================
+   Comprehensive typography styles for blog content
+   Extracted from inline styles for better performance
+   ============================================ */
+
+@layer components {
+    /* Base prose container */
+    .prose-custom {
+        @apply max-w-none text-gray-700 text-lg leading-7;
+    }
+
+    /* ============================================
+       HEADINGS
+       ============================================ */
+    .prose-custom h1 {
+        @apply text-4xl leading-10 font-extrabold text-gray-900 mt-8 mb-4;
+    }
+
+    .prose-custom h1:first-child {
+        @apply mt-0;
+    }
+
+    .prose-custom h2 {
+        @apply text-3xl leading-9 font-bold text-gray-900 mt-8 mb-4 pb-2 border-b-2 border-gray-200;
+    }
+
+    .prose-custom h3 {
+        @apply text-2xl leading-8 font-semibold text-gray-800 mt-6 mb-3;
+    }
+
+    .prose-custom h4 {
+        @apply text-xl leading-7 font-semibold text-gray-800 mt-5 mb-2;
+    }
+
+    /* ============================================
+       PARAGRAPHS
+       ============================================ */
+    .prose-custom p {
+        @apply text-gray-600 leading-7 mb-5 mt-0;
+    }
+
+    .prose-custom p:last-child {
+        @apply mb-0;
+    }
+
+    /* ============================================
+       LISTS
+       ============================================ */
+    .prose-custom ul {
+        @apply list-disc pl-7 my-5;
+    }
+
+    .prose-custom ol {
+        @apply list-decimal pl-7 my-5;
+    }
+
+    .prose-custom li {
+        @apply text-gray-600 leading-7 my-2 pl-1.5;
+    }
+
+    .prose-custom ul ul,
+    .prose-custom ul ol,
+    .prose-custom ol ul,
+    .prose-custom ol ol {
+        @apply my-3;
+    }
+
+    .prose-custom li > p {
+        @apply my-3;
+    }
+
+    /* ============================================
+       INLINE ELEMENTS
+       ============================================ */
+    .prose-custom strong,
+    .prose-custom b {
+        @apply font-semibold text-gray-900;
+    }
+
+    .prose-custom em,
+    .prose-custom i {
+        @apply italic;
+    }
+
+    .prose-custom u {
+        @apply underline decoration-gray-400;
+    }
+
+    .prose-custom s {
+        @apply line-through;
+    }
+
+    /* ============================================
+       LINKS
+       ============================================ */
+    .prose-custom a {
+        @apply text-blue-600 underline font-medium transition-colors duration-200 hover:text-blue-800;
+    }
+
+    /* ============================================
+       BLOCKQUOTES
+       ============================================ */
+    .prose-custom blockquote {
+        @apply border-l-4 border-blue-500 pl-4 pt-2 pb-2 italic text-gray-600 my-6 bg-gray-50 rounded;
+    }
+
+    .prose-custom blockquote p {
+        @apply mb-2;
+    }
+
+    .prose-custom blockquote p:last-child {
+        @apply mb-0;
+    }
+
+    /* ============================================
+       CODE
+       ============================================ */
+    .prose-custom code {
+        @apply bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono;
+    }
+
+    .prose-custom pre {
+        @apply bg-gray-800 text-gray-50 p-4 rounded-lg overflow-x-auto my-6 leading-relaxed;
+    }
+
+    .prose-custom pre code {
+        @apply bg-transparent text-inherit p-0 text-sm;
+    }
+
+    /* ============================================
+       TABLES
+       ============================================ */
+    .prose-custom table {
+        @apply w-full border-collapse my-6 text-sm;
+    }
+
+    .prose-custom thead {
+        @apply border-b-2 border-gray-300;
+    }
+
+    .prose-custom th {
+        @apply bg-gray-50 px-4 py-3 text-left font-semibold text-gray-900 border border-gray-200;
+    }
+
+    .prose-custom td {
+        @apply px-4 py-3 border border-gray-200 text-gray-600;
+    }
+
+    .prose-custom tbody tr:hover {
+        @apply bg-gray-50;
+    }
+
+    /* ============================================
+       HORIZONTAL RULE
+       ============================================ */
+    .prose-custom hr {
+        @apply border-0 border-t border-gray-200 my-8;
+    }
+
+    /* ============================================
+       IMAGES
+       ============================================ */
+    .prose-custom img {
+        @apply max-w-full h-auto rounded-lg shadow-md my-6;
+    }
+
+    /* ============================================
+       FIGURE & FIGCAPTION
+       ============================================ */
+    .prose-custom figure {
+        @apply my-8;
+    }
+
+    .prose-custom figcaption {
+        @apply mt-3 text-sm text-gray-600 text-center;
+    }
+
+    /* ============================================
+       SPACING UTILITIES
+       ============================================ */
+
+    /* Consistent spacing between elements */
+    .prose-custom > * + * {
+        @apply mt-5;
+    }
+
+    /* Reduced spacing after headings */
+    .prose-custom > h2 + *,
+    .prose-custom > h3 + *,
+    .prose-custom > h4 + * {
+        @apply mt-3;
+    }
+
+    /* ============================================
+       POST CONTENT WRAPPER
+       ============================================ */
+
+    /* Handle all child elements as block */
+    .post-content {
+        @apply block;
+    }
+
+    .post-content > * {
+        @apply block;
+    }
+
+    /* Fix for content that might not have proper paragraph tags */
+    .post-content br {
+        @apply block mt-3;
+        content: "";
+    }
+
+    /* Preserve line breaks for plain text content */
+    .post-content {
+        white-space: pre-line;
+    }
+}
