@@ -42,11 +42,17 @@ class BlogController extends Controller
         }
 
         $posts = $query->paginate(9);
-        $categories = Category::whereHas('posts', function ($q) {
-            $q->published();
-        })->withCount(['posts' => function ($q) {
-            $q->published();
-        }])->get();
+
+        // Cache categories list (1 hour TTL)
+        $categories = cache()->remember(
+            'blog:categories:with_counts',
+            now()->addHour(),
+            fn () => Category::whereHas('posts', function ($q) {
+                $q->published();
+            })->withCount(['posts' => function ($q) {
+                $q->published();
+            }])->get()
+        );
 
         return view('blog.index', compact('posts', 'categories'));
     }
@@ -57,28 +63,40 @@ class BlogController extends Controller
     public function show(string $slug)
     {
         $post = Post::published()
-            ->with(['author', 'category', 'tags', 'comments' => function ($q) {
-                $q->approved()->whereNull('parent_id')->with('replies')->latest();
-            }])
+            ->with([
+                'author',
+                'category',
+                'tags',
+                'comments' => function ($q) {
+                    $q->approved()
+                        ->whereNull('parent_id')
+                        ->with(['replies' => fn ($q) => $q->with('user'), 'user'])
+                        ->latest();
+                },
+            ])
             ->where('slug', $slug)
             ->firstOrFail();
 
         // Increment view count
         \App\Jobs\IncrementPostViewCount::dispatch($post->id);
 
-        // Get related posts
-        $relatedPosts = Post::published()
-            ->where('id', '!=', $post->id)
-            ->where(function ($query) use ($post) {
-                $query->where('category_id', $post->category_id)
-                    ->orWhereHas('tags', function ($q) use ($post) {
-                        $q->whereIn('tags.id', $post->tags->pluck('id'));
-                    });
-            })
-            ->with(['author', 'category'])
-            ->latest('published_at')
-            ->take(3)
-            ->get();
+        // Get related posts (cached for 1 hour)
+        $relatedPosts = cache()->remember(
+            "post:{$post->id}:related_posts",
+            now()->addHour(),
+            fn () => Post::published()
+                ->where('id', '!=', $post->id)
+                ->where(function ($query) use ($post) {
+                    $query->where('category_id', $post->category_id)
+                        ->orWhereHas('tags', function ($q) use ($post) {
+                            $q->whereIn('tags.id', $post->tags->pluck('id'));
+                        });
+                })
+                ->with(['author', 'category'])
+                ->latest('published_at')
+                ->take(3)
+                ->get()
+        );
 
         return view('blog.show', compact('post', 'relatedPosts'));
     }

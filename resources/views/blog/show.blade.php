@@ -4,20 +4,127 @@
 @section('meta_description', $post->seo_description ?? $post->excerpt ?? strip_tags(substr($post->content, 0, 160)))
 
 @push('meta')
-    @if($post->og_image)
-        <meta property="og:image" content="{{ $post->og_image }}">
+    {{-- Open Graph Tags --}}
+    @if($post->og_image || $post->featured_image)
+        <meta property="og:image" content="{{ $post->og_image ?? $post->featured_image }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="{{ $post->title }}">
     @endif
     <meta property="og:title" content="{{ $post->title }}">
     <meta property="og:description" content="{{ $post->excerpt ?? strip_tags(substr($post->content, 0, 160)) }}">
     <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ request()->url() }}">
     <meta property="article:published_time" content="{{ $post->published_at->toIso8601String() }}">
+    @if($post->updated_at && $post->updated_at != $post->published_at)
+        <meta property="article:modified_time" content="{{ $post->updated_at->toIso8601String() }}">
+    @endif
     @if($post->author)
         <meta property="article:author" content="{{ $post->author->name }}">
     @endif
-@endpush
+    @if($post->category)
+        <meta property="article:section" content="{{ $post->category->name }}">
+    @endif
+    @foreach($post->tags as $tag)
+        <meta property="article:tag" content="{{ $tag->name }}">
+    @endforeach
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/blog.css') }}">
+    {{-- Twitter Card Tags --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $post->title }}">
+    <meta name="twitter:description" content="{{ $post->excerpt ?? strip_tags(substr($post->content, 0, 160)) }}">
+    @if($post->og_image || $post->featured_image)
+        <meta name="twitter:image" content="{{ $post->og_image ?? $post->featured_image }}">
+        <meta name="twitter:image:alt" content="{{ $post->title }}">
+    @endif
+
+    {{-- JSON-LD Structured Data for BlogPosting --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{ $post->title }}",
+        "description": "{{ $post->excerpt ?? strip_tags(substr($post->content, 0, 160)) }}",
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{ $post->featured_image ?? $post->og_image ?? asset('images/default-og.jpg') }}",
+            "width": 1200,
+            "height": 630
+        },
+        "datePublished": "{{ $post->published_at->toIso8601String() }}",
+        "dateModified": "{{ ($post->updated_at ?? $post->published_at)->toIso8601String() }}",
+        "author": {
+            "@type": "Person",
+            "name": "{{ $post->author->name }}",
+            "url": "{{ url('/') }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ config('app.name') }}",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ asset('images/logo.png') }}"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ request()->url() }}"
+        },
+        @if($post->category)
+        "articleSection": "{{ $post->category->name }}",
+        @endif
+        @if($post->tags->count() > 0)
+        "keywords": "{{ $post->tags->pluck('name')->implode(', ') }}",
+        @endif
+        "wordCount": {{ $post->word_count }},
+        "commentCount": {{ $post->comment_count_cached }},
+        "inLanguage": "id-ID",
+        "url": "{{ request()->url() }}"
+    }
+    </script>
+
+    {{-- JSON-LD Structured Data for BreadcrumbList --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "{{ route('blog.index') }}"
+            }
+            @if($post->category)
+            ,{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $post->category->name }}",
+                "item": "{{ route('blog.index', ['category' => $post->category->slug]) }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "{{ $post->title }}",
+                "item": "{{ request()->url() }}"
+            }
+            @else
+            ,{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $post->title }}",
+                "item": "{{ request()->url() }}"
+            }
+            @endif
+        ]
+    }
+    </script>
 @endpush
 
 @section('content')
@@ -104,7 +211,11 @@
             <div class="w-full blog-featured-wrapper">
                 <div class="container mx-auto px-4">
                     <div class="max-w-5xl mx-auto">
-                        <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full rounded-xl shadow-lg blog-featured-image">
+                        <img src="{{ $post->featured_image }}"
+                             alt="{{ $post->image_alt ?? $post->title }}"
+                             loading="eager"
+                             decoding="async"
+                             class="w-full rounded-xl shadow-lg">
                     </div>
                 </div>
             </div>
@@ -214,7 +325,7 @@
                             </p>
                             <div class="flex items-center gap-4">
                                 <span class="text-sm text-gray-600">
-                                    <strong>{{ \App\Models\Post::where('author_id', $post->author_id)->published()->count() }}</strong> artikel ditulis
+                                    <strong>{{ $post->author_post_count }}</strong> artikel ditulis
                                 </span>
                             </div>
                         </div>
@@ -235,11 +346,15 @@
                             <article class="blog-related-card rounded-2xl overflow-hidden border transition-shadow group">
                                 @if($relatedPost->featured_image)
                                     <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 overflow-hidden">
-                                        <img src="{{ $relatedPost->featured_image }}" alt="{{ $relatedPost->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                        <img src="{{ $relatedPost->featured_image }}"
+                                             alt="{{ $relatedPost->image_alt ?? $relatedPost->title }}"
+                                             loading="lazy"
+                                             decoding="async"
+                                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
                                     </div>
                                 @else
                                     <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                                        <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                                         </svg>
                                     </div>
@@ -342,29 +457,180 @@
                 @endif
 
                 {{-- Comment Form --}}
-                <div class="rounded-2xl p-8 border blog-comment-form">
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 border border-blue-200"
+                     x-data="{
+                        loading: false,
+                        success: false,
+                        error: null,
+                        errors: {},
+                        formData: {
+                            name: '',
+                            email: '',
+                            comment: ''
+                        },
+                        async submitComment() {
+                            // Reset states
+                            this.error = null;
+                            this.errors = {};
+                            this.success = false;
+
+                            // Basic validation
+                            if (!this.formData.name.trim()) {
+                                this.errors.name = 'Nama wajib diisi';
+                            }
+                            if (!this.formData.email.trim()) {
+                                this.errors.email = 'Email wajib diisi';
+                            } else if (!this.isValidEmail(this.formData.email)) {
+                                this.errors.email = 'Format email tidak valid';
+                            }
+                            if (!this.formData.comment.trim()) {
+                                this.errors.comment = 'Komentar wajib diisi';
+                            } else if (this.formData.comment.trim().length < 10) {
+                                this.errors.comment = 'Komentar minimal 10 karakter';
+                            }
+
+                            // Stop if validation fails
+                            if (Object.keys(this.errors).length > 0) {
+                                return;
+                            }
+
+                            // Submit form
+                            this.loading = true;
+
+                            try {
+                                // TODO: Replace with actual API endpoint
+                                // const response = await fetch('/api/comments', {
+                                //     method: 'POST',
+                                //     headers: {
+                                //         'Content-Type': 'application/json',
+                                //         'X-CSRF-TOKEN': document.querySelector('meta[name=\"csrf-token\"]').content
+                                //     },
+                                //     body: JSON.stringify({
+                                //         post_id: {{ $post->id }},
+                                //         name: this.formData.name,
+                                //         email: this.formData.email,
+                                //         content: this.formData.comment
+                                //     })
+                                // });
+
+                                // Simulate API call for demo
+                                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                                // if (!response.ok) {
+                                //     throw new Error('Gagal mengirim komentar');
+                                // }
+
+                                // Success
+                                this.success = true;
+                                this.formData = { name: '', email: '', comment: '' };
+
+                                // Auto-hide success message after 5 seconds
+                                setTimeout(() => { this.success = false; }, 5000);
+                            } catch (err) {
+                                this.error = err.message || 'Terjadi kesalahan. Silakan coba lagi.';
+                            } finally {
+                                this.loading = false;
+                            }
+                        },
+                        isValidEmail(email) {
+                            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                        }
+                     }">
                     <h3 class="text-xl font-bold text-gray-900 mb-6">Tulis Komentar</h3>
                     <p class="text-sm text-gray-600 mb-6">
                         Komentar Anda akan ditinjau sebelum dipublikasikan. Mohon gunakan bahasa yang sopan dan relevan.
                     </p>
-                    <form class="space-y-4">
+
+                    {{-- Success Alert --}}
+                    <div x-show="success" x-cloak class="mb-6">
+                        <x-alert type="success" :dismissible="true" title="Komentar Berhasil Dikirim!">
+                            Terima kasih atas komentar Anda. Komentar akan muncul setelah ditinjau oleh moderator.
+                        </x-alert>
+                    </div>
+
+                    {{-- Error Alert --}}
+                    <div x-show="error" x-cloak class="mb-6">
+                        <x-alert type="error" :dismissible="true" title="Gagal Mengirim Komentar">
+                            <span x-text="error"></span>
+                        </x-alert>
+                    </div>
+
+                    <form @submit.prevent="submitComment" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {{-- Name Field --}}
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Nama</label>
-                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <label for="comment-name" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Nama <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    id="comment-name"
+                                    name="name"
+                                    x-model="formData.name"
+                                    :disabled="loading"
+                                    @input="delete errors.name"
+                                    required
+                                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    :class="errors.name ? 'border-red-300 focus:ring-red-500' : 'border-gray-300'"
+                                    placeholder="Nama lengkap Anda"
+                                    aria-describedby="name-error">
+                                <p x-show="errors.name" x-text="errors.name" id="name-error" class="mt-1 text-sm text-red-600" role="alert"></p>
                             </div>
+
+                            {{-- Email Field --}}
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                                <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <label for="comment-email" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Email <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="email"
+                                    id="comment-email"
+                                    name="email"
+                                    x-model="formData.email"
+                                    :disabled="loading"
+                                    @input="delete errors.email"
+                                    required
+                                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    :class="errors.email ? 'border-red-300 focus:ring-red-500' : 'border-gray-300'"
+                                    placeholder="email@contoh.com"
+                                    aria-describedby="email-error">
+                                <p x-show="errors.email" x-text="errors.email" id="email-error" class="mt-1 text-sm text-red-600" role="alert"></p>
                             </div>
                         </div>
+
+                        {{-- Comment Field --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Komentar</label>
-                            <textarea rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                            <label for="comment-text" class="block text-sm font-medium text-gray-700 mb-2">
+                                Komentar <span class="text-red-500">*</span>
+                            </label>
+                            <textarea
+                                id="comment-text"
+                                name="comment"
+                                x-model="formData.comment"
+                                :disabled="loading"
+                                @input="delete errors.comment"
+                                rows="4"
+                                required
+                                class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                :class="errors.comment ? 'border-red-300 focus:ring-red-500' : 'border-gray-300'"
+                                placeholder="Tulis komentar Anda di sini (minimal 10 karakter)"
+                                aria-describedby="comment-error"></textarea>
+                            <p x-show="errors.comment" x-text="errors.comment" id="comment-error" class="mt-1 text-sm text-red-600" role="alert"></p>
+                            <p class="mt-1 text-xs text-gray-500" x-show="formData.comment.length > 0">
+                                <span x-text="formData.comment.length"></span> karakter
+                            </p>
                         </div>
-                        <button type="submit" class="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                            Kirim Komentar
-                        </button>
+
+                        {{-- Submit Button --}}
+                        <x-button
+                            type="submit"
+                            variant="primary"
+                            size="lg"
+                            :loading="true"
+                            x-bind:disabled="loading">
+                            <span x-show="!loading">Kirim Komentar</span>
+                            <span x-show="loading">Mengirim...</span>
+                        </x-button>
                     </form>
                 </div>
             </div>

@@ -64,6 +64,12 @@ class Post extends Model implements HasMedia
         'is_sticky' => 'boolean',
     ];
 
+    protected $appends = [
+        'author_post_count',
+        'word_count',
+        'comment_count_cached',
+    ];
+
     protected function content(): Attribute
     {
         return Attribute::make(
@@ -167,6 +173,39 @@ class Post extends Model implements HasMedia
         $wordCount = str_word_count(strip_tags((string) $this->content));
 
         return (int) max(1, ceil($wordCount / $wordsPerMinute));
+    }
+
+    public function getAuthorPostCountAttribute(): int
+    {
+        if (! $this->author_id) {
+            return 0;
+        }
+
+        return cache()->remember(
+            "author:{$this->author_id}:published_posts_count",
+            now()->addHour(),
+            fn () => static::where('author_id', $this->author_id)
+                ->published()
+                ->count()
+        );
+    }
+
+    public function getWordCountAttribute(): int
+    {
+        return cache()->remember(
+            "post:{$this->id}:word_count",
+            now()->addHour(),
+            fn () => str_word_count(strip_tags((string) $this->content))
+        );
+    }
+
+    public function getCommentCountCachedAttribute(): int
+    {
+        return cache()->remember(
+            "post:{$this->id}:comment_count",
+            now()->addMinutes(10),
+            fn () => $this->comments()->count()
+        );
     }
 
     public function scopePublished(Builder $query): Builder
@@ -273,5 +312,35 @@ class Post extends Model implements HasMedia
     public function shouldBeSearchable(): bool
     {
         return $this->status === 'published';
+    }
+
+    /**
+     * Boot the model.
+     */
+    protected static function booted(): void
+    {
+        // Clear caches when post is saved
+        static::saved(function (Post $post) {
+            cache()->forget("post:{$post->id}:related_posts");
+            cache()->forget("post:{$post->id}:word_count");
+            cache()->forget("post:{$post->id}:comment_count");
+            cache()->forget('blog:categories:with_counts');
+
+            if ($post->author_id) {
+                cache()->forget("author:{$post->author_id}:published_posts_count");
+            }
+        });
+
+        // Clear caches when post is deleted
+        static::deleted(function (Post $post) {
+            cache()->forget("post:{$post->id}:related_posts");
+            cache()->forget("post:{$post->id}:word_count");
+            cache()->forget("post:{$post->id}:comment_count");
+            cache()->forget('blog:categories:with_counts');
+
+            if ($post->author_id) {
+                cache()->forget("author:{$post->author_id}:published_posts_count");
+            }
+        });
     }
 }
