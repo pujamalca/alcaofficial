@@ -357,11 +357,11 @@
             this.previouslyFocused.focus();
         }
     },
-    async search() {
-        if (this.query.length < 2) {
-            this.results = [];
-            return;
-        }
+        async search() {
+            if (this.query.length < 1) {
+                this.results = [];
+                return;
+            }
         this.loading = true;
         try {
             const response = await fetch(`/api/search?q=${encodeURIComponent(this.query)}`);
@@ -400,12 +400,12 @@ style="display: none;"
                     <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
-                    <input type="search"
-                           x-ref="searchInput"
-                           x-model="query"
-                           @input.debounce.300ms="search()"
-                           @keydown.enter="goToFirst()"
-                           placeholder="Cari artikel... (min. 2 karakter)"
+                        <input type="search"
+                               x-ref="searchInput"
+                               x-model="query"
+                               @input.debounce.300ms="search()"
+                               @keydown.enter="goToFirst()"
+                               placeholder="Cari artikel... (min. 1 karakter)"
                            role="searchbox"
                            aria-label="Search articles"
                            aria-describedby="search-help"
@@ -421,13 +421,10 @@ style="display: none;"
                 </div>
                 <!-- Helper text -->
                 <p id="search-help" class="text-xs text-gray-500 mt-2">
-                    <span x-show="query.length > 0 && query.length < 2" class="text-amber-600">
-                        Ketik minimal 2 karakter untuk mencari
-                    </span>
                     <span x-show="query.length === 0" class="text-gray-500">
-                        Tips: Tekan Enter untuk membuka artikel pertama
+                        Mulai ketik minimal 1 karakter untuk mencari
                     </span>
-                    <span x-show="query.length >= 2 && results.length > 0" class="text-green-600">
+                    <span x-show="query.length >= 1 && results.length > 0" class="text-green-600">
                         Ditemukan <span x-text="results.length"></span> artikel
                     </span>
                 </p>
