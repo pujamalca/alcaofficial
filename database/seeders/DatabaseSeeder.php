@@ -56,5 +56,23 @@ class DatabaseSeeder extends Seeder
 
         // Konten blog & landing page sudah di-handle oleh AlcaOfficialShowcaseSeeder
         // Jika membutuhkan konten acak tambahan, panggil ContentSeeder secara manual.
+         // Buat user admin default
+    $admin = User::updateOrCreate(
+        ['email' => 'admin@example.com'],
+        [
+            'name' => 'Administrator',
+            'username' => 'admin',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'is_active' => true,
+        ]
+    );
+
+    // Tambahkan role (pastikan role 'admin' atau 'super-admin' sudah ada di RolePermissionSeeder)
+    if (class_exists(\Spatie\Permission\Models\Role::class)) {
+        $admin->assignRole('Super Admin'); // ganti sesuai role yang kamu pakai
+    }
+
+    $this->command->info('✅ Admin user created: admin@example.com / password');
     }
 }
