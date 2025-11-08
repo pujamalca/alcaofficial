@@ -14,13 +14,13 @@ class TagFactory extends Factory
 
     public function definition(): array
     {
-        $word = fake()->unique()->word();
+        $word = $this->faker()->unique()->word();
 
         return [
             'name' => ucfirst($word),
             'type' => 'post',
-            'color' => fake()->optional()->hexColor(),
-            'description' => fake()->optional()->sentence(),
+            'color' => $this->faker()->optional()->hexColor(),
+            'description' => $this->faker()->optional()->sentence(),
             'metadata' => null,
         ];
     }

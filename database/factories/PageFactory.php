@@ -16,17 +16,17 @@ class PageFactory extends Factory
 
     public function definition(): array
     {
-        $title = fake()->unique()->sentence(4);
+        $title = $this->faker()->unique()->sentence(4);
 
         return [
             'author_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
             'title' => $title,
-            'slug' => Str::slug($title).'-'.fake()->unique()->numberBetween(100, 999),
-            'content' => fake()->paragraphs(6, true),
-            'status' => fake()->randomElement(['draft', 'published']),
-            'published_at' => now()->subDays(fake()->numberBetween(0, 30)),
+            'slug' => Str::slug($title).'-'.$this->faker()->unique()->numberBetween(100, 999),
+            'content' => $this->faker()->paragraphs(6, true),
+            'status' => $this->faker()->randomElement(['draft', 'published']),
+            'published_at' => now()->subDays($this->faker()->numberBetween(0, 30)),
             'seo_title' => $title,
-            'seo_description' => fake()->sentence(12),
+            'seo_description' => $this->faker()->sentence(12),
             'canonical_url' => null,
             'og_image' => null,
             'metadata' => [],

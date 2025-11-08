@@ -23,10 +23,10 @@ class CommentFactory extends Factory
             'parent_id' => null,
             'guest_name' => null,
             'guest_email' => null,
-            'content' => fake()->sentences(3, true),
-            'is_approved' => fake()->boolean(70),
-            'is_featured' => fake()->boolean(5),
-            'likes_count' => fake()->numberBetween(0, 100),
+            'content' => $this->faker()->sentences(3, true),
+            'is_approved' => $this->faker()->boolean(70),
+            'is_featured' => $this->faker()->boolean(5),
+            'likes_count' => $this->faker()->numberBetween(0, 100),
             'metadata' => null,
         ];
     }
@@ -45,8 +45,8 @@ class CommentFactory extends Factory
         return $this->state(function () {
             return [
                 'user_id' => null,
-                'guest_name' => fake()->name(),
-                'guest_email' => fake()->safeEmail(),
+                'guest_name' => $this->faker()->name(),
+                'guest_email' => $this->faker()->safeEmail(),
             ];
         });
     }
