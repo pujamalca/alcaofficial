@@ -135,13 +135,12 @@ class User extends Authenticatable implements HasMedia, HasAvatar, MustVerifyEma
         return $this->hasAnyRole(['Super Admin', 'Admin']) || $this->can('manage-users');
     }
 
-        public function canAccessPanel(Panel $panel): bool
-    {
-        // Aturan akses panel admin
-        return $this->is_active
-            && ! is_null($this->email_verified_at)
-            && $this->isSuperAdmin();   // pakai method isAdmin() yang sudah kamu buat
-    }
+public function canAccessPanel(Panel $panel): bool
+{
+    return $this->is_active
+        && ! is_null($this->email_verified_at)
+        && $this->hasAnyRole(['Super Admin', 'Admin']);
+}
 
 
     public function isSuperAdmin(): bool
