@@ -41,7 +41,7 @@
     {{-- JSON-LD Structured Data for BlogPosting --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "{{ $post->title }}",
         "description": "{{ $post->excerpt ?? strip_tags(substr($post->content, 0, 160)) }}",
@@ -86,7 +86,7 @@
     {{-- JSON-LD Structured Data for BreadcrumbList --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
             {
