@@ -5,208 +5,235 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>🌙 Puzzle Ramadan - Yuk Susun Gambar!</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
 
   :root {
     --gold: #FFD700;
+    --gold-light: #FFEC5C;
     --deep-gold: #FFA500;
     --teal: #00B4A6;
     --dark-teal: #007A73;
     --cream: #FFF8E7;
     --purple: #6C3FA0;
     --pink: #FF6B9D;
-    --night: #1A1040;
-    --star-yellow: #FFEC5C;
+    --night: #0D0828;
+    --night-deep: #060418;
+    --card-bg: rgba(255,255,255,0.08);
+    --card-border: rgba(255,215,0,0.2);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   body {
     font-family: 'Nunito', sans-serif;
-    background: var(--night);
+    background: linear-gradient(180deg, var(--night) 0%, var(--night-deep) 100%);
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    color: var(--cream);
   }
 
-  /* Starfield */
+  /* Animated background stars */
   .stars {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     pointer-events: none;
     z-index: 0;
+    overflow: hidden;
   }
   .star {
     position: absolute;
     background: white;
     border-radius: 50%;
-    animation: twinkle 2s infinite alternate;
+    animation: twinkle 3s infinite ease-in-out;
   }
-
   @keyframes twinkle {
-    from { opacity: 0.2; transform: scale(1); }
-    to   { opacity: 1;   transform: scale(1.4); }
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
   }
 
+  /* Main container */
   .game-wrapper {
     position: relative;
     z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    padding: clamp(8px, 3vw, 16px);
   }
 
-  /* Header */
+  /* Header section */
   .header {
     text-align: center;
-    margin-bottom: clamp(8px, 2vw, 12px);
-    animation: dropIn 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    margin-bottom: 24px;
+    animation: slideDown 0.6s ease-out;
   }
-  @keyframes dropIn {
-    from { transform: translateY(-60px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
+  @keyframes slideDown {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 
   .header h1 {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(1.4rem, 6vw, 2.8rem);
+    font-size: clamp(1.8rem, 5vw, 3rem);
     color: var(--gold);
-    text-shadow: 0 0 30px rgba(255,215,0,0.6), 3px 3px 0 var(--deep-gold);
-    letter-spacing: 1px;
+    text-shadow: 0 0 40px rgba(255,215,0,0.5), 0 4px 0 var(--deep-gold);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
     line-height: 1.2;
   }
   .header p {
-    color: var(--cream);
-    font-size: clamp(0.75rem, 2.5vw, 1rem);
-    margin-top: 4px;
-    opacity: 0.85;
+    color: rgba(255,248,231,0.8);
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    font-weight: 600;
   }
 
   /* Stats bar */
   .stats {
     display: flex;
-    gap: clamp(6px, 2vw, 12px);
-    margin-bottom: clamp(10px, 2vw, 14px);
+    gap: 12px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
     justify-content: center;
   }
   .stat-badge {
-    background: rgba(255,255,255,0.1);
-    border: 2px solid rgba(255,215,0,0.4);
-    border-radius: 50px;
-    padding: clamp(4px 10px, 2vw, 6px 18px);
-    color: var(--gold);
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(0.75rem, 2.5vw, 1rem);
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 16px;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
     backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   }
-  .stat-badge span { font-size: clamp(1rem, 3vw, 1.2rem); }
+  .stat-badge span {
+    font-size: 1.4rem;
+  }
+  .stat-badge b {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: var(--gold);
+  }
 
-  /* Level pills */
+  /* Level selector */
   .level-select {
     display: flex;
-    gap: clamp(4px, 1.5vw, 8px);
-    margin-bottom: clamp(10px, 2vw, 16px);
+    gap: 10px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
     justify-content: center;
   }
   .level-btn {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(0.7rem, 2.2vw, 0.9rem);
-    padding: clamp(5px 12px, 1.5vw, 7px 18px);
-    border-radius: 50px;
-    border: 2px solid transparent;
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    border-radius: 14px;
+    border: 3px solid transparent;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   }
-  .level-btn.easy   { background: #4CAF50; color: white; }
-  .level-btn.medium { background: #FF9800; color: white; }
-  .level-btn.hard   { background: #E53935; color: white; }
-  .level-btn.active { border-color: white; transform: scale(1.1); box-shadow: 0 0 16px rgba(255,255,255,0.4); }
-  .level-btn:hover  { transform: scale(1.08); }
-
-  /* Puzzle card */
-  .puzzle-card {
-    background: rgba(255,255,255,0.07);
-    border: 2px solid rgba(255,215,0,0.25);
-    border-radius: clamp(12px, 3vw, 24px);
-    padding: clamp(10px, 2.5vw, 18px);
-    backdrop-filter: blur(16px);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
-    margin-bottom: clamp(10px, 2vw, 16px);
-    width: 100%;
-    max-width: 600px;
+  .level-btn.easy   { background: linear-gradient(135deg, #4CAF50, #45A049); color: white; }
+  .level-btn.medium { background: linear-gradient(135deg, #FF9800, #F57C00); color: white; }
+  .level-btn.hard   { background: linear-gradient(135deg, #E53935, #C62828); color: white; }
+  .level-btn.active {
+    border-color: var(--gold);
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255,215,0,0.5);
   }
+  .level-btn:hover:not(.active) { transform: translateY(-2px); }
 
-  .puzzle-label {
-    text-align: center;
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(0.9rem, 3vw, 1.1rem);
-    color: var(--gold);
-    margin-bottom: clamp(8px, 2vw, 12px);
-  }
-
-  /* Two-panel layout */
-  .panels {
+  /* Main game area - DESKTOP: side by side */
+  .game-area {
     display: flex;
-    gap: clamp(10px, 3vw, 20px);
+    gap: 32px;
     align-items: flex-start;
-    flex-wrap: wrap;
     justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
   }
 
+  /* Left panel - Reference */
+  .reference-section {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .panel-label {
-    text-align: center;
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(0.7rem, 2vw, 0.85rem);
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 4px;
+    font-size: 0.95rem;
+    color: rgba(255,248,231,0.6);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
-
-  /* Reference image */
-  .reference-panel {
-    flex-shrink: 0;
+  .reference-canvas-wrapper {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 20px;
+    padding: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   }
-  .reference-panel canvas {
-    border-radius: clamp(8px, 2vw, 12px);
-    border: 2px solid rgba(255,215,0,0.3);
+  #ref-canvas {
     display: block;
-    max-width: 100%;
-    height: auto;
+    border-radius: 12px;
   }
 
-  /* Puzzle grid */
+  /* Right panel - Puzzle */
+  .puzzle-section {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .puzzle-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 24px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .puzzle-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-bottom: 16px;
+    text-align: center;
+  }
   #puzzle-grid {
     display: grid;
-    gap: 2px;
+    gap: 3px;
     cursor: pointer;
-    border-radius: clamp(8px, 2vw, 12px);
+    border-radius: 14px;
     overflow: hidden;
     border: 2px solid rgba(255,215,0,0.3);
+    background: rgba(0,0,0,0.2);
   }
 
   .puzzle-piece {
     position: relative;
     overflow: hidden;
-    transition: transform 0.15s, box-shadow 0.15s;
+    border-radius: 4px;
+    transition: all 0.2s ease;
     cursor: pointer;
-    border-radius: 1px;
   }
   .puzzle-piece:hover {
-    transform: scale(1.03);
+    transform: scale(1.04);
     z-index: 2;
-    box-shadow: 0 0 8px rgba(255,215,0,0.7);
+    box-shadow: 0 4px 20px rgba(255,215,0,0.6);
   }
   .puzzle-piece.selected {
-    box-shadow: 0 0 0 2px var(--gold), 0 0 15px rgba(255,215,0,0.8);
+    box-shadow: 0 0 0 3px var(--gold), 0 0 25px rgba(255,215,0,0.8);
     z-index: 3;
-    transform: scale(1.05);
+    transform: scale(1.06);
   }
   .puzzle-piece canvas {
     display: block;
@@ -216,105 +243,112 @@
   /* Buttons */
   .btn-row {
     display: flex;
-    gap: clamp(6px, 2vw, 10px);
-    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
     flex-wrap: wrap;
-    margin-top: clamp(8px, 2vw, 12px);
+    justify-content: center;
   }
   .game-btn {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(0.8rem, 2.5vw, 1rem);
-    padding: clamp(8px 16px, 2vw, 10px 24px);
+    font-size: 1rem;
+    padding: 14px 28px;
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    min-height: 40px;
+    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    min-height: 52px;
   }
-  .game-btn:hover  { transform: translateY(-2px) scale(1.04); }
-  .game-btn:active { transform: scale(0.97); }
+  .game-btn:hover { transform: translateY(-3px) scale(1.05); }
+  .game-btn:active { transform: translateY(0) scale(0.97); }
   .btn-shuffle  { background: linear-gradient(135deg, #FF6B9D, #C0397A); color: white; }
-  .btn-hint     { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1A1040; }
+  .btn-hint     { background: linear-gradient(135deg, #FFD700, #FFA500); color: var(--night); }
   .btn-new      { background: linear-gradient(135deg, #00B4A6, #007A73); color: white; }
+
+  /* Leaderboard - side panel on desktop */
+  .leaderboard-section {
+    flex: 1;
+    min-width: 250px;
+    max-width: 320px;
+  }
+  .leaderboard {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .lb-title {
+    font-family: 'Fredoka One', cursive;
+    color: var(--gold);
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(255,215,0,0.2);
+  }
+  .lb-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.9rem;
+  }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-rank { font-family: 'Fredoka One', cursive; color: var(--gold); font-size: 1.1rem; width: 32px; }
+  .lb-pts { font-weight: 700; color: var(--cream); }
+  .lb-info { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+  .lb-empty { color: rgba(255,255,255,0.3); text-align: center; padding: 20px 0; font-size: 0.9rem; }
 
   /* Win overlay */
   #win-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(26,16,64,0.85);
+    background: rgba(6,4,24,0.92);
     z-index: 100;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
     padding: 20px;
   }
   #win-overlay.show { display: flex; }
 
   .win-box {
-    background: linear-gradient(135deg, #2A1660, #1A1040);
-    border: 3px solid var(--gold);
-    border-radius: clamp(16px, 4vw, 32px);
-    padding: clamp(20px, 4vw, 40px) clamp(16px, 3vw, 50px);
-    box-shadow: 0 0 60px rgba(255,215,0,0.4);
+    background: linear-gradient(135deg, rgba(42,22,96,0.95), rgba(26,16,64,0.95));
+    border: 4px solid var(--gold);
+    border-radius: 32px;
+    padding: 40px 50px;
+    box-shadow: 0 0 80px rgba(255,215,0,0.4), inset 0 0 60px rgba(255,215,0,0.1);
     animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
     max-width: 90vw;
   }
   @keyframes popIn {
-    from { transform: scale(0.5); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
+    from { transform: scale(0.6); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
   }
-  .win-emoji { font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 8px; animation: bounce 0.8s infinite alternate; }
-  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+  .win-emoji { font-size: 4.5rem; margin-bottom: 16px; animation: bounce 0.8s infinite alternate; }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-15px); } }
   .win-title {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(1.3rem, 5vw, 2.2rem);
+    font-size: 2.5rem;
     color: var(--gold);
-    text-shadow: 0 0 20px rgba(255,215,0,0.5);
-    margin-bottom: 6px;
+    text-shadow: 0 0 30px rgba(255,215,0,0.5);
+    margin-bottom: 10px;
   }
-  .win-sub { color: var(--cream); font-size: clamp(0.9rem, 2.5vw, 1.1rem); margin-bottom: 16px; }
-  .stars-row { font-size: clamp(1.3rem, 4vw, 2rem); margin-bottom: 12px; letter-spacing: 4px; }
-
-  /* Leaderboard */
-  .leaderboard {
-    background: rgba(255,255,255,0.06);
-    border: 2px solid rgba(255,215,0,0.2);
-    border-radius: clamp(12px, 3vw, 20px);
-    padding: clamp(10px 14px, 2.5vw, 14px 18px);
-    margin-top: 4px;
-    min-width: 200px;
-    max-width: 320px;
-    width: 100%;
-  }
-  .lb-title {
-    font-family: 'Fredoka One', cursive;
-    color: var(--gold);
-    font-size: clamp(0.85rem, 2.5vw, 1rem);
-    text-align: center;
-    margin-bottom: 8px;
-  }
-  .lb-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    color: var(--cream);
-    font-size: clamp(0.7rem, 2vw, 0.85rem);
-  }
-  .lb-rank { font-family: 'Fredoka One', cursive; color: var(--gold); width: 20px; }
-  .lb-empty { color: rgba(255,255,255,0.3); font-size: clamp(0.7rem, 2vw, 0.8rem); text-align: center; padding: 6px 0; }
+  .win-sub { color: var(--cream); font-size: 1.2rem; margin-bottom: 20px; font-weight: 600; }
+  .stars-row { font-size: 2.5rem; margin-bottom: 20px; letter-spacing: 8px; }
 
   /* Confetti */
   .confetti-piece {
     position: fixed;
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
     animation: confettiFall linear forwards;
     z-index: 200;
     pointer-events: none;
@@ -328,41 +362,142 @@
   .piece-highlight {
     position: absolute;
     inset: 0;
-    background: rgba(255,215,0,0.5);
-    border-radius: 2px;
-    animation: flashHint 0.4s 3;
+    background: rgba(255,215,0,0.6);
+    border-radius: 4px;
+    animation: flashHint 0.5s 3;
     pointer-events: none;
   }
   @keyframes flashHint { 0%,100% { opacity: 0; } 50% { opacity: 1; } }
 
-  /* Mobile optimizations */
-  @media (max-width: 480px) {
-    .panels { flex-direction: column; align-items: center; gap: 12px; }
-    .reference-panel canvas { max-width: 100px; }
-    .btn-row { flex-direction: column; width: 100%; }
-    .game-btn { width: 100%; max-width: 200px; }
-    .stat-badge { flex: 1; justify-content: center; min-width: 80px; }
+  /* ==================== RESPONSIVE DESIGN ==================== */
+
+  /* Tablet (768px and below) */
+  @media (max-width: 768px) {
+    .game-area {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .reference-section, .puzzle-section {
+      width: 100%;
+      max-width: 400px;
+    }
+    .leaderboard-section {
+      width: 100%;
+      max-width: 400px;
+      order: 3;
+    }
   }
 
-  @media (max-width: 380px) {
-    .header h1 { font-size: 1.2rem; }
-    .level-btn { font-size: 0.65rem; padding: 5px 10px; }
+  /* Mobile (480px and below) */
+  @media (max-width: 480px) {
+    .game-wrapper {
+      padding: 12px;
+    }
+    .header {
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+    .header p {
+      font-size: 0.85rem;
+    }
+    .stats {
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .stat-badge {
+      padding: 6px 12px;
+      flex: 1;
+      min-width: 85px;
+      justify-content: center;
+    }
+    .stat-badge span { font-size: 1.1rem; }
+    .stat-badge b { font-size: 1rem; }
+    .level-select {
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .level-btn {
+      font-size: 0.8rem;
+      padding: 8px 16px;
+    }
+    .reference-canvas-wrapper, .puzzle-card {
+      padding: 10px;
+      border-radius: 16px;
+    }
+    .panel-label {
+      font-size: 0.8rem;
+      margin-bottom: 6px;
+    }
+    .puzzle-label {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .btn-row {
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .game-btn {
+      font-size: 0.9rem;
+      padding: 12px 20px;
+      min-height: 48px;
+      flex: 1;
+      min-width: 100px;
+    }
+    .leaderboard {
+      padding: 14px;
+      border-radius: 16px;
+    }
+    .lb-title {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+    }
+    .lb-row {
+      padding: 8px 4px;
+      font-size: 0.85rem;
+    }
+    .win-box {
+      padding: 24px 20px;
+      border-radius: 20px;
+    }
+    .win-emoji { font-size: 3rem; }
+    .win-title { font-size: 1.6rem; }
+    .win-sub { font-size: 1rem; }
+    .stars-row { font-size: 1.8rem; letter-spacing: 4px; }
+  }
+
+  /* Small mobile (360px and below) */
+  @media (max-width: 360px) {
+    .level-btn {
+      font-size: 0.7rem;
+      padding: 7px 12px;
+    }
+    .game-btn {
+      font-size: 0.85rem;
+      padding: 10px 16px;
+    }
   }
 
   /* Touch device optimizations */
   @media (hover: none) {
     .puzzle-piece:active { transform: scale(0.95); }
     .game-btn:active { transform: scale(0.95); }
+    .level-btn:active { transform: scale(0.97); }
   }
 
   /* Landscape mobile */
   @media (max-height: 600px) and (orientation: landscape) {
-    .header { margin-bottom: 4px; }
-    .header h1 { font-size: 1.2rem; }
+    .header { margin-bottom: 8px; }
+    .header h1 { font-size: 1.4rem; margin-bottom: 4px; }
     .header p { display: none; }
-    .stats { margin-bottom: 6px; }
-    .level-select { margin-bottom: 8px; }
-    .puzzle-card { padding: 8px; }
+    .stats { margin-bottom: 8px; }
+    .level-select { margin-bottom: 10px; }
+    .reference-canvas-wrapper, .puzzle-card { padding: 6px; }
+    .btn-row { margin-top: 10px; }
     .win-box { padding: 16px 24px; }
   }
 </style>
@@ -374,13 +509,13 @@
 <div class="game-wrapper">
   <div class="header">
     <h1>🌙 Puzzle Ramadan 🌙</h1>
-    <p>Susun gambar Ramadan dan dapatkan bintang!</p>
+    <p>Susun gambar Ramadan & raih bintang!</p>
   </div>
 
   <div class="stats">
-    <div class="stat-badge"><span>⭐</span> Skor: <b id="score-display">0</b></div>
-    <div class="stat-badge"><span>🏆</span> Terbaik: <b id="best-display">0</b></div>
-    <div class="stat-badge"><span>🧩</span> Selesai: <b id="solved-display">0</b></div>
+    <div class="stat-badge"><span>⭐</span> <b id="score-display">0</b></div>
+    <div class="stat-badge"><span>🏆</span> <b id="best-display">0</b></div>
+    <div class="stat-badge"><span>🧩</span> <b id="solved-display">0</b></div>
   </div>
 
   <div class="level-select">
@@ -389,28 +524,35 @@
     <button class="level-btn hard"         onclick="setLevel(4,'hard')"  id="btn-hard">🔴 Sulit (4×4)</button>
   </div>
 
-  <div class="puzzle-card">
-    <div class="puzzle-label" id="puzzle-name">🌙 Bulan & Bintang</div>
-    <div class="panels">
-      <div class="reference-panel">
-        <div class="panel-label">🖼 Gambar Asli</div>
+  <div class="game-area">
+    <!-- Reference Panel -->
+    <div class="reference-section">
+      <div class="panel-label">🖼 Referensi</div>
+      <div class="reference-canvas-wrapper">
         <canvas id="ref-canvas"></canvas>
       </div>
-      <div>
-        <div class="panel-label">🧩 Susun di sini!</div>
+    </div>
+
+    <!-- Puzzle Panel -->
+    <div class="puzzle-section">
+      <div class="puzzle-card">
+        <div class="puzzle-label" id="puzzle-name">🌙 Bulan & Bintang</div>
         <div id="puzzle-grid"></div>
+        <div class="btn-row">
+          <button class="game-btn btn-shuffle" onclick="shuffle()">🔀 Acak</button>
+          <button class="game-btn btn-hint"    onclick="showHint()">💡 Petunjuk</button>
+          <button class="game-btn btn-new"     onclick="nextPuzzle()">▶ Baru</button>
+        </div>
       </div>
     </div>
-    <div class="btn-row">
-      <button class="game-btn btn-shuffle" onclick="shuffle()">🔀 Acak</button>
-      <button class="game-btn btn-hint"    onclick="showHint()">💡 Petunjuk</button>
-      <button class="game-btn btn-new"     onclick="nextPuzzle()">▶ Gambar Baru</button>
-    </div>
-  </div>
 
-  <div class="leaderboard">
-    <div class="lb-title">🏆 Skor Terbaik</div>
-    <div id="lb-rows"><div class="lb-empty">Belum ada skor. Yuk main!</div></div>
+    <!-- Leaderboard Panel -->
+    <div class="leaderboard-section">
+      <div class="leaderboard">
+        <div class="lb-title">🏆 Skor Terbaik</div>
+        <div id="lb-rows"><div class="lb-empty">Belum ada skor<br>Yuk main!</div></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -420,8 +562,8 @@
     <div class="win-emoji">🎉</div>
     <div class="win-title">Hebat! Berhasil!</div>
     <div class="stars-row" id="win-stars">⭐⭐⭐</div>
-    <div class="win-sub" id="win-msg">Puzzle tersusun dengan sempurna!</div>
-    <div class="btn-row" style="margin-top:0">
+    <div class="win-sub" id="win-msg">Puzzle tersusun sempurna!</div>
+    <div class="btn-row" style="margin-top: 0;">
       <button class="game-btn btn-new"     onclick="closeWin();nextPuzzle()">▶ Gambar Baru</button>
       <button class="game-btn btn-shuffle" onclick="closeWin();shuffle()">🔀 Main Lagi</button>
     </div>
@@ -631,8 +773,6 @@ function drawNight(ctx,W){
   ctx.fillStyle=refG; ctx.fillRect(W*0.55,W*0.72,W*0.3,W*0.28);
 }
 
-// NEW PUZZLES 6-10
-
 function drawQuran(ctx, W) {
   let bg = ctx.createLinearGradient(0,0,0,W);
   bg.addColorStop(0,'#0D3B2E'); bg.addColorStop(1,'#1A5C4A');
@@ -778,23 +918,25 @@ function drawCrescentStar(ctx, W) {
   ctx.fillStyle=glow; ctx.fillRect(0,0,W,W);
 }
 
-// ─── Generate stars background ────────────────────────────────────────────
+// ─── Stars background ─────────────────────────────────────────────────────
 function generateStars(){
   const container=document.getElementById('stars');
-  for(let i=0;i<60;i++){
+  for(let i=0;i<50;i++){
     let s=document.createElement('div');
     s.className='star';
     let sz=Math.random()*2+1;
-    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${1.5+Math.random()*2}s`;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s`;
     container.appendChild(s);
   }
 }
 
 // ─── Puzzle helpers ───────────────────────────────────────────────────────
 function getPSize(){
-  const vw=Math.min(window.innerWidth, 400);
-  const avail=Math.min(vw-60, CANVAS_SIZE);
-  return Math.max(35, Math.floor(avail / GRID));
+  const vw=window.innerWidth;
+  const isMobile = vw <= 768;
+  const maxW = isMobile ? Math.min(vw - 80, 280) : 280;
+  const size = Math.floor(maxW / GRID);
+  return Math.max(40, size);
 }
 
 function buildRefCanvas(){
@@ -906,7 +1048,7 @@ function showHint(){
       let flash=document.createElement('div');
       flash.className='piece-highlight';
       el.appendChild(flash);
-      setTimeout(()=>flash.remove(), 1400);
+      setTimeout(()=>flash.remove(), 1600);
     }
   });
   playSound('hint');
@@ -935,7 +1077,7 @@ function onSolved(){
 
   let stars = moveCount <= GRID*GRID ? '⭐⭐⭐' : moveCount <= GRID*GRID*2 ? '⭐⭐' : '⭐';
   document.getElementById('win-stars').textContent=stars;
-  document.getElementById('win-msg').textContent=`Kamu dapat +${total} poin dalam ${moveCount} langkah! Luar biasa! 🎊`;
+  document.getElementById('win-msg').textContent=`+${total} poin dalam ${moveCount} langkah! 🎊`;
   document.getElementById('win-overlay').classList.add('show');
   launchConfetti();
   playSound('win');
@@ -955,13 +1097,15 @@ function addLeaderboard(pts, grid){
 }
 function renderLeaderboard(){
   const container=document.getElementById('lb-rows');
-  if(leaderboard.length===0){ container.innerHTML='<div class="lb-empty">Belum ada skor. Yuk main!</div>'; return; }
+  if(leaderboard.length===0){ container.innerHTML='<div class="lb-empty">Belum ada skor<br>Yuk main!</div>'; return; }
   const medals=['🥇','🥈','🥉','4️⃣','5️⃣'];
   container.innerHTML=leaderboard.map((l,i)=>`
     <div class="lb-row">
       <span class="lb-rank">${medals[i]}</span>
-      <span>+${l.pts} poin (${l.levelName})</span>
-      <span style="color:rgba(255,255,255,0.5);font-size:0.75rem">${l.moves} langkah</span>
+      <div>
+        <div class="lb-pts">+${l.pts}</div>
+        <div class="lb-info">${l.levelName} • ${l.moves} langkah</div>
+      </div>
     </div>`).join('');
 }
 
@@ -984,18 +1128,18 @@ function setLevel(n, cls){
 // ─── Confetti ─────────────────────────────────────────────────────────────
 function launchConfetti(){
   const colors=['#FFD700','#FF6B9D','#00B4A6','#A855F7','#FF9800','#4CAF50'];
-  for(let i=0;i<50;i++){
+  for(let i=0;i<60;i++){
     setTimeout(()=>{
       const el=document.createElement('div');
       el.className='confetti-piece';
-      el.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*0.5}s;border-radius:${Math.random()>0.5?'50%':'2px'}`;
+      el.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*0.6}s;border-radius:${Math.random()>0.5?'50%':'3px'}`;
       document.body.appendChild(el);
-      setTimeout(()=>el.remove(), 3000);
-    }, i*30);
+      setTimeout(()=>el.remove(), 4000);
+    }, i*25);
   }
 }
 
-// ─── Sound (Web Audio API) ────────────────────────────────────────────────
+// ─── Sound ────────────────────────────────────────────────────────────────
 let audioCtx=null;
 function getAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
 
@@ -1004,9 +1148,9 @@ function playClick(){
     const ac=getAudio();
     const o=ac.createOscillator(); const g=ac.createGain();
     o.connect(g); g.connect(ac.destination);
-    o.type='sine'; o.frequency.setValueAtTime(600,ac.currentTime); o.frequency.exponentialRampToValueAtTime(800,ac.currentTime+0.07);
-    g.gain.setValueAtTime(0.15,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.12);
-    o.start(); o.stop(ac.currentTime+0.12);
+    o.type='sine'; o.frequency.setValueAtTime(700,ac.currentTime); o.frequency.exponentialRampToValueAtTime(900,ac.currentTime+0.06);
+    g.gain.setValueAtTime(0.12,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.1);
+    o.start(); o.stop(ac.currentTime+0.1);
   }catch(e){}
 }
 
@@ -1014,28 +1158,28 @@ function playSound(type){
   try{
     const ac=getAudio();
     if(type==='win'){
-      [523,659,784,1047].forEach((f,i)=>{
+      [523,659,784,1047,1319].forEach((f,i)=>{
         const o=ac.createOscillator(); const g=ac.createGain();
         o.connect(g); g.connect(ac.destination);
         o.type='sine'; o.frequency.value=f;
-        g.gain.setValueAtTime(0.2,ac.currentTime+i*0.12);
-        g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+i*0.12+0.3);
-        o.start(ac.currentTime+i*0.12); o.stop(ac.currentTime+i*0.12+0.3);
+        g.gain.setValueAtTime(0.18,ac.currentTime+i*0.1);
+        g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+i*0.1+0.25);
+        o.start(ac.currentTime+i*0.1); o.stop(ac.currentTime+i*0.1+0.25);
       });
     } else if(type==='hint'){
       const o=ac.createOscillator(); const g=ac.createGain();
       o.connect(g); g.connect(ac.destination);
-      o.type='triangle'; o.frequency.value=440;
-      g.gain.setValueAtTime(0.1,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.3);
-      o.start(); o.stop(ac.currentTime+0.3);
+      o.type='sine'; o.frequency.value=520;
+      g.gain.setValueAtTime(0.1,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.25);
+      o.start(); o.stop(ac.currentTime+0.25);
     } else if(type==='shuffle'||type==='new'){
-      for(let i=0;i<5;i++){
+      for(let i=0;i<4;i++){
         const o=ac.createOscillator(); const g=ac.createGain();
         o.connect(g); g.connect(ac.destination);
-        o.type='sine'; o.frequency.value=300+Math.random()*400;
-        g.gain.setValueAtTime(0.05,ac.currentTime+i*0.04);
-        g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+i*0.04+0.08);
-        o.start(ac.currentTime+i*0.04); o.stop(ac.currentTime+i*0.04+0.08);
+        o.type='sine'; o.frequency.value=350+Math.random()*300;
+        g.gain.setValueAtTime(0.04,ac.currentTime+i*0.035);
+        g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+i*0.035+0.06);
+        o.start(ac.currentTime+i*0.035); o.stop(ac.currentTime+i*0.035+0.06);
       }
     }
   }catch(e){}
