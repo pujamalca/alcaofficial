@@ -14,21 +14,21 @@ class CategoryFactory extends Factory
 
     public function definition(): array
     {
-        $name = fake()->unique()->words(2, true);
+        $name = $this->faker()->unique()->words(2, true);
 
         return [
             'name' => ucfirst($name),
-            'description' => fake()->optional()->paragraph(),
-            'image' => fake()->optional()->imageUrl(),
-            'icon' => fake()->optional()->lexify('icon-????'),
-            'color' => fake()->optional()->hexColor(),
-            'sort_order' => fake()->numberBetween(0, 10),
-            'is_featured' => fake()->boolean(20),
+            'description' => $this->faker()->optional()->paragraph(),
+            'image' => $this->faker()->optional()->imageUrl(),
+            'icon' => $this->faker()->optional()->lexify('icon-????'),
+            'color' => $this->faker()->optional()->hexColor(),
+            'sort_order' => $this->faker()->numberBetween(0, 10),
+            'is_featured' => $this->faker()->boolean(20),
             'is_active' => true,
             'metadata' => [
                 'seo' => [
                     'title' => ucfirst($name),
-                    'description' => fake()->sentence(),
+                    'description' => $this->faker()->sentence(),
                 ],
             ],
         ];

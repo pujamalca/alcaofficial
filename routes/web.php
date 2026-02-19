@@ -110,3 +110,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/preview/pages/{page}', [PageController::class, 'preview'])->name('pages.preview');
 });
 
+// Game Puzzle Route
+Route::get('/game-puzzle', function () {
+    return view('game-puzzle');
+})->name('game-puzzle');
+

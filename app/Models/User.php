@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +21,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements HasMedia, HasAvatar, MustVerifyEmail
+class User extends Authenticatable implements HasMedia, HasAvatar, MustVerifyEmail, FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens;
@@ -131,6 +134,14 @@ class User extends Authenticatable implements HasMedia, HasAvatar, MustVerifyEma
     {
         return $this->hasAnyRole(['Super Admin', 'Admin']) || $this->can('manage-users');
     }
+
+public function canAccessPanel(Panel $panel): bool
+{
+    return $this->is_active
+        && ! is_null($this->email_verified_at)
+        && $this->hasAnyRole(['Super Admin', 'Admin']);
+}
+
 
     public function isSuperAdmin(): bool
     {
