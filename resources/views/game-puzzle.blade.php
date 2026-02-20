@@ -210,6 +210,7 @@
     color: var(--gold);
     margin-bottom: 16px;
     text-align: center;
+    width: 100%;
   }
   #puzzle-grid {
     display: grid;
@@ -219,6 +220,7 @@
     overflow: hidden;
     border: 2px solid rgba(255,215,0,0.3);
     background: rgba(0,0,0,0.2);
+    margin: 0 auto;
   }
 
   .puzzle-piece {
