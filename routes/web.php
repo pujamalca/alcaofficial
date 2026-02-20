@@ -115,3 +115,8 @@ Route::get('/game-puzzle', function () {
     return view('game-puzzle');
 })->name('game-puzzle');
 
+// Random Amal Generator Route
+Route::get('/Random-Amal-Generator', function () {
+    return view('random-amal-generator');
+})->name('random-amal-generator');
+
