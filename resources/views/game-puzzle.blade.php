@@ -59,7 +59,7 @@
     z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -200,6 +200,9 @@
     padding: 20px;
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .puzzle-label {
     font-family: 'Fredoka One', cursive;
@@ -934,7 +937,7 @@ function generateStars(){
 function getPSize(){
   const vw=window.innerWidth;
   const isMobile = vw <= 768;
-  const maxW = isMobile ? Math.min(vw - 80, 280) : 280;
+  const maxW = isMobile ? Math.min(vw - 60, 320) : 400;
   const size = Math.floor(maxW / GRID);
   return Math.max(40, size);
 }
