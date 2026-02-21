@@ -120,3 +120,8 @@ Route::get('/Random-Amal-Generator', function () {
     return view('random-amal-generator');
 })->name('random-amal-generator');
 
+// Ngabuburit Harmonis Route
+Route::get('/Ngabuburit-harmonis', function () {
+    return view('Ngabuburit-harmonis.Ngahor.index');
+})->name('ngabuburit-harmonis');
+
