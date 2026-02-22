@@ -645,8 +645,8 @@
             {ar: "As-Sabur", id: "Maha Sabar"}
         ];
 
-        // Easy mode: 20 most common
-        const EASY_MODE = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 98];
+        // Easy mode: 20 most common (removed index 98 yang bermasalah)
+        const EASY_MODE = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 97];
 
         const Game = {
             mode: 'single',
@@ -735,17 +735,10 @@
                     // Reset questions
                     this.questions = [];
                     
-                    // Cek ASMAUL_HUSNA
-                    if (typeof ASMAUL_HUSNA === 'undefined') {
-                        alert('ERROR: ASMAUL_HUSNA is undefined!');
-                        return;
-                    }
-                    alert('ASMAUL_HUSNA length = ' + ASMAUL_HUSNA.length);
-                    
                     // Get pool based on difficulty
                     let pool;
                     if (this.difficulty === 'easy') {
-                        pool = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 98];
+                        pool = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 97];
                     } else {
                         pool = [];
                         for (let i = 0; i < 99; i++) pool.push(i);
@@ -757,28 +750,18 @@
                         [pool[i], pool[j]] = [pool[j], pool[i]];
                     }
                     
-                    // For easy mode (20 names), repeat to get 33 questions
+                    // Build 33 questions
                     let selected = [];
                     for (let i = 0; i < 33; i++) {
                         selected.push(pool[i % pool.length]);
                     }
                     
-                    // Build questions - simplified
+                    // Create question objects
                     for (let i = 0; i < selected.length; i++) {
                         const idx = selected[i];
-                        
-                        // Check idx
-                        if (idx === undefined || idx === null || isNaN(idx)) {
-                            alert('Bad idx at position ' + i + ': ' + idx);
-                            continue;
-                        }
-                        
                         const item = ASMAUL_HUSNA[idx];
                         
-                        if (!item) {
-                            alert('No item at index ' + idx + ' (ASMAUL_HUSNA[' + idx + '] = ' + item + ')');
-                            continue;
-                        }
+                        if (!item) continue;
                         
                         const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
                         let question, answer, options;
@@ -796,10 +779,8 @@
                         this.questions.push({ question, answer, options, type, item });
                     }
                     
-                    alert('Final: Questions = ' + this.questions.length);
-                    
                 } catch (error) {
-                    alert('EXCEPTION: ' + error.message + '\n' + error.stack);
+                    console.error('Error generating questions:', error);
                 }
             },
 
@@ -807,7 +788,7 @@
                 let pool;
                 if (this.difficulty === 'easy') {
                     // Get items from easy indices
-                    const easyIndices = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 98];
+                    const easyIndices = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 97];
                     pool = easyIndices.map(i => ASMAUL_HUSNA[i]);
                 } else {
                     pool = ASMAUL_HUSNA;
@@ -834,21 +815,11 @@
             },
 
             start() {
-                // Debug: tampilkan info
-                alert(`DEBUG START:\nmode: ${this.mode}\ndifficulty: ${this.difficulty}\ntimer: ${this.timerEnabled}\nsound: ${this.soundEnabled}`);
-                
                 this.generateQuestions();
-                
-                // Debug info in alert
-                let debugMsg = `Debug Info:\n`;
-                debugMsg += `Mode: ${this.mode}\n`;
-                debugMsg += `Difficulty: ${this.difficulty}\n`;
-                debugMsg += `Questions: ${this.questions ? this.questions.length : 'NULL'}\n`;
-                debugMsg += `ASMAUL_HUSNA: ${typeof ASMAUL_HUSNA !== 'undefined' ? ASMAUL_HUSNA.length : 'UNDEFINED'}`;
                 
                 // Safety check
                 if (!this.questions || this.questions.length === 0) {
-                    alert(debugMsg);
+                    alert('Gagal membuat soal. Silakan refresh halaman.');
                     return;
                 }
                 
