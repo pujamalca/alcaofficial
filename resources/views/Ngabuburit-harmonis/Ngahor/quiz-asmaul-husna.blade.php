@@ -731,41 +731,51 @@
             },
 
             generateQuestions() {
-                const pool = this.difficulty === 'easy' ? EASY_MODE : [...Array(99).keys()];
-                const shuffled = this.shuffle([...pool]);
-                
-                // For easy mode (20 names), repeat to get 33 questions
-                let selected;
-                if (this.difficulty === 'easy') {
-                    selected = [];
-                    while (selected.length < 33) {
-                        selected.push(...shuffled);
-                    }
-                    selected = selected.slice(0, 33);
-                } else {
-                    selected = shuffled.slice(0, 33);
-                }
-
-                this.questions = selected.map(idx => {
-                    const item = ASMAUL_HUSNA[idx];
-                    if (!item) return null; // safety check
+                try {
+                    const pool = this.difficulty === 'easy' ? EASY_MODE : [...Array(99).keys()];
+                    const shuffled = this.shuffle([...pool]);
                     
-                    const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
-                    
-                    let question, answer, options;
-                    
-                    if (type === 'ar-to-id') {
-                        question = item.ar;
-                        answer = item.id;
-                        options = this.generateOptions(item.id, 'id');
+                    // For easy mode (20 names), repeat to get 33 questions
+                    let selected;
+                    if (this.difficulty === 'easy') {
+                        selected = [];
+                        while (selected.length < 33) {
+                            selected.push(...shuffled);
+                        }
+                        selected = selected.slice(0, 33);
                     } else {
-                        question = item.id;
-                        answer = item.ar;
-                        options = this.generateOptions(item.ar, 'ar');
+                        selected = shuffled.slice(0, 33);
                     }
 
-                    return { question, answer, options, type, item };
-                }).filter(q => q !== null); // remove any null entries
+                    this.questions = selected.map(idx => {
+                        const item = ASMAUL_HUSNA[idx];
+                        if (!item) {
+                            console.error('Item not found at index:', idx);
+                            return null;
+                        }
+                        
+                        const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
+                        
+                        let question, answer, options;
+                        
+                        if (type === 'ar-to-id') {
+                            question = item.ar;
+                            answer = item.id;
+                            options = this.generateOptions(item.id, 'id');
+                        } else {
+                            question = item.id;
+                            answer = item.ar;
+                            options = this.generateOptions(item.ar, 'ar');
+                        }
+
+                        return { question, answer, options, type, item };
+                    }).filter(q => q !== null);
+                    
+                    console.log('Generated questions:', this.questions.length);
+                } catch (error) {
+                    console.error('Error generating questions:', error);
+                    this.questions = [];
+                }
             },
 
             generateOptions(correct, type) {
@@ -778,6 +788,7 @@
             },
 
             shuffle(array) {
+                if (!array || array.length === 0) return array;
                 for (let i = array.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [array[i], array[j]] = [array[j], array[i]];
@@ -787,6 +798,17 @@
 
             start() {
                 this.generateQuestions();
+                
+                // Safety check
+                if (!this.questions || this.questions.length === 0) {
+                    alert('Gagal membuat soal. Silakan clear data dan coba lagi.');
+                    return;
+                }
+                
+                if (this.questions.length < 33) {
+                    alert(`Hanya berhasil membuat ${this.questions.length} soal. Coba refresh.`);
+                }
+                
                 this.currentQuestion = 0;
                 this.scores = [0, 0];
                 this.currentPlayer = 0;
@@ -813,6 +835,12 @@
 
             showQuestion() {
                 const q = this.questions[this.currentQuestion];
+                
+                if (!q) {
+                    console.error('Question not found at index:', this.currentQuestion);
+                    this.showResult();
+                    return;
+                }
                 
                 document.getElementById('currentQ').textContent = this.currentQuestion + 1;
                 document.getElementById('progressFill').style.width = ((this.currentQuestion) / 33 * 100) + '%';
