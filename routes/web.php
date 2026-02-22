@@ -141,3 +141,7 @@ Route::get('/Ngabuburit-harmonis/quiz-asmaul-husna', function () {
     return view('Ngabuburit-harmonis.Ngahor.quiz-asmaul-husna');
 })->name('ngabuburit-quiz-asmaul-husna');
 
+Route::get('/quiz-asmaul-husna', function () {
+    return view('Ngabuburit-harmonis.Ngahor.quiz-asmaul-husna');
+})->name('quiz-asmaul-husna');
+

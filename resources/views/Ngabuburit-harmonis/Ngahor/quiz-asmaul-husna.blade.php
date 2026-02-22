@@ -382,7 +382,7 @@
 </head>
 <body>
     <div class="container">
-        <a href="/Ngabuburit-harmonis" class="back-btn">← Kembali</a>
+        <a href="/" class="back-btn">← Beranda</a>
 
         <div class="header">
             <h1>☪️ Quiz Asmaul Husna</h1>
