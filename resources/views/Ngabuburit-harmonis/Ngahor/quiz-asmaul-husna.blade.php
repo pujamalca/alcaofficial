@@ -717,10 +717,23 @@
             generateQuestions() {
                 const pool = this.difficulty === 'easy' ? EASY_MODE : [...Array(99).keys()];
                 const shuffled = this.shuffle([...pool]);
-                const selected = shuffled.slice(0, 33);
+                
+                // For easy mode (20 names), repeat to get 33 questions
+                let selected;
+                if (this.difficulty === 'easy') {
+                    selected = [];
+                    while (selected.length < 33) {
+                        selected.push(...shuffled);
+                    }
+                    selected = selected.slice(0, 33);
+                } else {
+                    selected = shuffled.slice(0, 33);
+                }
 
                 this.questions = selected.map(idx => {
                     const item = ASMAUL_HUSNA[idx];
+                    if (!item) return null; // safety check
+                    
                     const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
                     
                     let question, answer, options;
@@ -736,7 +749,7 @@
                     }
 
                     return { question, answer, options, type, item };
-                });
+                }).filter(q => q !== null); // remove any null entries
             },
 
             generateOptions(correct, type) {
