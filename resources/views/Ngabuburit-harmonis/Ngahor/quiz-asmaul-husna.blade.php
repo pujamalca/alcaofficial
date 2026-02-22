@@ -807,11 +807,19 @@
             },
 
             start() {
+                // Debug: show settings
+                const debugDiv = document.createElement('div');
+                debugDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#000;color:#0f0;padding:10px;z-index:9999;font-size:12px;font-family:monospace;';
+                debugDiv.innerHTML = `Debug: mode=${this.mode}, diff=${this.difficulty}`;
+                document.body.appendChild(debugDiv);
+                
+                setTimeout(() => debugDiv.remove(), 3000);
+                
                 this.generateQuestions();
                 
                 // Safety check
                 if (!this.questions || this.questions.length === 0) {
-                    alert('Gagal membuat soal. Silakan clear data dan coba lagi.');
+                    alert(`Gagal membuat soal!\nMode: ${this.mode}\nDifficulty: ${this.difficulty}\nQuestions: ${this.questions ? this.questions.length : 'null'}`);
                     return;
                 }
                 
