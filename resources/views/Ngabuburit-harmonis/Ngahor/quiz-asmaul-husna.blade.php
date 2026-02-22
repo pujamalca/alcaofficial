@@ -458,7 +458,7 @@
             <div class="game-header">
                 <div class="game-stat">
                     <div class="value" id="currentQ">1</div>
-                    <div class="label">dari 33</div>
+                    <div class="label" id="totalQLabel">dari 33</div>
                 </div>
                 <div class="game-stat">
                     <div class="timer-display" id="timerDisplay">--</div>
@@ -750,9 +750,14 @@
                         [pool[i], pool[j]] = [pool[j], pool[i]];
                     }
                     
-                    // Build 33 questions
+                    // Build questions - 15 for easy single, 33 for others
+                    let totalQuestions = 33;
+                    if (this.difficulty === 'easy' && this.mode === 'single') {
+                        totalQuestions = 15;
+                    }
+                    
                     let selected = [];
-                    for (let i = 0; i < 33; i++) {
+                    for (let i = 0; i < totalQuestions; i++) {
                         selected.push(pool[i % pool.length]);
                     }
                     
@@ -823,6 +828,9 @@
                     return;
                 }
                 
+                // Update total questions label
+                document.getElementById('totalQLabel').textContent = 'dari ' + this.questions.length;
+                
                 this.currentQuestion = 0;
                 this.scores = [0, 0];
                 this.currentPlayer = 0;
@@ -856,8 +864,9 @@
                     return;
                 }
                 
+                const total = this.questions.length;
                 document.getElementById('currentQ').textContent = this.currentQuestion + 1;
-                document.getElementById('progressFill').style.width = ((this.currentQuestion) / 33 * 100) + '%';
+                document.getElementById('progressFill').style.width = ((this.currentQuestion) / total * 100) + '%';
                 
                 document.getElementById('questionType').textContent = q.type === 'ar-to-id' ? 'Apa arti dari...' : 'Apa nama Arab dari...';
                 document.getElementById('questionText').textContent = q.question;
@@ -984,7 +993,7 @@
                     this.currentPlayer = this.currentPlayer % 2;
                 }
 
-                if (this.currentQuestion >= 33) {
+                if (this.currentQuestion >= this.questions.length) {
                     this.showResult();
                 } else {
                     this.showQuestion();
@@ -994,24 +1003,26 @@
             showResult() {
                 clearInterval(this.timerInterval);
                 const totalTime = Math.round((Date.now() - this.startTime) / 1000);
-                const correct = 33 - this.wrongAnswers.length;
+                const total = this.questions.length;
+                const correct = total - this.wrongAnswers.length;
                 const finalScore = this.mode === 'multi' ? Math.max(...this.scores) : this.scores[0];
 
                 document.getElementById('gameScreen').classList.remove('active');
                 document.getElementById('resultScreen').classList.add('active');
 
-                // Set result
+                // Set result based on percentage
+                const percentage = (correct / total) * 100;
                 let icon, title;
-                if (correct >= 30) { icon = '🏆'; title = 'Luar Biasa!'; }
-                else if (correct >= 25) { icon = '🌟'; title = 'Hebat!'; }
-                else if (correct >= 20) { icon = '👍'; title = 'Bagus!'; }
-                else if (correct >= 15) { icon = '😊'; title = 'Lumayan!'; }
+                if (percentage >= 90) { icon = '🏆'; title = 'Luar Biasa!'; }
+                else if (percentage >= 75) { icon = '🌟'; title = 'Hebat!'; }
+                else if (percentage >= 60) { icon = '👍'; title = 'Bagus!'; }
+                else if (percentage >= 45) { icon = '😊'; title = 'Lumayan!'; }
                 else { icon = '💪'; title = 'Terus Belajar!'; }
 
                 document.getElementById('resultIcon').textContent = icon;
                 document.getElementById('resultTitle').textContent = title;
                 document.getElementById('resultScore').textContent = finalScore;
-                document.getElementById('resultDetail').textContent = `${correct} benar dari 33 soal`;
+                document.getElementById('resultDetail').textContent = `${correct} benar dari ${total} soal`;
                 
                 document.getElementById('statCorrect').textContent = correct;
                 document.getElementById('statStreak').textContent = this.maxStreak;
@@ -1065,9 +1076,10 @@
             },
 
             share() {
-                const correct = 33 - this.wrongAnswers.length;
+                const total = this.questions.length;
+                const correct = total - this.wrongAnswers.length;
                 const score = this.mode === 'multi' ? Math.max(...this.scores) : this.scores[0];
-                const text = `☪️ Quiz Asmaul Husna\n\n🏆 Skor: ${score} poin\n✅ ${correct}/33 benar\n🔥 Max Streak: ${this.maxStreak}\n\nMain juga yuk! 👉 https://alcaofficial.com/quiz-asmaul-husna`;
+                const text = `☪️ Quiz Asmaul Husna\n\n🏆 Skor: ${score} poin\n✅ ${correct}/${total} benar\n🔥 Max Streak: ${this.maxStreak}\n\nMain juga yuk! 👉 https://alcaofficial.com/quiz-asmaul-husna`;
 
                 if (navigator.share) {
                     navigator.share({ text });
