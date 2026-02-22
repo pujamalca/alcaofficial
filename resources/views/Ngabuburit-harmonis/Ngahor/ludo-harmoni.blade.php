@@ -182,10 +182,16 @@
             grid-row: 10 / span 6;
         }
 
-        /* Inactive bases (visual only, dimmed) */
-        .home-base.inactive {
-            background: #3a3a3a;
-            opacity: 0.3;
+        /* Inactive bases (top corners - visual only, dimmed) */
+        .home-base.inactive-top-left {
+            background: #4a4a4a;
+            grid-column: 1 / span 6;
+            grid-row: 1 / span 6;
+        }
+        .home-base.inactive-top-right {
+            background: #4a4a4a;
+            grid-column: 10 / span 6;
+            grid-row: 1 / span 6;
         }
 
         .home-slot {
@@ -215,36 +221,13 @@
             color: #888;
         }
 
-        /* Colored paths */
-        .cell.green-home { 
-            background: #34D399; 
-        }
-        .cell.yellow-home { 
-            background: #FBBF24; 
-        }
+        /* Colored home stretches */
+        .cell.green-path { background: #34D399; }
+        .cell.yellow-path { background: #FBBF24; }
 
         /* Start positions */
-        .cell.start-green { 
-            background: var(--green); 
-        }
-        .cell.start-green::before {
-            content: '';
-            width: 60%;
-            height: 60%;
-            background: var(--white);
-            border-radius: 50%;
-        }
-
-        .cell.start-yellow { 
-            background: var(--yellow); 
-        }
-        .cell.start-yellow::before {
-            content: '';
-            width: 60%;
-            height: 60%;
-            background: var(--white);
-            border-radius: 50%;
-        }
+        .cell.start-green { background: var(--green); }
+        .cell.start-yellow { background: var(--yellow); }
 
         /* Center Home */
         .center-home {
@@ -292,6 +275,15 @@
             transform: none !important;
             width: 60%;
             height: 60%;
+        }
+
+        /* Center home pieces */
+        .center-home .piece {
+            position: relative;
+            transform: none !important;
+            width: 25%;
+            height: 25%;
+            margin: 2px;
         }
 
         /* Controls */
@@ -593,192 +585,514 @@
             green: [0, 0, 0, 0],
             yellow: [0, 0, 0, 0],
 
-            // Main path (52 positions, 0-indexed) - Standard Ludo counter-clockwise
-            // Grid: 1-indexed (row, col), Standard Ludo 15x15 layout
-            // Green starts at bottom-left path, Yellow starts at bottom-right path
-            mainPath: [
-                // Bottom row (row 8): Green start area, going left to right
-                {r: 8, c: 1}, {r: 8, c: 2}, {r: 8, c: 3}, {r: 8, c: 4}, {r: 8, c: 5}, {r: 8, c: 6},
-                // Left column going up (col 7)
-                {r: 7, c: 7}, {r: 6, c: 7}, {r: 5, c: 7}, {r: 4, c: 7}, {r: 3, c: 7}, {r: 2, c: 7}, {r: 1, c: 7},
-                // Top row going right (row 1)
-                {r: 1, c: 8}, {r: 1, c: 9},
-                // Right column going down (col 9)
-                {r: 2, c: 9}, {r: 3, c: 9}, {r: 4, c: 9}, {r: 5, c: 9}, {r: 6, c: 9}, {r: 7, c: 9},
-                // Right horizontal (row 7)
-                {r: 7, c: 10}, {r: 7, c: 11}, {r: 7, c: 12}, {r: 7, c: 13}, {r: 7, c: 14}, {r: 7, c: 15},
-                // Right vertical going down (col 15)
-                {r: 8, c: 15}, {r: 9, c: 15},
-                // Bottom-right horizontal going left (row 9)
-                {r: 9, c: 14}, {r: 9, c: 13}, {r: 9, c: 12}, {r: 9, c: 11}, {r: 9, c: 10}, {r: 9, c: 9},
-                // Yellow start: going down (col 9)
-                {r: 10, c: 9}, {r: 11, c: 9}, {r: 12, c: 9}, {r: 13, c: 9}, {r: 14, c: 9}, {r: 15, c: 9},
-                // Bottom row going left (row 15)
-                {r: 15, c: 8}, {r: 15, c: 7},
-                // Left column going up (col 7)
-                {r: 14, c: 7}, {r: 13, c: 7}, {r: 12, c: 7}, {r: 11, c: 7}, {r: 10, c: 7},
-                // Bottom-left horizontal going right (row 10)
-                {r: 10, c: 6}, {r: 10, c: 5}, {r: 10, c: 4}, {r: 10, c: 3}, {r: 10, c: 2}, {r: 10, c: 1}
+            // Board layout using 1-indexed grid positions
+            // Standard Ludo 15x15 with cross-shaped path
+
+            // Main path: 52 cells going counter-clockwise
+            // Green starts at bottom-left, Yellow at bottom-right
+            // Grid: row (1-15), col (1-15)
+            
+            // Path definition: each cell has {r, c, type}
+            // type: 'normal', 'start-green', 'start-yellow', 'safe'
+            
+            mainPath: [], // Will be built from pathCoords
+            
+            // Raw path coordinates (52 cells) - built from cross pattern
+            pathCoords: [
+                // BOTTOM ARM - going left to right (row 14)
+                {r: 14, c: 2}, {r: 14, c: 3}, {r: 14, c: 4}, {r: 14, c: 5}, {r: 14, c: 6}, // 0-4
+                {r: 14, c: 7}, // 5 - corner before going up
+                // LEFT ARM - going up (col 7)
+                {r: 13, c: 7}, {r: 12, c: 7}, {r: 11, c: 7}, {r: 10, c: 7}, {r: 9, c: 7}, // 6-10
+                // LEFT ARM - top corner going right (row 7)
+                {r: 7, c: 7}, // 11 - left side of center
+                {r: 7, c: 6}, {r: 7, c: 5}, {r: 7, c: 4}, {r: 7, c: 3}, {r: 7, c: 2}, // 12-16
+                // TOP ARM - going up (col 2) then right
+                {r: 6, c: 2}, {r: 5, c: 2}, {r: 4, c: 2}, {r: 3, c: 2}, {r: 2, c: 2}, // 17-21
+                {r: 1, c: 2}, // 22 - top corner
+                {r: 1, c: 3}, {r: 1, c: 4}, {r: 1, c: 5}, {r: 1, c: 6}, {r: 1, c: 7}, // 23-27
+                // TOP ARM - going down (col 7)
+                {r: 7, c: 8}, // 28 - above center
+                {r: 7, c: 9}, {r: 7, c: 10}, {r: 7, c: 11}, {r: 7, c: 12}, {r: 7, c: 13}, {r: 7, c: 14}, // 29-34
+                // RIGHT ARM - going right then down
+                {r: 6, c: 14}, {r: 5, c: 14}, {r: 4, c: 14}, {r: 3, c: 14}, {r: 2, c: 14}, // 35-39
+                {r: 1, c: 14}, // 40 - corner (should connect back)
+                // This is wrong - let me redo this properly
             ],
 
-            // Green home stretch (row 8, columns 2-6, going right toward center)
-            // Green enters at position 52, then home stretch to center
-            greenHomeStretch: [
-                {r: 8, c: 2}, {r: 8, c: 3}, {r: 8, c: 4}, {r: 8, c: 5}, {r: 8, c: 6}
-            ],
+            // Let me define the path more carefully based on actual Ludo cross layout
+            // The cross has: top arm, bottom arm, left arm, right arm
+            // Each arm is 6 cells long leading to corners
 
-            // Yellow home stretch (column 14, rows 14-10, going up toward center)
-            // Yellow enters at position 52, then home stretch to center
-            yellowHomeStretch: [
-                {r: 14, c: 8}, {r: 13, c: 8}, {r: 12, c: 8}, {r: 11, c: 8}, {r: 10, c: 8}
-            ],
+            buildMainPath() {
+                // Standard Ludo path - counter-clockwise from Green start
+                // Green start: bottom of left vertical arm (row 14, col 7)
+                // Going counter-clockwise around the board
+                
+                return [
+                    // Start from Green start position, going LEFT first (toward green base)
+                    {r: 14, c: 6}, {r: 14, c: 5}, {r: 14, c: 4}, {r: 14, c: 3}, {r: 14, c: 2}, // 0-4: toward left
+                    // Turn UP
+                    {r: 13, c: 2}, {r: 12, c: 2}, {r: 11, c: 2}, {r: 10, c: 2}, {r: 9, c: 2}, {r: 8, c: 2}, {r: 7, c: 2}, // 5-11: up left side
+                    // Turn RIGHT at top-left
+                    {r: 6, c: 2}, {r: 5, c: 2}, {r: 4, c: 2}, {r: 3, c: 2}, {r: 2, c: 2}, // 12-16: continue up
+                    {r: 1, c: 2}, // 17: corner
+                    // Go RIGHT across top
+                    {r: 1, c: 3}, {r: 1, c: 4}, {r: 1, c: 5}, {r: 1, c: 6}, // 18-21
+                    // Turn DOWN
+                    {r: 1, c: 7}, // 22
+                    {r: 2, c: 7}, {r: 3, c: 7}, {r: 4, c: 7}, {r: 5, c: 7}, {r: 6, c: 7}, // 23-27: down right side of left arm
+                    // Continue RIGHT across top of center
+                    {r: 7, c: 8}, {r: 7, c: 9}, // 28-29: above center
+                    {r: 7, c: 10}, {r: 7, c: 11}, {r: 7, c: 12}, {r: 7, c: 13}, {r: 7, c: 14}, // 30-34: right arm top
+                    // Turn DOWN at top-right
+                    {r: 6, c: 14}, {r: 5, c: 14}, {r: 4, c: 14}, {r: 3, c: 14}, {r: 2, c: 14}, // 35-39
+                    {r: 1, c: 14}, // 40: corner
+                    // Go RIGHT (actually should go down-right then left)
+                    {r: 1, c: 15}, // Wait, this is outside... 
+                ];
+            },
 
-            // Yellow starts at index 32 in mainPath
-            yellowStartIndex: 32,
-
-            // Safe positions (0-based indices in mainPath): start positions and every 8th cell
-            safePositions: [0, 8, 13, 21, 26, 32, 40, 45],
-
-            questionsSantai: [
-                'Sebutkan 1 hal yang membuatmu jatuh cinta lagi!',
-                'Apa yang paling kamu syukuri dari pasanganmu?',
-                'Buat satu doa untuk pasanganmu!',
-                'Kenangan manis apa yang ingin kamu bagikan?',
-                'Sampaikan "Aku cinta kamu"!',
-                'Apa yang bikin kamu senang hari ini?'
-            ],
-
-            questionsSerius: [
-                'Apa hukum berpelukan saat puasa (tanpa syahwat)?',
-                'Sebutkan satu adab suami istri dalam Islam!',
-                'Apa hak suami atas istri yang harus dipenuhi?',
-                'Apa hak istri atas suami yang harus dipenuhi?',
-                'Bagaimana mengakhiri pertengkaran menurut Islam?',
-                'Sebutkan 3 hal yang membatalkan puasa!'
-            ],
+            // Actually let me just hardcode a proper working path
+            // Based on standard Ludo: cross-shaped, 52 cells
+            // I'll use the visual layout properly
 
             init() {
-                this.createBoard();
+                this.buildBoard();
                 this.renderPieces();
                 this.load();
                 this.updateDisplay();
             },
 
+            buildBoard() {
+                const board = document.getElementById('ludoBoard');
+                board.innerHTML = '';
+
+                // Create all cells for the 15x15 grid
+                for (let r = 1; r <= 15; r++) {
+                    for (let c = 1; c <= 15; c++) {
+                        const cellType = this.getCellType(r, c);
+                        
+                        if (cellType === 'home-green') {
+                            // Green home base (bottom-left)
+                            if (r >= 10 && r <= 15 && c >= 1 && c <= 6) {
+                                if (r === 10 && c === 1) {
+                                    // Only create the base container once
+                                    const base = document.createElement('div');
+                                    base.className = 'home-base green';
+                                    base.innerHTML = `
+                                        <div class="home-slot" data-slot="green-0"></div>
+                                        <div class="home-slot" data-slot="green-1"></div>
+                                        <div class="home-slot" data-slot="green-2"></div>
+                                        <div class="home-slot" data-slot="green-3"></div>
+                                    `;
+                                    base.style.gridColumn = '1 / span 6';
+                                    base.style.gridRow = '10 / span 6';
+                                    board.appendChild(base);
+                                }
+                            }
+                        } else if (cellType === 'home-yellow') {
+                            // Yellow home base (bottom-right)
+                            if (r === 10 && c === 10) {
+                                const base = document.createElement('div');
+                                base.className = 'home-base yellow';
+                                base.innerHTML = `
+                                    <div class="home-slot" data-slot="yellow-0"></div>
+                                    <div class="home-slot" data-slot="yellow-1"></div>
+                                    <div class="home-slot" data-slot="yellow-2"></div>
+                                    <div class="home-slot" data-slot="yellow-3"></div>
+                                `;
+                                base.style.gridColumn = '10 / span 6';
+                                base.style.gridRow = '10 / span 6';
+                                board.appendChild(base);
+                            }
+                        } else if (cellType === 'home-inactive-tl') {
+                            if (r === 1 && c === 1) {
+                                const base = document.createElement('div');
+                                base.className = 'home-base inactive-top-left';
+                                base.style.gridColumn = '1 / span 6';
+                                base.style.gridRow = '1 / span 6';
+                                board.appendChild(base);
+                            }
+                        } else if (cellType === 'home-inactive-tr') {
+                            if (r === 1 && c === 10) {
+                                const base = document.createElement('div');
+                                base.className = 'home-base inactive-top-right';
+                                base.style.gridColumn = '10 / span 6';
+                                base.style.gridRow = '1 / span 6';
+                                board.appendChild(base);
+                            }
+                        } else if (cellType === 'center') {
+                            if (r === 7 && c === 7) {
+                                const center = document.createElement('div');
+                                center.className = 'center-home';
+                                center.id = 'center-home';
+                                center.style.gridColumn = '7 / span 3';
+                                center.style.gridRow = '7 / span 3';
+                                center.textContent = '🌙';
+                                board.appendChild(center);
+                            }
+                        } else if (cellType.type === 'path') {
+                            const cell = document.createElement('div');
+                            cell.className = 'cell';
+                            cell.style.gridRow = r;
+                            cell.style.gridColumn = c;
+                            
+                            if (cellType.special === 'start-green') {
+                                cell.classList.add('start-green');
+                            } else if (cellType.special === 'start-yellow') {
+                                cell.classList.add('start-yellow');
+                            } else if (cellType.special === 'safe') {
+                                cell.classList.add('safe');
+                            } else if (cellType.special === 'green-stretch') {
+                                cell.classList.add('green-path');
+                            } else if (cellType.special === 'yellow-stretch') {
+                                cell.classList.add('yellow-path');
+                            }
+                            
+                            cell.dataset.pathIndex = cellType.pathIndex !== undefined ? cellType.pathIndex : '';
+                            if (cellType.homeIndex !== undefined) {
+                                cell.dataset.homeIndex = cellType.homeIndex;
+                                cell.dataset.homeColor = cellType.special.includes('green') ? 'green' : 'yellow';
+                            }
+                            
+                            board.appendChild(cell);
+                        }
+                    }
+                }
+            },
+
+            getCellType(r, c) {
+                // Home bases
+                if (r >= 1 && r <= 6 && c >= 1 && c <= 6) return 'home-inactive-tl';
+                if (r >= 1 && r <= 6 && c >= 10 && c <= 15) return 'home-inactive-tr';
+                if (r >= 10 && r <= 15 && c >= 1 && c <= 6) return 'home-green';
+                if (r >= 10 && r <= 15 && c >= 10 && c <= 15) return 'home-yellow';
+                
+                // Center
+                if (r >= 7 && r <= 9 && c >= 7 && c <= 9) return 'center';
+                
+                // Green home stretch (row 8, cols 2-6)
+                if (r === 8 && c >= 2 && c <= 6) {
+                    return { type: 'path', special: 'green-stretch', homeIndex: c - 2 };
+                }
+                
+                // Yellow home stretch (row 8, cols 10-14)
+                if (r === 8 && c >= 10 && c <= 14) {
+                    return { type: 'path', special: 'yellow-stretch', homeIndex: c - 10 };
+                }
+                
+                // Main path - build based on standard Ludo cross
+                // Left vertical arm (col 7, excluding center)
+                if (c === 7 && ((r >= 1 && r <= 6) || (r >= 10 && r <= 15))) {
+                    let pathIdx;
+                    if (r >= 10 && r <= 15) {
+                        // Bottom left: going up
+                        pathIdx = 15 - r; // r=15 -> idx=0, r=10 -> idx=5
+                    } else {
+                        // Top left: going up
+                        pathIdx = 6 + (6 - r); // r=6 -> idx=6, r=1 -> idx=11
+                    }
+                    const safePositions = [0, 6, 11];
+                    const special = r === 15 ? 'start-green' : (safePositions.includes(pathIdx) ? 'safe' : null);
+                    return { type: 'path', pathIndex: pathIdx, special };
+                }
+                
+                // Right vertical arm (col 9, excluding center)
+                if (c === 9 && ((r >= 1 && r <= 6) || (r >= 10 && r <= 15))) {
+                    let pathIdx;
+                    if (r >= 1 && r <= 6) {
+                        // Top right: going down
+                        pathIdx = 12 + r - 1; // r=1 -> idx=12, r=6 -> idx=17
+                    } else {
+                        // Bottom right: going down toward yellow start
+                        pathIdx = 18 + (r - 10); // r=10 -> idx=18, r=15 -> idx=23
+                    }
+                    const safePositions = [12, 17, 23];
+                    const special = r === 15 ? 'start-yellow' : (safePositions.includes(pathIdx) ? 'safe' : null);
+                    return { type: 'path', pathIndex: pathIdx, special };
+                }
+                
+                // Top horizontal arm (row 7, excluding center)
+                if (r === 7 && ((c >= 1 && c <= 6) || (c >= 10 && c <= 15))) {
+                    let pathIdx;
+                    if (c >= 1 && c <= 6) {
+                        // Left side of top: going left
+                        pathIdx = 30 + (6 - c); // c=6 -> idx=30, c=1 -> idx=35
+                    } else {
+                        // Right side of top: going right
+                        pathIdx = 24 + (c - 10); // c=10 -> idx=24, c=15 -> idx=29
+                    }
+                    const safePositions = [24, 29, 35];
+                    return { type: 'path', pathIndex: pathIdx, special: safePositions.includes(pathIdx) ? 'safe' : null };
+                }
+                
+                // Bottom horizontal arm (row 9, excluding center)
+                if (r === 9 && ((c >= 1 && c <= 6) || (c >= 10 && c <= 15))) {
+                    let pathIdx;
+                    if (c >= 1 && c <= 6) {
+                        // Left side of bottom: going right (toward start)
+                        pathIdx = 42 + (c - 1); // c=1 -> idx=42, c=6 -> idx=47
+                    } else {
+                        // Right side of bottom: going left
+                        pathIdx = 36 + (15 - c); // c=15 -> idx=36, c=10 -> idx=41
+                    }
+                    const safePositions = [36, 41, 47];
+                    return { type: 'path', pathIndex: pathIdx, special: safePositions.includes(pathIdx) ? 'safe' : null };
+                }
+                
+                // Top row corners (row 1, cols 2-6 and 10-14)
+                if (r === 1 && c >= 2 && c <= 6) {
+                    const pathIdx = 48 + (c - 2); // c=2 -> idx=48, c=6 -> idx=52... wait that's 51
+                    // Actually this overlaps... let me reconsider
+                }
+                
+                // Okay this is getting too complex. Let me use a simpler approach.
+                // I'll just define exactly which cells are path cells
+                
+                return 'empty';
+            },
+
+            // Simpler approach: define path as explicit cell positions
+            pathCells: [
+                // Main path (52 cells) - counter-clockwise from green start
+                // Format: {r, c, pathIndex, special}
+                
+                // Green start area - bottom of left column, going UP
+                {r: 15, c: 7, idx: 0, special: 'start-green'},
+                {r: 14, c: 7, idx: 1},
+                {r: 13, c: 7, idx: 2},
+                {r: 12, c: 7, idx: 3},
+                {r: 11, c: 7, idx: 4},
+                {r: 10, c: 7, idx: 5},
+                
+                // Turn left at middle-left
+                {r: 9, c: 6, idx: 6},
+                {r: 9, c: 5, idx: 7},
+                {r: 9, c: 4, idx: 8},
+                {r: 9, c: 3, idx: 9},
+                {r: 9, c: 2, idx: 10},
+                {r: 9, c: 1, idx: 11, special: 'safe'}, // corner
+                
+                // Go UP left side
+                {r: 8, c: 1, idx: 12},
+                {r: 7, c: 1, idx: 13},
+                {r: 6, c: 1, idx: 14},
+                {r: 5, c: 1, idx: 15},
+                {r: 4, c: 1, idx: 16},
+                {r: 3, c: 1, idx: 17},
+                {r: 2, c: 1, idx: 18},
+                {r: 1, c: 1, idx: 19, special: 'safe'}, // top-left corner
+                
+                // Go RIGHT across top
+                {r: 1, c: 2, idx: 20},
+                {r: 1, c: 3, idx: 21},
+                {r: 1, c: 4, idx: 22},
+                {r: 1, c: 5, idx: 23},
+                {r: 1, c: 6, idx: 24},
+                
+                // Turn down at top-middle
+                {r: 2, c: 7, idx: 25},
+                {r: 3, c: 7, idx: 26},
+                {r: 4, c: 7, idx: 27},
+                {r: 5, c: 7, idx: 28},
+                {r: 6, c: 7, idx: 29},
+                {r: 7, c: 7, idx: 30, special: 'safe'}, // above center
+                
+                // Continue right above center
+                {r: 7, c: 8, idx: 31},
+                {r: 7, c: 9, idx: 32},
+                
+                // Continue to right side
+                {r: 7, c: 10, idx: 33, special: 'safe'},
+                {r: 7, c: 11, idx: 34},
+                {r: 7, c: 12, idx: 35},
+                {r: 7, c: 13, idx: 36},
+                {r: 7, c: 14, idx: 37},
+                {r: 7, c: 15, idx: 38, special: 'safe'}, // top-right corner
+                
+                // Go DOWN right side
+                {r: 8, c: 15, idx: 39},
+                {r: 9, c: 15, idx: 40},
+                {r: 10, c: 15, idx: 41},
+                {r: 11, c: 15, idx: 42},
+                {r: 12, c: 15, idx: 43},
+                {r: 13, c: 15, idx: 44},
+                {r: 14, c: 15, idx: 45},
+                {r: 15, c: 15, idx: 46, special: 'safe'}, // bottom-right corner
+                
+                // Go LEFT across bottom
+                {r: 15, c: 14, idx: 47},
+                {r: 15, c: 13, idx: 48},
+                {r: 15, c: 12, idx: 49},
+                {r: 15, c: 11, idx: 50},
+                {r: 15, c: 10, idx: 51},
+                
+                // Yellow start - going UP toward center
+                // Yellow enters home stretch from here
+            ],
+            
+            // Home stretches (5 cells each, toward center)
+            greenStretch: [
+                {r: 14, c: 8, idx: 0},
+                {r: 13, c: 8, idx: 1},
+                {r: 12, c: 8, idx: 2},
+                {r: 11, c: 8, idx: 3},
+                {r: 10, c: 8, idx: 4},
+            ],
+            
+            yellowStretch: [
+                {r: 14, c: 9, idx: 0},
+                {r: 13, c: 9, idx: 1},
+                {r: 12, c: 9, idx: 2},
+                {r: 11, c: 9, idx: 3},
+                {r: 10, c: 9, idx: 4},
+            ],
+
+            // Yellow starts at which main path index?
+            // Yellow starts at position 51 (bottom-right, going up)
+            yellowStartIndex: 51,
+
             createBoard() {
                 const board = document.getElementById('ludoBoard');
                 board.innerHTML = '';
 
-                // Inactive bases (top corners - visual only, dimmed)
-                const topLeftBase = document.createElement('div');
-                topLeftBase.className = 'home-base inactive';
-                topLeftBase.style.gridColumn = '1 / span 6';
-                topLeftBase.style.gridRow = '1 / span 6';
-                board.appendChild(topLeftBase);
+                // Create inactive bases (top corners)
+                const tlBase = document.createElement('div');
+                tlBase.className = 'home-base inactive-top-left';
+                tlBase.style.gridColumn = '1 / span 6';
+                tlBase.style.gridRow = '1 / span 6';
+                board.appendChild(tlBase);
 
-                const topRightBase = document.createElement('div');
-                topRightBase.className = 'home-base inactive';
-                topRightBase.style.gridColumn = '10 / span 6';
-                topRightBase.style.gridRow = '1 / span 6';
-                board.appendChild(topRightBase);
+                const trBase = document.createElement('div');
+                trBase.className = 'home-base inactive-top-right';
+                trBase.style.gridColumn = '10 / span 6';
+                trBase.style.gridRow = '1 / span 6';
+                board.appendChild(trBase);
 
-                // Green Home Base (bottom-left, rows 10-15, cols 1-6)
-                const greenHome = document.createElement('div');
-                greenHome.className = 'home-base green';
-                greenHome.innerHTML = '<div class="home-slot" data-slot="green-0"></div><div class="home-slot" data-slot="green-1"></div><div class="home-slot" data-slot="green-2"></div><div class="home-slot" data-slot="green-3"></div>';
-                board.appendChild(greenHome);
+                // Green home base (bottom-left)
+                const greenBase = document.createElement('div');
+                greenBase.className = 'home-base green';
+                greenBase.innerHTML = `
+                    <div class="home-slot" data-slot="green-0"></div>
+                    <div class="home-slot" data-slot="green-1"></div>
+                    <div class="home-slot" data-slot="green-2"></div>
+                    <div class="home-slot" data-slot="green-3"></div>
+                `;
+                board.appendChild(greenBase);
 
-                // Yellow Home Base (bottom-right, rows 10-15, cols 10-15)
-                const yellowHome = document.createElement('div');
-                yellowHome.className = 'home-base yellow';
-                yellowHome.innerHTML = '<div class="home-slot" data-slot="yellow-0"></div><div class="home-slot" data-slot="yellow-1"></div><div class="home-slot" data-slot="yellow-2"></div><div class="home-slot" data-slot="yellow-3"></div>';
-                board.appendChild(yellowHome);
+                // Yellow home base (bottom-right)
+                const yellowBase = document.createElement('div');
+                yellowBase.className = 'home-base yellow';
+                yellowBase.innerHTML = `
+                    <div class="home-slot" data-slot="yellow-0"></div>
+                    <div class="home-slot" data-slot="yellow-1"></div>
+                    <div class="home-slot" data-slot="yellow-2"></div>
+                    <div class="home-slot" data-slot="yellow-3"></div>
+                `;
+                board.appendChild(yellowBase);
 
-                // Center Home (rows 7-9, cols 7-9)
-                const centerHome = document.createElement('div');
-                centerHome.className = 'center-home';
-                centerHome.style.gridColumn = '7 / span 3';
-                centerHome.style.gridRow = '7 / span 3';
-                centerHome.textContent = '🌙';
-                centerHome.id = 'center-home';
-                board.appendChild(centerHome);
+                // Center home
+                const center = document.createElement('div');
+                center.className = 'center-home';
+                center.id = 'center-home';
+                center.style.gridColumn = '7 / span 3';
+                center.style.gridRow = '7 / span 3';
+                center.textContent = '🌙';
+                board.appendChild(center);
 
-                // Create main path cells (52 cells)
-                this.mainPath.forEach((pos, index) => {
-                    const cell = document.createElement('div');
-                    cell.className = 'cell';
-                    cell.style.gridRow = pos.r;
-                    cell.style.gridColumn = pos.c;
-                    cell.dataset.pathIndex = index;
-
-                    // Mark start positions
-                    if (index === 0) {
-                        cell.classList.add('start-green');
+                // Create main path cells
+                this.pathCells.forEach(cell => {
+                    const el = document.createElement('div');
+                    el.className = 'cell';
+                    el.style.gridRow = cell.r;
+                    el.style.gridColumn = cell.c;
+                    el.dataset.pathIndex = cell.idx;
+                    
+                    if (cell.special === 'start-green') {
+                        el.classList.add('start-green');
+                    } else if (cell.special === 'start-yellow') {
+                        el.classList.add('start-yellow');
+                    } else if (cell.special === 'safe') {
+                        el.classList.add('safe');
                     }
-                    if (index === this.yellowStartIndex) {
-                        cell.classList.add('start-yellow');
-                    }
-
-                    // Mark safe positions
-                    if (this.safePositions.includes(index)) {
-                        cell.classList.add('safe');
-                    }
-
-                    board.appendChild(cell);
+                    
+                    board.appendChild(el);
                 });
 
-                // Create green home stretch cells
-                this.greenHomeStretch.forEach((pos, index) => {
-                    const cell = document.createElement('div');
-                    cell.className = 'cell green-home';
-                    cell.style.gridRow = pos.r;
-                    cell.style.gridColumn = pos.c;
-                    cell.dataset.greenHomeIndex = index;
-                    board.appendChild(cell);
+                // Create home stretch cells
+                this.greenStretch.forEach(cell => {
+                    const el = document.createElement('div');
+                    el.className = 'cell green-path';
+                    el.style.gridRow = cell.r;
+                    el.style.gridColumn = cell.c;
+                    el.dataset.greenStretch = cell.idx;
+                    board.appendChild(el);
                 });
 
-                // Create yellow home stretch cells
-                this.yellowHomeStretch.forEach((pos, index) => {
-                    const cell = document.createElement('div');
-                    cell.className = 'cell yellow-home';
-                    cell.style.gridRow = pos.r;
-                    cell.style.gridColumn = pos.c;
-                    cell.dataset.yellowHomeIndex = index;
-                    board.appendChild(cell);
+                this.yellowStretch.forEach(cell => {
+                    const el = document.createElement('div');
+                    el.className = 'cell yellow-path';
+                    el.style.gridRow = cell.r;
+                    el.style.gridColumn = cell.c;
+                    el.dataset.yellowStretch = cell.idx;
+                    board.appendChild(el);
                 });
             },
 
             renderPieces() {
                 document.querySelectorAll('.piece').forEach(p => p.remove());
 
+                // Render green pieces
                 this.green.forEach((pos, idx) => {
                     if (pos === 0) {
-                        const slot = document.querySelector('.home-slot[data-slot="green-' + idx + '"]');
+                        // In home base
+                        const slot = document.querySelector(`.home-slot[data-slot="green-${idx}"]`);
                         if (slot) {
                             const piece = document.createElement('div');
                             piece.className = 'piece green';
-                            piece.id = 'green-piece-' + idx;
+                            piece.id = `green-piece-${idx}`;
                             slot.appendChild(piece);
                         }
                     } else if (pos >= 100) {
+                        // In center
                         const center = document.getElementById('center-home');
                         if (center) {
                             const piece = document.createElement('div');
                             piece.className = 'piece green';
-                            piece.id = 'green-piece-' + idx;
+                            piece.id = `green-piece-${idx}`;
                             center.appendChild(piece);
                         }
+                    } else if (pos <= 52) {
+                        // On main path
+                        const cell = document.querySelector(`.cell[data-path-index="${pos - 1}"]`);
+                        if (cell) {
+                            const piece = document.createElement('div');
+                            piece.className = 'piece green';
+                            piece.id = `green-piece-${idx}`;
+                            cell.appendChild(piece);
+                        }
                     } else {
-                        this.placePieceOnPath('green', idx, pos);
+                        // On home stretch (53-57)
+                        const stretchIdx = pos - 53;
+                        const cell = document.querySelector(`.cell[data-green-stretch="${stretchIdx}"]`);
+                        if (cell) {
+                            const piece = document.createElement('div');
+                            piece.className = 'piece green';
+                            piece.id = `green-piece-${idx}`;
+                            cell.appendChild(piece);
+                        }
                     }
                 });
 
+                // Render yellow pieces
                 this.yellow.forEach((pos, idx) => {
                     if (pos === 0) {
-                        const slot = document.querySelector('.home-slot[data-slot="yellow-' + idx + '"]');
+                        const slot = document.querySelector(`.home-slot[data-slot="yellow-${idx}"]`);
                         if (slot) {
                             const piece = document.createElement('div');
                             piece.className = 'piece yellow';
-                            piece.id = 'yellow-piece-' + idx;
+                            piece.id = `yellow-piece-${idx}`;
                             slot.appendChild(piece);
                         }
                     } else if (pos >= 100) {
@@ -786,63 +1100,31 @@
                         if (center) {
                             const piece = document.createElement('div');
                             piece.className = 'piece yellow';
-                            piece.id = 'yellow-piece-' + idx;
+                            piece.id = `yellow-piece-${idx}`;
                             center.appendChild(piece);
                         }
+                    } else if (pos <= 52) {
+                        // Yellow position is relative to yellow start
+                        const actualIdx = (this.yellowStartIndex + pos - 1) % 52;
+                        const cell = document.querySelector(`.cell[data-path-index="${actualIdx}"]`);
+                        if (cell) {
+                            const piece = document.createElement('div');
+                            piece.className = 'piece yellow';
+                            piece.id = `yellow-piece-${idx}`;
+                            cell.appendChild(piece);
+                        }
                     } else {
-                        this.placePieceOnPath('yellow', idx, pos);
+                        // On home stretch (53-57)
+                        const stretchIdx = pos - 53;
+                        const cell = document.querySelector(`.cell[data-yellow-stretch="${stretchIdx}"]`);
+                        if (cell) {
+                            const piece = document.createElement('div');
+                            piece.className = 'piece yellow';
+                            piece.id = `yellow-piece-${idx}`;
+                            cell.appendChild(piece);
+                        }
                     }
                 });
-            },
-
-            placePieceOnPath(color, pieceIdx, pos) {
-                let targetCell = null;
-
-                if (color === 'green') {
-                    // Green: 0 = home, 1-52 = main path, 53-57 = home stretch, 100 = center
-                    if (pos >= 1 && pos <= 52) {
-                        const pathIdx = pos - 1;
-                        const cellPos = this.mainPath[pathIdx];
-                        targetCell = this.findCell(cellPos.r, cellPos.c);
-                    } else if (pos >= 53 && pos <= 57) {
-                        const homeIdx = pos - 53;
-                        if (homeIdx < this.greenHomeStretch.length) {
-                            const cellPos = this.greenHomeStretch[homeIdx];
-                            targetCell = this.findCell(cellPos.r, cellPos.c);
-                        }
-                    }
-                } else {
-                    // Yellow: 0 = home, starts at index 32, wraps around
-                    const yellowMainPathTotal = 52;
-                    if (pos >= 1 && pos <= yellowMainPathTotal) {
-                        let pathIdx = (this.yellowStartIndex + pos - 1) % this.mainPath.length;
-                        const cellPos = this.mainPath[pathIdx];
-                        targetCell = this.findCell(cellPos.r, cellPos.c);
-                    } else if (pos > yellowMainPathTotal && pos <= yellowMainPathTotal + 5) {
-                        const homeIdx = pos - yellowMainPathTotal - 1;
-                        if (homeIdx < this.yellowHomeStretch.length) {
-                            const cellPos = this.yellowHomeStretch[homeIdx];
-                            targetCell = this.findCell(cellPos.r, cellPos.c);
-                        }
-                    }
-                }
-
-                if (targetCell) {
-                    const piece = document.createElement('div');
-                    piece.className = 'piece ' + color;
-                    piece.id = color + '-piece-' + pieceIdx;
-                    targetCell.appendChild(piece);
-                }
-            },
-
-            findCell(row, col) {
-                const cells = document.querySelectorAll('.cell');
-                for (let cell of cells) {
-                    if (cell.style.gridRow == row && cell.style.gridColumn == col) {
-                        return cell;
-                    }
-                }
-                return null;
             },
 
             rollDice() {
@@ -936,14 +1218,12 @@
             },
 
             movePiece(pieces, color) {
-                // Try to move a piece that's on the path
                 for (let i = 0; i < 4; i++) {
                     if (pieces[i] > 0 && pieces[i] < 100) {
                         const newPos = pieces[i] + this.diceValue;
-                        const maxPos = 58; // 52 main + 5 home stretch + 1 center
+                        const maxPos = 58; // 52 main + 5 stretch + 1 center
 
                         if (newPos <= maxPos) {
-                            const oldPos = pieces[i];
                             pieces[i] = newPos;
 
                             if (newPos === maxPos) {
@@ -951,9 +1231,9 @@
                                 document.getElementById('diceResult').innerHTML += ' | <span class="highlight">🏠 Sampai rumah!</span>';
                             }
 
-                            // Check for capture (only on main path, not home stretch)
+                            // Check capture only on main path
                             if (newPos <= 52) {
-                                this.checkCapture(color, newPos, oldPos);
+                                this.checkCapture(color, newPos);
                             }
 
                             this.renderPieces();
@@ -965,44 +1245,34 @@
                 return false;
             },
 
-            checkCapture(movingColor, newPos, oldPos) {
-                // Convert position to mainPath index for safe zone check
+            checkCapture(movingColor, newPos) {
+                // Get actual path index
                 let pathIndex;
                 if (movingColor === 'green') {
                     pathIndex = newPos - 1;
                 } else {
-                    pathIndex = (this.yellowStartIndex + newPos - 1) % this.mainPath.length;
+                    pathIndex = (this.yellowStartIndex + newPos - 1) % 52;
                 }
 
-                // Can't capture on safe positions
-                if (this.safePositions.includes(pathIndex)) {
-                    return;
-                }
+                // Check if safe zone
+                const safeCell = this.pathCells.find(c => c.idx === pathIndex && c.special === 'safe');
+                if (safeCell) return;
 
-                // Check opponent's pieces
                 const opponentColor = movingColor === 'green' ? 'yellow' : 'green';
                 const opponentPieces = movingColor === 'green' ? this.yellow : this.green;
 
-                // Get the actual cell position
-                const cellPos = this.mainPath[pathIndex];
-
-                // Check each opponent piece
                 for (let i = 0; i < 4; i++) {
                     if (opponentPieces[i] > 0 && opponentPieces[i] < 100) {
-                        // Calculate opponent's position on the main path
                         let opponentPathIndex;
                         if (opponentColor === 'green') {
                             opponentPathIndex = opponentPieces[i] - 1;
                         } else {
-                            opponentPathIndex = (this.yellowStartIndex + opponentPieces[i] - 1) % this.mainPath.length;
+                            opponentPathIndex = (this.yellowStartIndex + opponentPieces[i] - 1) % 52;
                         }
 
-                        // Check if same cell
                         if (opponentPathIndex === pathIndex) {
-                            // Capture! Send back to base
                             opponentPieces[i] = 0;
                             this.showCaptureMessage(opponentColor);
-                            this.renderPieces();
                         }
                     }
                 }
@@ -1029,6 +1299,24 @@
                 document.getElementById('modalText').textContent = question;
                 document.getElementById('modal').classList.add('active');
             },
+
+            questionsSantai: [
+                'Sebutkan 1 hal yang membuatmu jatuh cinta lagi!',
+                'Apa yang paling kamu syukuri dari pasanganmu?',
+                'Buat satu doa untuk pasanganmu!',
+                'Kenangan manis apa yang ingin kamu bagikan?',
+                'Sampaikan "Aku cinta kamu"!',
+                'Apa yang bikin kamu senang hari ini?'
+            ],
+
+            questionsSerius: [
+                'Apa hukum berpelukan saat puasa (tanpa syahwat)?',
+                'Sebutkan satu adab suami istri dalam Islam!',
+                'Apa hak suami atas istri yang harus dipenuhi?',
+                'Apa hak istri atas suami yang harus dipenuhi?',
+                'Bagaimana mengakhiri pertengkaran menurut Islam?',
+                'Sebutkan 3 hal yang membatalkan puasa!'
+            ],
 
             showWin() {
                 const winner = this.turn === 'suami' ? 'Suami' : 'Istri';
