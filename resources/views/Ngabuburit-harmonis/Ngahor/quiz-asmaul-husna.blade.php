@@ -1009,7 +1009,7 @@
             share() {
                 const correct = 33 - this.wrongAnswers.length;
                 const score = this.mode === 'multi' ? Math.max(...this.scores) : this.scores[0];
-                const text = `☪️ Quiz Asmaul Husna\n\n🏆 Skor: ${score} poin\n✅ ${correct}/33 benar\n🔥 Max Streak: ${this.maxStreak}\n\nMain juga yuk! 🎮`;
+                const text = `☪️ Quiz Asmaul Husna\n\n🏆 Skor: ${score} poin\n✅ ${correct}/33 benar\n🔥 Max Streak: ${this.maxStreak}\n\nMain juga yuk! 👉 https://alcaofficial.com/quiz-asmaul-husna`;
 
                 if (navigator.share) {
                     navigator.share({ text });
