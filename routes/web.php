@@ -137,3 +137,7 @@ Route::get('/Ngabuburit-harmonis/kuis-halal-batal', function () {
     return view('Ngabuburit-harmonis.Ngahor.kuis-halal-batal');
 })->name('ngabuburit-kuis-halal-batal');
 
+Route::get('/Ngabuburit-harmonis/quiz-asmaul-husna', function () {
+    return view('Ngabuburit-harmonis.Ngahor.quiz-asmaul-husna');
+})->name('ngabuburit-quiz-asmaul-husna');
+
