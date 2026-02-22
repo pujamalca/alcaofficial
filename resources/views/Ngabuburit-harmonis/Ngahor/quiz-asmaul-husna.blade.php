@@ -343,6 +343,20 @@
             z-index: 50;
         }
 
+        .clear-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 80px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--red);
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 50;
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -525,6 +539,8 @@
     </div>
 
     <button class="audio-toggle" id="audioBtn" onclick="Game.toggleSound()">🔊</button>
+
+    <button class="clear-toggle" onclick="Game.clearData()" title="Hapus Data">🗑️</button>
 
     <script>
         // 99 Asmaul Husna
@@ -1047,6 +1063,14 @@
                 osc.start();
                 gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
                 osc.stop(ctx.currentTime + 0.2);
+            },
+
+            clearData() {
+                if (confirm('Hapus semua data? (Skor, pengaturan, leaderboard akan terhapus)')) {
+                    localStorage.removeItem('quiz_settings');
+                    localStorage.removeItem('quiz_leaderboard');
+                    location.reload();
+                }
             }
         };
 
