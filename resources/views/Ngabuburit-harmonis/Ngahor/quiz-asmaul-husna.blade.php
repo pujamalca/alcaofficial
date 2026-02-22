@@ -735,17 +735,20 @@
                     // Reset questions
                     this.questions = [];
                     
-                    alert('Step 1: Starting generate');
+                    // Cek ASMAUL_HUSNA
+                    if (typeof ASMAUL_HUSNA === 'undefined') {
+                        alert('ERROR: ASMAUL_HUSNA is undefined!');
+                        return;
+                    }
+                    alert('ASMAUL_HUSNA length = ' + ASMAUL_HUSNA.length);
                     
                     // Get pool based on difficulty
                     let pool;
                     if (this.difficulty === 'easy') {
                         pool = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 98];
-                        alert('Step 2: Easy pool = ' + pool.length);
                     } else {
                         pool = [];
                         for (let i = 0; i < 99; i++) pool.push(i);
-                        alert('Step 2: Hard pool = ' + pool.length);
                     }
                     
                     // Shuffle pool
@@ -754,30 +757,26 @@
                         [pool[i], pool[j]] = [pool[j], pool[i]];
                     }
                     
-                    alert('Step 3: After shuffle');
-                    
                     // For easy mode (20 names), repeat to get 33 questions
                     let selected = [];
-                    if (this.difficulty === 'easy') {
-                        // Simple loop instead of concat
-                        for (let i = 0; i < 33; i++) {
-                            selected.push(pool[i % pool.length]);
-                        }
-                    } else {
-                        for (let i = 0; i < 33; i++) {
-                            selected.push(pool[i]);
-                        }
+                    for (let i = 0; i < 33; i++) {
+                        selected.push(pool[i % pool.length]);
                     }
                     
-                    alert('Step 4: Selected = ' + selected.length);
-                    
-                    // Build questions
+                    // Build questions - simplified
                     for (let i = 0; i < selected.length; i++) {
                         const idx = selected[i];
+                        
+                        // Check idx
+                        if (idx === undefined || idx === null || isNaN(idx)) {
+                            alert('Bad idx at position ' + i + ': ' + idx);
+                            continue;
+                        }
+                        
                         const item = ASMAUL_HUSNA[idx];
                         
                         if (!item) {
-                            alert('Step 5 FAILED: No item at index ' + idx);
+                            alert('No item at index ' + idx + ' (ASMAUL_HUSNA[' + idx + '] = ' + item + ')');
                             continue;
                         }
                         
@@ -797,10 +796,10 @@
                         this.questions.push({ question, answer, options, type, item });
                     }
                     
-                    alert('Step 6: Questions = ' + this.questions.length);
+                    alert('Final: Questions = ' + this.questions.length);
                     
                 } catch (error) {
-                    alert('ERROR: ' + error.message);
+                    alert('EXCEPTION: ' + error.message + '\n' + error.stack);
                 }
             },
 
