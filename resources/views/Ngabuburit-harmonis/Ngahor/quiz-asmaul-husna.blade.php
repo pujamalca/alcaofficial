@@ -815,6 +815,9 @@
             },
 
             start() {
+                // Debug: tampilkan info
+                alert(`DEBUG START:\nmode: ${this.mode}\ndifficulty: ${this.difficulty}\ntimer: ${this.timerEnabled}\nsound: ${this.soundEnabled}`);
+                
                 this.generateQuestions();
                 
                 // Debug info in alert
@@ -822,7 +825,6 @@
                 debugMsg += `Mode: ${this.mode}\n`;
                 debugMsg += `Difficulty: ${this.difficulty}\n`;
                 debugMsg += `Questions: ${this.questions ? this.questions.length : 'NULL'}\n`;
-                debugMsg += `EASY_MODE: ${typeof EASY_MODE !== 'undefined' ? EASY_MODE.length : 'UNDEFINED'}\n`;
                 debugMsg += `ASMAUL_HUSNA: ${typeof ASMAUL_HUSNA !== 'undefined' ? ASMAUL_HUSNA.length : 'UNDEFINED'}`;
                 
                 // Safety check
