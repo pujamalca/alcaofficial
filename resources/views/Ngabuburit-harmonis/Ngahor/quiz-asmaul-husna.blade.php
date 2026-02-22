@@ -731,45 +731,43 @@
             },
 
             generateQuestions() {
-                console.log('=== Generating Questions ===');
-                console.log('Difficulty:', this.difficulty);
-                console.log('Mode:', this.mode);
+                // Reset questions
+                this.questions = [];
                 
-                const pool = this.difficulty === 'easy' ? EASY_MODE : [...Array(99).keys()];
-                console.log('Pool length:', pool ? pool.length : 'undefined');
-                
-                if (!pool || pool.length === 0) {
-                    console.error('Pool is empty!');
-                    this.questions = [];
-                    return;
+                // Get pool based on difficulty
+                let pool;
+                if (this.difficulty === 'easy') {
+                    pool = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 98];
+                } else {
+                    pool = [];
+                    for (let i = 0; i < 99; i++) pool.push(i);
                 }
                 
-                const shuffled = this.shuffle([...pool]);
-                console.log('Shuffled length:', shuffled.length);
+                // Shuffle pool
+                for (let i = pool.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [pool[i], pool[j]] = [pool[j], pool[i]];
+                }
                 
                 // For easy mode (20 names), repeat to get 33 questions
-                let selected;
+                let selected = [];
                 if (this.difficulty === 'easy') {
-                    selected = [];
                     while (selected.length < 33) {
-                        selected.push(...shuffled);
+                        selected = selected.concat(pool);
                     }
-                    selected = selected.slice(0, 33);
                 } else {
-                    selected = shuffled.slice(0, 33);
+                    selected = pool.slice(0);
                 }
-                console.log('Selected length:', selected.length);
-                console.log('Selected indices:', selected.slice(0, 5));
-
-                this.questions = selected.map((idx, i) => {
+                selected = selected.slice(0, 33);
+                
+                // Build questions
+                for (let i = 0; i < selected.length; i++) {
+                    const idx = selected[i];
                     const item = ASMAUL_HUSNA[idx];
-                    if (!item) {
-                        console.error('Item not found at index:', idx, 'position:', i);
-                        return null;
-                    }
+                    
+                    if (!item) continue;
                     
                     const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
-                    
                     let question, answer, options;
                     
                     if (type === 'ar-to-id') {
@@ -781,50 +779,56 @@
                         answer = item.ar;
                         options = this.generateOptions(item.ar, 'ar');
                     }
-
-                    return { question, answer, options, type, item };
-                }).filter(q => q !== null);
-                
-                console.log('Final questions count:', this.questions.length);
+                    
+                    this.questions.push({ question, answer, options, type, item });
+                }
             },
 
             generateOptions(correct, type) {
-                const pool = this.difficulty === 'easy' ? EASY_MODE.map(i => ASMAUL_HUSNA[i]) : ASMAUL_HUSNA;
-                const others = pool.filter(item => type === 'id' ? item.id !== correct : item.ar !== correct);
-                const shuffled = this.shuffle([...others]);
-                const selected = shuffled.slice(0, 3).map(item => type === 'id' ? item.id : item.ar);
-                selected.push(correct);
-                return this.shuffle(selected);
-            },
-
-            shuffle(array) {
-                if (!array || array.length === 0) return array;
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
+                let pool;
+                if (this.difficulty === 'easy') {
+                    // Get items from easy indices
+                    const easyIndices = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 98];
+                    pool = easyIndices.map(i => ASMAUL_HUSNA[i]);
+                } else {
+                    pool = ASMAUL_HUSNA;
                 }
-                return array;
+                
+                const others = pool.filter(item => type === 'id' ? item.id !== correct : item.ar !== correct);
+                
+                // Shuffle others
+                for (let i = others.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [others[i], others[j]] = [others[j], others[i]];
+                }
+                
+                const selected = others.slice(0, 3).map(item => type === 'id' ? item.id : item.ar);
+                selected.push(correct);
+                
+                // Shuffle final options
+                for (let i = selected.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [selected[i], selected[j]] = [selected[j], selected[i]];
+                }
+                
+                return selected;
             },
 
             start() {
-                // Debug: show settings
-                const debugDiv = document.createElement('div');
-                debugDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#000;color:#0f0;padding:10px;z-index:9999;font-size:12px;font-family:monospace;';
-                debugDiv.innerHTML = `Debug: mode=${this.mode}, diff=${this.difficulty}`;
-                document.body.appendChild(debugDiv);
-                
-                setTimeout(() => debugDiv.remove(), 3000);
-                
                 this.generateQuestions();
+                
+                // Debug info in alert
+                let debugMsg = `Debug Info:\n`;
+                debugMsg += `Mode: ${this.mode}\n`;
+                debugMsg += `Difficulty: ${this.difficulty}\n`;
+                debugMsg += `Questions: ${this.questions ? this.questions.length : 'NULL'}\n`;
+                debugMsg += `EASY_MODE: ${typeof EASY_MODE !== 'undefined' ? EASY_MODE.length : 'UNDEFINED'}\n`;
+                debugMsg += `ASMAUL_HUSNA: ${typeof ASMAUL_HUSNA !== 'undefined' ? ASMAUL_HUSNA.length : 'UNDEFINED'}`;
                 
                 // Safety check
                 if (!this.questions || this.questions.length === 0) {
-                    alert(`Gagal membuat soal!\nMode: ${this.mode}\nDifficulty: ${this.difficulty}\nQuestions: ${this.questions ? this.questions.length : 'null'}`);
+                    alert(debugMsg);
                     return;
-                }
-                
-                if (this.questions.length < 33) {
-                    alert(`Hanya berhasil membuat ${this.questions.length} soal. Coba refresh.`);
                 }
                 
                 this.currentQuestion = 0;
