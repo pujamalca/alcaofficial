@@ -120,8 +120,20 @@ Route::get('/Random-Amal-Generator', function () {
     return view('random-amal-generator');
 })->name('random-amal-generator');
 
-// Ngabuburit Harmonis Route
+// Ngabuburit Harmonis Routes
 Route::get('/Ngabuburit-harmonis', function () {
     return view('Ngabuburit-harmonis.Ngahor.index');
 })->name('ngabuburit-harmonis');
+
+Route::get('/Ngabuburit-harmonis/tangga-cinta', function () {
+    return view('Ngabuburit-harmonis.Ngahor.tangga-cinta');
+})->name('ngabuburit-tangga-cinta');
+
+Route::get('/Ngabuburit-harmonis/ludo-harmoni', function () {
+    return view('Ngabuburit-harmonis.Ngahor.ludo-harmoni');
+})->name('ngabuburit-ludo-harmoni');
+
+Route::get('/Ngabuburit-harmonis/kuis-halal-batal', function () {
+    return view('Ngabuburit-harmonis.Ngahor.kuis-halal-batal');
+})->name('ngabuburit-kuis-halal-batal');
 
