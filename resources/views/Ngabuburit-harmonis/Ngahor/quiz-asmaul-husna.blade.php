@@ -731,51 +731,61 @@
             },
 
             generateQuestions() {
-                try {
-                    const pool = this.difficulty === 'easy' ? EASY_MODE : [...Array(99).keys()];
-                    const shuffled = this.shuffle([...pool]);
+                console.log('=== Generating Questions ===');
+                console.log('Difficulty:', this.difficulty);
+                console.log('Mode:', this.mode);
+                
+                const pool = this.difficulty === 'easy' ? EASY_MODE : [...Array(99).keys()];
+                console.log('Pool length:', pool ? pool.length : 'undefined');
+                
+                if (!pool || pool.length === 0) {
+                    console.error('Pool is empty!');
+                    this.questions = [];
+                    return;
+                }
+                
+                const shuffled = this.shuffle([...pool]);
+                console.log('Shuffled length:', shuffled.length);
+                
+                // For easy mode (20 names), repeat to get 33 questions
+                let selected;
+                if (this.difficulty === 'easy') {
+                    selected = [];
+                    while (selected.length < 33) {
+                        selected.push(...shuffled);
+                    }
+                    selected = selected.slice(0, 33);
+                } else {
+                    selected = shuffled.slice(0, 33);
+                }
+                console.log('Selected length:', selected.length);
+                console.log('Selected indices:', selected.slice(0, 5));
+
+                this.questions = selected.map((idx, i) => {
+                    const item = ASMAUL_HUSNA[idx];
+                    if (!item) {
+                        console.error('Item not found at index:', idx, 'position:', i);
+                        return null;
+                    }
                     
-                    // For easy mode (20 names), repeat to get 33 questions
-                    let selected;
-                    if (this.difficulty === 'easy') {
-                        selected = [];
-                        while (selected.length < 33) {
-                            selected.push(...shuffled);
-                        }
-                        selected = selected.slice(0, 33);
+                    const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
+                    
+                    let question, answer, options;
+                    
+                    if (type === 'ar-to-id') {
+                        question = item.ar;
+                        answer = item.id;
+                        options = this.generateOptions(item.id, 'id');
                     } else {
-                        selected = shuffled.slice(0, 33);
+                        question = item.id;
+                        answer = item.ar;
+                        options = this.generateOptions(item.ar, 'ar');
                     }
 
-                    this.questions = selected.map(idx => {
-                        const item = ASMAUL_HUSNA[idx];
-                        if (!item) {
-                            console.error('Item not found at index:', idx);
-                            return null;
-                        }
-                        
-                        const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
-                        
-                        let question, answer, options;
-                        
-                        if (type === 'ar-to-id') {
-                            question = item.ar;
-                            answer = item.id;
-                            options = this.generateOptions(item.id, 'id');
-                        } else {
-                            question = item.id;
-                            answer = item.ar;
-                            options = this.generateOptions(item.ar, 'ar');
-                        }
-
-                        return { question, answer, options, type, item };
-                    }).filter(q => q !== null);
-                    
-                    console.log('Generated questions:', this.questions.length);
-                } catch (error) {
-                    console.error('Error generating questions:', error);
-                    this.questions = [];
-                }
+                    return { question, answer, options, type, item };
+                }).filter(q => q !== null);
+                
+                console.log('Final questions count:', this.questions.length);
             },
 
             generateOptions(correct, type) {
