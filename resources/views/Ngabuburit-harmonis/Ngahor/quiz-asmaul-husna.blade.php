@@ -731,56 +731,76 @@
             },
 
             generateQuestions() {
-                // Reset questions
-                this.questions = [];
-                
-                // Get pool based on difficulty
-                let pool;
-                if (this.difficulty === 'easy') {
-                    pool = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 98];
-                } else {
-                    pool = [];
-                    for (let i = 0; i < 99; i++) pool.push(i);
-                }
-                
-                // Shuffle pool
-                for (let i = pool.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [pool[i], pool[j]] = [pool[j], pool[i]];
-                }
-                
-                // For easy mode (20 names), repeat to get 33 questions
-                let selected = [];
-                if (this.difficulty === 'easy') {
-                    while (selected.length < 33) {
-                        selected = selected.concat(pool);
-                    }
-                } else {
-                    selected = pool.slice(0);
-                }
-                selected = selected.slice(0, 33);
-                
-                // Build questions
-                for (let i = 0; i < selected.length; i++) {
-                    const idx = selected[i];
-                    const item = ASMAUL_HUSNA[idx];
+                try {
+                    // Reset questions
+                    this.questions = [];
                     
-                    if (!item) continue;
+                    alert('Step 1: Starting generate');
                     
-                    const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
-                    let question, answer, options;
-                    
-                    if (type === 'ar-to-id') {
-                        question = item.ar;
-                        answer = item.id;
-                        options = this.generateOptions(item.id, 'id');
+                    // Get pool based on difficulty
+                    let pool;
+                    if (this.difficulty === 'easy') {
+                        pool = [0, 1, 2, 3, 4, 10, 15, 16, 17, 18, 26, 27, 31, 34, 46, 47, 54, 63, 78, 98];
+                        alert('Step 2: Easy pool = ' + pool.length);
                     } else {
-                        question = item.id;
-                        answer = item.ar;
-                        options = this.generateOptions(item.ar, 'ar');
+                        pool = [];
+                        for (let i = 0; i < 99; i++) pool.push(i);
+                        alert('Step 2: Hard pool = ' + pool.length);
                     }
                     
-                    this.questions.push({ question, answer, options, type, item });
+                    // Shuffle pool
+                    for (let i = pool.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [pool[i], pool[j]] = [pool[j], pool[i]];
+                    }
+                    
+                    alert('Step 3: After shuffle');
+                    
+                    // For easy mode (20 names), repeat to get 33 questions
+                    let selected = [];
+                    if (this.difficulty === 'easy') {
+                        // Simple loop instead of concat
+                        for (let i = 0; i < 33; i++) {
+                            selected.push(pool[i % pool.length]);
+                        }
+                    } else {
+                        for (let i = 0; i < 33; i++) {
+                            selected.push(pool[i]);
+                        }
+                    }
+                    
+                    alert('Step 4: Selected = ' + selected.length);
+                    
+                    // Build questions
+                    for (let i = 0; i < selected.length; i++) {
+                        const idx = selected[i];
+                        const item = ASMAUL_HUSNA[idx];
+                        
+                        if (!item) {
+                            alert('Step 5 FAILED: No item at index ' + idx);
+                            continue;
+                        }
+                        
+                        const type = Math.random() > 0.5 ? 'ar-to-id' : 'id-to-ar';
+                        let question, answer, options;
+                        
+                        if (type === 'ar-to-id') {
+                            question = item.ar;
+                            answer = item.id;
+                            options = this.generateOptions(item.id, 'id');
+                        } else {
+                            question = item.id;
+                            answer = item.ar;
+                            options = this.generateOptions(item.ar, 'ar');
+                        }
+                        
+                        this.questions.push({ question, answer, options, type, item });
+                    }
+                    
+                    alert('Step 6: Questions = ' + this.questions.length);
+                    
+                } catch (error) {
+                    alert('ERROR: ' + error.message);
                 }
             },
 
